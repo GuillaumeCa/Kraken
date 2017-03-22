@@ -16,7 +16,6 @@ class App extends Component {
         <Test title="Test ghhhg">
           fgfghfghfhg
         </Test>
-        <Test.Hello />
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
