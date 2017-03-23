@@ -6,17 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * Created by Guillaume on 21/03/2017.
+ * Created by Guillaume on 23/03/2017.
  * gcfa-back
  */
 @Entity
-public class Role {
+public class DocumentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private String type;
 
     public Long getId() {
         return id;
@@ -26,11 +26,11 @@ public class Role {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 }
