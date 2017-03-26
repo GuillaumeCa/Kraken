@@ -17,13 +17,13 @@ public class Document {
     private String name;
     private String path;
     private Date creation;
-    private Date update;
+    private Date updateDate;
 
-    @ManyToOne
+    @OneToOne
     private DocumentType type;
 
-    @ManyToOne
-    private User user;
+    @OneToOne
+    private Apprentice apprentice;
 
     public Document() {
         this.creation = new Date();
@@ -61,14 +61,6 @@ public class Document {
         this.type = type;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Date getCreation() {
         return creation;
     }
@@ -77,11 +69,19 @@ public class Document {
         this.creation = creation;
     }
 
-    public Date getUpdate() {
-        return update;
+    public Apprentice getApprentice() {
+        return apprentice;
     }
 
-    public void setUpdate(Date update) {
-        this.update = update;
+    public void setApprentice(Apprentice apprentice) {
+        this.apprentice = apprentice;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

@@ -21,7 +21,7 @@ export default class Test extends Component {
 				<p>{this.props.children}</p>
 			</div>
 		);
-		
+
 	}
 }
 
