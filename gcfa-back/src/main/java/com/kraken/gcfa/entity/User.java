@@ -19,6 +19,7 @@ public class User {
     private String password;
     private boolean enabled;
     private boolean tokenExpired;
+    private String sexe;
 
     @OneToOne
     private Role role;
@@ -85,5 +86,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    
+    public void setSexe(String sexe) {
+    	this.sexe = sexe;
+    }
+    
+    public String getSexe() {
+    	return sexe;
     }
 }
