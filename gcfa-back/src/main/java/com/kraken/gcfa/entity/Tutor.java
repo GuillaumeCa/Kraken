@@ -23,5 +23,35 @@ public class Tutor {
 
 	private String job;
 
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Apprentice> getApprentices() {
+		return apprentices;
+	}
+
+	public void setApprentices(List<Apprentice> apprentices) {
+		this.apprentices = apprentices;
+	}
+
+	public boolean isFreeTutor() {
+		return isFreeTutor;
+	}
+
+	public void setFreeTutor(boolean freeTutor) {
+		isFreeTutor = freeTutor;
+	}
+
+	public String getJob() {
+		return job;
+	}
+
+	public void setJob(String job) {
+		this.job = job;
+	}
 }
