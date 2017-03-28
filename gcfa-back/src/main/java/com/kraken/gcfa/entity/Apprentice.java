@@ -23,6 +23,8 @@ public class Apprentice {
 
     @OneToMany(mappedBy = "apprentice")
     private List<Document> documents;
+    
+    private String durationContract;
 
     private Date endContract;
 
