@@ -16,10 +16,10 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-    private boolean enabled;
-    private boolean tokenExpired;
     private String sexe;
+
+    private Long ldapId;
+    private String token;
 
     @OneToOne
     private Role role;
@@ -56,30 +56,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isTokenExpired() {
-        return tokenExpired;
-    }
-
-    public void setTokenExpired(boolean tokenExpired) {
-        this.tokenExpired = tokenExpired;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -94,5 +70,21 @@ public class User {
     
     public String getSexe() {
     	return sexe;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Long getLdapId() {
+        return ldapId;
+    }
+
+    public void setLdapId(Long ldapId) {
+        this.ldapId = ldapId;
     }
 }

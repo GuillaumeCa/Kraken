@@ -1,6 +1,7 @@
 package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.dto.LDAPUserDTO;
+import com.kraken.gcfa.entity.Apprentice;
 import org.springframework.stereotype.Service;
 
 import javax.naming.Context;

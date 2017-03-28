@@ -13,7 +13,15 @@ public class LDAPUserDTO {
     private String nom;
     private String nomFamille;
     private String prenom;
+
+    /**
+     * Type d'utilisateur: eleve, ...
+     */
     private String employeeType;
+
+    /**
+     * Numéro élève
+     */
     private String employeeNumber;
     private String login;
     private String password;

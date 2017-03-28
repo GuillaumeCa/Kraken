@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Guillaume on 22/03/2017.
  * gcfa-back
  */
-@RequestMapping(value = "/login")
 @RestController
+@RequestMapping(value = "/login")
 public class LoginController {
 
     @Autowired

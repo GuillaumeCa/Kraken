@@ -21,4 +21,7 @@ public class Tutor {
 	//TODO trigger en fonction de la liste des Apprenties
 	private boolean isFreeTutor;
 
+	private String job;
+
+
 }
