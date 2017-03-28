@@ -25,6 +25,9 @@ public class Document {
     @OneToOne
     private Apprentice apprentice;
 
+    @OneToOne
+    private User creator;
+
     public Document() {
         this.creation = new Date();
     }
