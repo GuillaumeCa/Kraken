@@ -87,4 +87,12 @@ public class Document {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
 }
