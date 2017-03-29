@@ -30,8 +30,8 @@ public class Apprentice {
 
     private ContractType contractType;
 
-    @OneToOne
-    private Company company;
+    @ManyToOne
+    private CompanySite company;
 
     public Long getId() {
         return id;
@@ -89,11 +89,4 @@ public class Apprentice {
         this.contractType = contractType;
     }
 
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 }

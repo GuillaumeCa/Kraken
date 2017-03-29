@@ -1,9 +1,7 @@
 package com.kraken.gcfa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Guillaume on 26/03/2017.
@@ -17,6 +15,9 @@ public class Company {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "company")
+    private List<CompanySite> sites;
 
     public Long getId() {
         return id;
@@ -32,5 +33,13 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<CompanySite> getSites() {
+        return sites;
+    }
+
+    public void setSites(List<CompanySite> sites) {
+        this.sites = sites;
     }
 }
