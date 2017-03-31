@@ -25,14 +25,13 @@ class Login extends Component {
             <TextField
               type="password"
               hintText="Password"
-              error={false}
               errorText={error && "This field is required."}
               fullWidth
-              />
+            />
           </CardText>
           <CardActions>
             <FlatButton primary label="Connexion" />
-            <FlatButton secondary label="Mot de passe oublié" />
+            <FlatButton href="http://moncompte.isep.fr" secondary label="Mot de passe oublié" />
           </CardActions>
         </Card>
       </div>
