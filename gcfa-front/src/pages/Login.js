@@ -1,27 +1,41 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 
+import FlatButton from 'material-ui/FlatButton';
+import {Card, CardActions, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 
+const LOGIN_STYLE = {
+  maxWidth: 400,
+  margin: '0 auto',
+  marginTop: '10%',
+}
 
 class Login extends Component {
   render() {
+    const error = false;
     return (
-      		<div>
-              <TextField hintText="Login" />
-              <br />
-
-              <TextField ref='password'
-                  hintText="Password"
-                  fieldName="p"
-                  errorText="This field is required."
-                  type="password">
-              </TextField>
-              <br />
-
-              <RaisedButton label="Valider" backgroundColor="#a4c639" />
-
-            </div>
+  		<div>
+        <Card style={LOGIN_STYLE}>
+          <CardText>
+            <h1 className="primary-color">GCFA</h1>
+            <TextField
+              hintText="Login"
+              fullWidth
+            />
+            <TextField
+              type="password"
+              hintText="Password"
+              error={false}
+              errorText={error && "This field is required."}
+              fullWidth
+              />
+          </CardText>
+          <CardActions>
+            <FlatButton primary label="Connexion" />
+            <FlatButton secondary label="Mot de passe oublié" />
+          </CardActions>
+        </Card>
+      </div>
     );
   }
 }
