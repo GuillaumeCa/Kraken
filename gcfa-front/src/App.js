@@ -6,15 +6,15 @@ import {
   Redirect
 } from 'react-router-dom'
 
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-
-import Login from './pages/Login';
 
 import theme from './theme';
+
+import Layout from './pages/Layout';
+import Login from './pages/Login';
+
+
 
 const muiTheme = getMuiTheme(theme);
 
@@ -28,6 +28,7 @@ class App extends Component {
             <Route render={props => (
                 <Redirect to="/login" />
               )} />
+             <Route path="/logged" component={Layout} />
           </div>
         </Router>
       </MuiThemeProvider>

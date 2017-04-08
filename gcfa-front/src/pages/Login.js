@@ -5,6 +5,8 @@ import {Card, CardActions, CardText, CardHeader} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import ActionLockOpen from 'material-ui/svg-icons/action/lock-open';
 
+import {Redirect} from 'react-router-dom';
+
 const BACKGROUND_STYLE = {
   height: '100%',
   background: 'url(background.jpg)',
@@ -21,36 +23,61 @@ const LOGIN_STYLE = {
 }
 
 class Login extends Component {
+  constructor() {
+    super()
+    this.state= {
+      loggedIn: false,
+    }    
+  }
+
   render() {
     const error = false;
-    return (
-  		<div style={BACKGROUND_STYLE}>
-        <Card style={LOGIN_STYLE} zDepth={3}>
-          <CardText>
-            <h1 className="primary-color">GCFA</h1>
-            <TextField
-              hintText="Nom d'utilisateur"
-              fullWidth
-            />
-            <TextField
-              type="password"
-              hintText="Mot de passe"
-              errorText={error && "This field is required."}
-              fullWidth
-            />
-          </CardText>
-          <CardActions style={{ textAlign: 'right' }}>
-            <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
+
+    if(!this.state.loggedIn) {
+      return (
+        <div style={BACKGROUND_STYLE}>
+          <Card style={LOGIN_STYLE} zDepth={3}>
+            <CardText>
+              <h1 className="primary-color">GCFA</h1>
+              <TextField
+                hintText="Nom d'utilisateur"
+                fullWidth
+                required={true}
+              />
+              <TextField
+                type="password"
+                hintText="Mot de passe"
+                errorText={error && "This field is required."}
+                fullWidth
+                required={true}
+
+              />
+            </CardText>
+            <CardActions style={{ textAlign: 'center' }}>
             <FlatButton
-              secondary
-              label="Connexion"
-              labelPosition="before"
-              icon={<ActionLockOpen />}
-            />
-          </CardActions>
-        </Card>
-      </div>
-    );
+                secondary
+                label="Connexion"
+                labelPosition="after"
+                icon={<ActionLockOpen />}
+                onTouchTap={() => this.handleClick()}
+              />
+              <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
+            </CardActions>
+          </Card>
+        </div>
+      );
+    }
+
+    else {
+      return(
+        <Redirect to="/logged" />
+      )
+    }
+    
+  }
+
+  handleClick() {
+    this.setState({loggedIn:true})
   }
 }
 
