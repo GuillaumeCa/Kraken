@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 
-
-
 class Test extends Component {
-
-
   render() {
-
-      return (
-        <p>Coucou</p>
-      );
-
-
-    
+    return (
+      <p>Coucou</p>
+    );
   }
 }
 

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import NavBar from './../components/NavBar';
 
@@ -17,19 +13,10 @@ class Layout extends Component {
     return (
       <div>
         <NavBar />
-
-        <Router>
-          <div>
-          
-            <Route path="/home" component={Home} />
-              <Route render={props => (
-                  <Redirect to="/home" />
-                )} />
-
-            <Route path="/test" component={Test} />
-
-          </div>
-        </Router>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/test" component={Test} />
+        </Switch>
       </div>
     );
   }
