@@ -1,7 +1,9 @@
+import colors from './colors';
+
 const theme = {
   palette: {
-    primary1Color: '#2F87ED',
-    accent1Color: '#EDA92F',
+    primary1Color: colors.PRIMARY,
+    accent1Color: colors.SECONDARY,
   },
 }
 

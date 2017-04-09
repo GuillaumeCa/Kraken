@@ -13,3 +13,7 @@ export function login(user, password) {
   setToken('1234');
   return true
 }
+
+export function logout() {
+  localStorage.removeItem('token');
+}

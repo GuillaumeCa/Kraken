@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
-import {Card, CardActions, CardText, CardHeader} from 'material-ui/Card';
+import {Card, CardActions, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import ActionLockOpen from 'material-ui/svg-icons/action/lock-open';
-
-import {Redirect} from 'react-router-dom';
 
 import * as authService from '../services/authService';
 
