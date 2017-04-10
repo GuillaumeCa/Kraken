@@ -27,7 +27,7 @@ class Home extends Component {
           </div>
         </div>
         <section>
-          <h2 className="sub-title">A venir</h2>
+          <h2 className="sub-title">Déposés</h2>
           <BarCard actions={actions}>
             <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
           </BarCard>
