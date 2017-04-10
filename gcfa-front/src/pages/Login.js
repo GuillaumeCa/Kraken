@@ -8,18 +8,19 @@ import ActionLockOpen from 'material-ui/svg-icons/action/lock-open';
 import * as authService from '../services/authService';
 
 const BACKGROUND_STYLE = {
-  height: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
   background: 'url(background.jpg)',
   backgroundRepeat: 'none',
   backgroundSize: 'cover',
-  backgroundPosition: 'center'
+  backgroundPosition: 'center',
 }
 
 const LOGIN_STYLE = {
-  position: 'relative',
   maxWidth: 400,
-  margin: '0 auto',
-  top: '10%',
+  margin: 30,
 }
 
 class Login extends Component {
@@ -35,33 +36,35 @@ class Login extends Component {
     const error = false;
     return (
       <div style={BACKGROUND_STYLE}>
-        <Card style={LOGIN_STYLE} zDepth={3}>
-          <CardText>
-            <h1 className="primary-color">GCFA</h1>
-            <TextField
-              hintText="Nom d'utilisateur"
-              fullWidth
-              required
-            />
-            <TextField
-              type="password"
-              hintText="Mot de passe"
-              errorText={error && "This field is required."}
-              fullWidth
-              required
-            />
-          </CardText>
-          <CardActions style={{ textAlign: 'center' }}>
-            <FlatButton
-              secondary
-              label="Connexion"
-              labelPosition="after"
-              icon={<ActionLockOpen />}
-              onTouchTap={this.handleClick}
-            />
-            <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
-          </CardActions>
-        </Card>
+        <div style={LOGIN_STYLE}>
+          <Card zDepth={3}>
+            <CardText>
+              <h1 className="primary-color">GCFA</h1>
+              <TextField
+                hintText="Nom d'utilisateur"
+                fullWidth
+                required
+                />
+              <TextField
+                type="password"
+                hintText="Mot de passe"
+                errorText={error && "This field is required."}
+                fullWidth
+                required
+                />
+            </CardText>
+            <CardActions style={{ textAlign: 'center' }}>
+              <FlatButton
+                secondary
+                label="Connexion"
+                labelPosition="after"
+                icon={<ActionLockOpen />}
+                onTouchTap={this.handleClick}
+                />
+              <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
+            </CardActions>
+          </Card>
+        </div>
       </div>
     );
 

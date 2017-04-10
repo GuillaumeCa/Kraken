@@ -6,6 +6,8 @@ import {
   Redirect
 } from 'react-router-dom'
 
+import './App.css';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 

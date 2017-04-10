@@ -7,6 +7,8 @@ import com.kraken.gcfa.services.LDAPServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * Created by Guillaume on 22/03/2017.
  * gcfa-back
@@ -27,7 +29,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public void login(@RequestBody FormLoginDTO form) {
+    public String login(@RequestBody FormLoginDTO form) {
         // TODO: générer token si l'utilisateur n'est pas dans la bdd mais sur le LDAP
+        return UUID.randomUUID().toString();
     }
 }
