@@ -47,7 +47,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // Autorisation de se connecter
                 .authorizeRequests()
-                .antMatchers("/login/**").permitAll()
+//                .antMatchers("/login/**").permitAll()
+                // TODO: Temporary
+                .antMatchers("/**").permitAll()
 
                 // Toutes les autres requetes necessitent une authentification
                 .anyRequest().authenticated();
