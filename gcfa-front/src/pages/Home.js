@@ -21,20 +21,29 @@ class Home extends Component {
     return (
       <div>
         <div style={HEAD_STYLE}>
-          <h1 className="main-title">Accueil</h1>
+          <h1 className="main-title">Suivi</h1>
           <div style={{ marginLeft: 'auto' }}>
             <FlatButton primary label="Afficher tout" backgroundColor="#fff" hoverColor="#eee" />
           </div>
         </div>
-        <BarCard actions={actions}>
-          <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
-        </BarCard>
-        <BarCard actions={actions}>
-          <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
-        </BarCard>
-        <BarCard actions={actions}>
-          <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
-        </BarCard>
+        <section>
+          <h2 className="sub-title">A venir</h2>
+          <BarCard actions={actions}>
+            <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
+          </BarCard>
+          <BarCard actions={actions}>
+            <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
+          </BarCard>
+          <BarCard actions={actions}>
+            <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
+          </BarCard>
+        </section>
+        <section>
+          <h2 className="sub-title">A venir</h2>
+          <BarCard actions={actions}>
+            <DocumentCard title="Déclaration de compétences" subtitle="sous-titre" />
+          </BarCard>
+        </section>
       </div>
     );
   }

@@ -28,6 +28,8 @@ const CONTENT_STYLE = {
   padding: 20,
   minHeight: 300,
   zIndex: 2,
+  margin: '0 auto',
+  maxWidth: 1000,
 }
 
 function Banner(props) {

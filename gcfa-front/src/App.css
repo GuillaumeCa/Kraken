@@ -6,4 +6,18 @@
   font-size: 40px;
   font-weight: normal;
   color: #2F87ED;
+  margin-bottom: 10px;
+}
+
+.sub-title {
+  font-size: 25px;
+  margin: 0;
+  margin-bottom: 15px;
+  font-weight: normal;
+  font-style: italic;
+  color: #EDA92F;
+}
+
+section {
+  margin-bottom: 20px;
 }

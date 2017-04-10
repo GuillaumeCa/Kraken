@@ -29,9 +29,8 @@ export default function BarCard(props) {
 }
 
 const DOCUMENT_STYLE = {
-  padding: 10,
+  padding: 13,
 }
-
 const DOCUMENT_TITLE_STYLE = {
   fontSize: 25,
   fontWeight: 'normal',

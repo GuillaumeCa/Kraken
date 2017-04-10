@@ -60,9 +60,6 @@ class NavBar extends Component {
         </div>
         <nav className="navigation">
           <div className="link">
-            <Link to="/test">Test Page</Link>
-          </div>
-          <div className="link">
             <Link to="/documentation">Documentation</Link>
           </div>
         </nav>

@@ -6,7 +6,6 @@ import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
 
 import Home from './Home';
-import Test from './Test';
 import Documentation from './Documentation';
 
 const CONTAINER_STYLE = {
@@ -22,7 +21,6 @@ class Layout extends Component {
         <div style={CONTAINER_STYLE}>
           <Banner>
             <Route exact path="/" component={Home} />
-            <Route path="/test" component={Test} />
             <Route path="/documentation" component={Documentation} />
           </Banner>
         </div>
