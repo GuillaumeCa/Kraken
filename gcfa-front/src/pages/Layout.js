@@ -7,6 +7,7 @@ import Banner from '../components/Banner';
 
 import Home from './Home';
 import Test from './Test';
+import Documentation from './Documentation';
 
 const CONTAINER_STYLE = {
   marginTop: 60,
@@ -22,6 +23,7 @@ class Layout extends Component {
           <Banner>
             <Route exact path="/" component={Home} />
             <Route path="/test" component={Test} />
+            <Route path="/documentation" component={Documentation} />
           </Banner>
         </div>
       </div>

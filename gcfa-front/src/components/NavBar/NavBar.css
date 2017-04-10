@@ -29,3 +29,9 @@
   color: #EDA92F;
   font-size: 20px;
 }
+
+.NavBar .link {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 18px;
+}

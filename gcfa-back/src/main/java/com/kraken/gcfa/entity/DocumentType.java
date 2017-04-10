@@ -18,6 +18,16 @@ public class DocumentType {
 
     private String name;
 
+    /**
+     * Utilisé pour calculer la date de rendu du document
+     */
+    private ContractType contract;
+
+    /**
+     * Delta entre la date de début du contrat et la date de rendu du document
+     */
+    private Long deltaDeadline;
+
     public Long getId() {
         return id;
     }
@@ -32,5 +42,21 @@ public class DocumentType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ContractType getContract() {
+        return contract;
+    }
+
+    public void setContract(ContractType contract) {
+        this.contract = contract;
+    }
+
+    public Long getDeltaDeadline() {
+        return deltaDeadline;
+    }
+
+    public void setDeltaDeadline(Long deltaDeadline) {
+        this.deltaDeadline = deltaDeadline;
     }
 }
