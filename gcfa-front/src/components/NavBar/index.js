@@ -71,11 +71,11 @@ class NavBar extends Component {
             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
             onRequestClose={this.handleRequestClose}
-          >
+            >
             <div>
               <p style={PROFILE_NAME_STYLE}>Guillaume Carré</p>
               <Menu>
-                <MenuItem primaryText="Profil" />
+                <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} />
                 <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} />
               </Menu>
             </div>
