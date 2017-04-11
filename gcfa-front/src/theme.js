@@ -5,6 +5,10 @@ const theme = {
     primary1Color: colors.PRIMARY,
     accent1Color: colors.SECONDARY,
   },
+  snackbar: {
+    textColor: colors.PRIMARY,
+    backgroundColor: 'white',
+  }
 }
 
 export default theme;

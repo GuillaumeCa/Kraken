@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import BarCard, { DocumentCard } from '../components/BarCard';
 import UploadModal from '../components/UploadModal';
+import { sendNotification } from '../components/Notification';
 
 const HEAD_STYLE = {
   display: 'flex',
@@ -50,6 +51,11 @@ class Home extends Component {
   }
 
   handleSubmit = () => {
+
+    this.handleClose()
+    // Test send notif
+    sendNotification('Document envoyé avec succès');
+
   	// Service call
   	//handleClose();
   }
@@ -76,7 +82,7 @@ class Home extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Suivi</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <FlatButton primary label="Afficher tout" backgroundColor="#fff" hoverColor="#eee"  />
+            <FlatButton primary label="Afficher tout" backgroundColor="#fff" hoverColor="#eee" />
           </div>
         </div>
         <section>

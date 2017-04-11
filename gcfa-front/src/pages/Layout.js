@@ -4,10 +4,12 @@ import { Route } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
+import NotificationCenter from '../components/Notification';
 
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
+
 
 const CONTAINER_STYLE = {
   marginTop: 60,
@@ -26,6 +28,7 @@ class Layout extends Component {
             <Route path="/profil" component={Profil} />
           </Banner>
         </div>
+        <NotificationCenter />
       </div>
     );
   }
