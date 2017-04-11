@@ -22,7 +22,9 @@ class Profil extends Component {
 	      <div style={CONTENT_STYLE}>
 	      	<Avatar size={180}>G</Avatar>
 	      	<p>Guillaume CARRE</p>
+	      	<p>Mail: guillaume.carre@isep.fr</p>	
 	      	<p>Promotion 2018</p>
+	      	<p>Debut du contrat: 2016</p>
 	      	<p>Contrat: 2 ans</p>
 	      	<p>Document rendu: 12/18</p>
 	      </div>
