@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './BarCard.css';
+import Dialog from 'material-ui/Dialog';
+
 
 import colors from '../../colors';
 
@@ -50,5 +52,17 @@ export function DocumentCard(props) {
       <h1 style={DOCUMENT_TITLE_STYLE}>{props.title}</h1>
       <p style={DOCUMENT_SUBTITLE_STYLE}>{props.subtitle}</p>
     </div>
+  )
+}
+
+export function UploadModal(props) {
+  return (
+    <Dialog
+          title={props.title}
+          modal={true}
+          open={props.open}
+          actions={props.actions}
+        >{props.description}
+        </Dialog>
   )
 }
