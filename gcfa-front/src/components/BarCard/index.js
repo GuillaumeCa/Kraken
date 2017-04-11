@@ -53,3 +53,35 @@ export function DocumentCard(props) {
     </div>
   )
 }
+
+const ICON_TYPE_DOC_STYLE = {
+  width: 30,
+}
+
+const DOCUMENTATION_STYLE = {
+  display: 'flex',
+  alignItems: 'center',
+  marginLeft: 15,
+}
+
+export function DocumentationCard(props) {
+  const selectIcon = (type) => {
+    switch (type) {
+      case 'PDF':
+        return 'PDF.png'
+      case 'WORD':
+        return 'Word.png'
+      case 'EXCEL':
+        return 'Excel.png'
+    }
+  }
+
+  return (
+    <div style={DOCUMENTATION_STYLE}>
+      <div>
+        <img style={ICON_TYPE_DOC_STYLE} src={'/icons/' + selectIcon(props.type)} alt="doc-icon-type"/>
+      </div>
+      <DocumentCard title={props.title} subtitle={props.subtitle} />
+    </div>
+  )
+}
