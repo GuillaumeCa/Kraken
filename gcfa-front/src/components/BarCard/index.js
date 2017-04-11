@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './BarCard.css';
+
+import FlatButton from 'material-ui/FlatButton';
+
 import Dialog from 'material-ui/Dialog';
 
 
@@ -55,14 +58,69 @@ export function DocumentCard(props) {
   )
 }
 
+const MODAL_TITLE_STYLE = {
+  fontSize: 40,
+  fontWeight: 'normal',
+  color: colors.PRIMARY,
+}
+
+const MODAL_CONTAINER_STYLE = {
+  paddingLeft: 20,
+  paddingRight: 20,
+}
+
+const MODAL_DOCTYPE_STYLE = {
+  fontSize: 30,
+  fontWeight: 'normal',
+  color: colors.SECONDARY,
+}
+
+const MODAL_SUBTITLE_STYLE = {
+  margin: 0,
+  color: colors.GREY_DARK,
+}
+
+const UPLOAD_BTN_STYLE = {
+  uploadButton: {
+    verticalAlign: 'middle',
+    width:'50%',
+    height:100
+  },
+  uploadInput: {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    width: '100%',
+    opacity: 0,
+  },
+}
+const styles = {
+  
+};
 export function UploadModal(props) {
   return (
     <Dialog
-          title={props.title}
-          modal={true}
-          open={props.open}
-          actions={props.actions}
-        >{props.description}
-        </Dialog>
+      modal={true}
+      open={props.open}
+      actions={props.actions}
+    >
+      <div style={MODAL_CONTAINER_STYLE}>
+        <h1 style={MODAL_TITLE_STYLE}>{props.title}</h1>
+        <h2 style={MODAL_DOCTYPE_STYLE}>{props.docType}</h2>
+        <p style={MODAL_SUBTITLE_STYLE}>{props.subtitle}</p>
+        <FlatButton
+          label="Importer"
+          labelPosition="before"
+          containerElement="label"
+          style={UPLOAD_BTN_STYLE.uploadButton}
+        >
+          <input type="file" style={UPLOAD_BTN_STYLE.uploadInput} />
+        </FlatButton>
+
+      </div>
+    </Dialog>
   )
 }

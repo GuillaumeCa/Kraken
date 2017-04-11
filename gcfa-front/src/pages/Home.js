@@ -14,8 +14,6 @@ const BUTTON_STYLE = {
   fontSize: 20,
 }
 
-
-
 class Home extends Component {
   constructor() {
   	super()
@@ -64,7 +62,7 @@ class Home extends Component {
 	    onTouchTap={this.handleClose}
 	  />,
 	  <FlatButton
-	    label="Envoyer"
+	    label="Déposer"
 	    primary={true}
 	    onTouchTap={this.handleSubmit}
 	  />,
@@ -98,10 +96,11 @@ class Home extends Component {
         </section>
 
         <UploadModal
-        	title={this.state.title}
+        	title="Ajouter un document"
         	open={this.state.openModal}
         	actions={modalButtons}
-        	description="Test Arfaz"
+        	docType={this.state.title}
+        	subtitle="A rendre avant le 10/03/2016"
         />
       </div>
     );
