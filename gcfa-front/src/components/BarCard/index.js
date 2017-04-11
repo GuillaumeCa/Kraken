@@ -97,30 +97,31 @@ const UPLOAD_BTN_STYLE = {
     opacity: 0,
   },
 }
-const styles = {
-  
-};
-export function UploadModal(props) {
-  return (
-    <Dialog
-      modal={true}
-      open={props.open}
-      actions={props.actions}
-    >
-      <div style={MODAL_CONTAINER_STYLE}>
-        <h1 style={MODAL_TITLE_STYLE}>{props.title}</h1>
-        <h2 style={MODAL_DOCTYPE_STYLE}>{props.docType}</h2>
-        <p style={MODAL_SUBTITLE_STYLE}>{props.subtitle}</p>
-        <FlatButton
-          label="Importer"
-          labelPosition="before"
-          containerElement="label"
-          style={UPLOAD_BTN_STYLE.uploadButton}
-        >
-          <input type="file" style={UPLOAD_BTN_STYLE.uploadInput} />
-        </FlatButton>
 
-      </div>
-    </Dialog>
-  )
+export class UploadModal extends Component {
+  render() {
+    console.log(this.refs.link)
+    return (
+      <Dialog
+        modal={true}
+        open={this.props.open}
+        actions={this.props.actions}
+      >
+        <div style={MODAL_CONTAINER_STYLE}>
+          <h1 style={MODAL_TITLE_STYLE}>{this.props.title}</h1>
+          <h2 style={MODAL_DOCTYPE_STYLE}>{this.props.docType}</h2>
+          <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
+          <FlatButton
+            label="Importer"
+            labelPosition="before"
+            containerElement="label"
+            style={UPLOAD_BTN_STYLE.uploadButton}
+          >
+            <input ref="link" type="file" style={UPLOAD_BTN_STYLE.uploadInput} />
+          </FlatButton>
+
+        </div>
+      </Dialog>
+    )
+  }
 }
