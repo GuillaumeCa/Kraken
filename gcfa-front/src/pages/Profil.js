@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 
 import Avatar from 'material-ui/Avatar';
 
-const AVATAR_STYLE = {
-	marginTop: 30,
-  	textAlign: 'center'
+const CONTENT_STYLE = {
+	marginTop: 60,
+  	textAlign: 'center',
+  	fontSize: 25,
+	fontWeight: 'normal',
 }
+
 
 class Profil extends Component {
   render() {
@@ -16,8 +19,12 @@ class Profil extends Component {
 	        <h1 className="main-title">Profil</h1>
 	      </div>
 
-	      <div style={AVATAR_STYLE}>
-	      	<Avatar size={180} style={AVATAR_STYLE}>G</Avatar>
+	      <div style={CONTENT_STYLE}>
+	      	<Avatar size={180}>G</Avatar>
+	      	<p>Guillaume CARRE</p>
+	      	<p>Promotion 2018</p>
+	      	<p>Contrat: 2 ans</p>
+	      	<p>Document rendu: 12/18</p>
 	      </div>
 	  </div>
     );
