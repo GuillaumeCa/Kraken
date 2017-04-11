@@ -13,7 +13,8 @@ class Documentation extends Component {
   render() {
   	const actions = [
   		<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} />,
-	]
+    ]
+    
     return (
     	<div>
 	      <div>

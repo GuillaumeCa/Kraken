@@ -28,6 +28,7 @@ public class Apprentice {
 
     private Date endContract;
 
+    @Enumerated(EnumType.STRING)
     private ContractType contractType;
 
     @ManyToOne

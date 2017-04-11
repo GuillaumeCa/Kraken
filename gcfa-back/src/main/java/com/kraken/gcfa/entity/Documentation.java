@@ -1,9 +1,6 @@
 package com.kraken.gcfa.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -19,6 +16,9 @@ public class Documentation {
     private String name;
     private String path;
     private Date creation;
+
+    @Enumerated(EnumType.STRING)
+    private DocumentationType type;
 
     public Long getId() {
         return id;
@@ -50,5 +50,13 @@ public class Documentation {
 
     public void setCreation(Date creation) {
         this.creation = creation;
+    }
+
+    public DocumentationType getType() {
+        return type;
+    }
+
+    public void setType(DocumentationType type) {
+        this.type = type;
     }
 }

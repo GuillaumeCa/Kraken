@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
-import Dialog from 'material-ui/Dialog';
 
-import BarCard, { DocumentCard, UploadModal } from '../components/BarCard';
+import BarCard, { DocumentCard } from '../components/BarCard';
+import UploadModal from '../components/UploadModal';
 
 const HEAD_STYLE = {
   display: 'flex',
