@@ -15,6 +15,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(value = "/login")
+@CrossOrigin("*")
 public class LoginController {
 
     @Autowired

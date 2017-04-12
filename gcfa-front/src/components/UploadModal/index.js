@@ -31,14 +31,11 @@ const MODAL_SUBTITLE_STYLE = {
 
 
 export default class UploadModal extends Component {
-  constructor() {
-    super()
-    this.state = {
-      files: [],
-    }
+  state = {
+    files: [],
   }
 
-  onDrop= (acceptedFiles) => {
+  onDrop = (acceptedFiles) => {
     this.setState({
       files: acceptedFiles
     });
@@ -55,12 +52,12 @@ export default class UploadModal extends Component {
           <h1 style={MODAL_TITLE_STYLE}>{this.props.title}</h1>
           <h2 style={MODAL_DOCTYPE_STYLE}>{this.props.docType}</h2>
           <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
-          
+
           <div>
             <Dropzone ref={(node) => { this.dropzone = node; }} onDrop={this.onDrop}>
                 <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
-         
+
             {this.state.files.length > 0 ? <div>
             <h2>{this.state.files.length} fichier séléctionné(s)</h2>
             <div>{this.state.files.map((file) => <p>{file.name}</p> )}</div>
@@ -69,7 +66,7 @@ export default class UploadModal extends Component {
 
         </div>
       </Dialog>
-  
+
     )
   }
 }

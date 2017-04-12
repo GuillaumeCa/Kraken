@@ -46,7 +46,11 @@ public class DocumentationService {
         String path = storageService.storeFile(file, rootLocation);
 
         Documentation documentation = new Documentation();
-        documentation.setName(file.getName());
+
+        String rawFilename = file.getOriginalFilename();
+        int pos = rawFilename.lastIndexOf(".");
+        documentation.setName(pos > 0 ? rawFilename.substring(0, pos) : rawFilename);
+
         documentation.setCreation(new Date());
         documentation.setPath(path);
         documentation.setType(type);

@@ -3,11 +3,9 @@ import axios from 'axios';
 export const BASE_URL = "http://localhost:8081";
 export const REQUEST_TIMEOUT = 5000;
 
-axios.defaults = {
-  ...axios.defaults,
-  baseUrl: BASE_URL,
-  timeout: REQUEST_TIMEOUT
-}
+
+axios.defaults.baseURL = BASE_URL;
+axios.defaults.timeout = REQUEST_TIMEOUT;
 
 
 const TOKEN = localStorage.getItem('token');
