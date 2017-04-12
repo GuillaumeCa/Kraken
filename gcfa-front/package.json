@@ -8,6 +8,7 @@
     "material-ui-password-field": "^1.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-dropzone": "^3.12.3",
     "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1"
   },
