@@ -10,14 +10,25 @@ import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
 
+import colors from '../colors';
 
 const CONTAINER_STYLE = {
   marginTop: 60,
   // padding: 20,
 }
 
+const COPYRIGHT_STYLE = {
+  color: colors.GREY_DARK,
+  margin: 0,
+  padding: 20,
+  fontSize: 13,
+  marginTop: 50,
+  textAlign: 'center',
+}
+
 class Layout extends Component {
   render() {
+    const year = (new Date()).getFullYear();
     return (
       <div>
         <NavBar history={this.props.history} />
@@ -28,6 +39,7 @@ class Layout extends Component {
             <Route path="/profil" component={Profil} />
           </Banner>
         </div>
+        <p style={COPYRIGHT_STYLE}>Copyright © ISEP {year} Institut Supérieur d'électronique de Paris. Tous droits réservés.</p>
         <NotificationCenter />
       </div>
     );
