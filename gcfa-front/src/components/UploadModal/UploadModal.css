@@ -1,0 +1,4 @@
+.dropzone:hover, .dropzone-hover {
+  background: #E9E9E9 !important;
+  cursor: pointer;
+}
