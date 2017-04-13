@@ -34,14 +34,13 @@ class Home extends Component {
   state = {
     openModal: false,
     modalData: {},
-    uploadedFile: {},
+    uploadedFile: null,
   }
 
   onClickButton = (data) => {
   	this.setState({
   		openModal: true,
   		modalData: data,
-      uploadedFile: {},
   	})
   }
 
@@ -49,7 +48,7 @@ class Home extends Component {
   	this.setState({
   		openModal: false,
   		modalData: {},
-      uploadedFile: {},
+      uploadedFile: null,
   	})
   }
 
@@ -65,10 +64,10 @@ class Home extends Component {
   }
 
   handleSelectFile = (file) => {
+    const uploadedFile = Object.assign(file[0], {validType: file[0].type === 'application/pdf' ? true : false}, {validSize: (file[0].size)/1000000 <= 10 ? true : false })
+
     this.setState({
-      openModal: this.state.openModal,
-      modalData: this.state.modalData,
-      uploadedFile: file[0],
+      uploadedFile: uploadedFile,
     })
   }
 
@@ -84,6 +83,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
+        disabled={this.state.uploadedFile == null ||this.state.uploadedFile.validType == false || this.state.uploadedFile.validSize == false}
   	  />,
   	];
 
@@ -136,7 +136,7 @@ class Home extends Component {
         	actions={modalButtons}
         	docType={modalData.name}
         	subtitle="A rendre avant le 10/03/2016"
-          files= {uploadedFile}
+          file= {uploadedFile}
           onSelectFile= {(file) => this.handleSelectFile(file)}
         />
       </div>

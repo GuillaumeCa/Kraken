@@ -57,10 +57,18 @@ const DROPZONE_MSG_STYLE = {
   margin: 0,
 }
 
+const VALID_DOC_STYLE = {
+  color:'green',
+}
+
+const INVALID_DOC_STYLE = {
+  color:'red',
+}
+
 export default class UploadModal extends Component {
 
-  onDrop = (acceptedFiles) => {
-    this.props.onSelectFile(acceptedFiles)
+  onDrop = (acceptedFile) => {
+    this.props.onSelectFile(acceptedFile)
   }
 
   render() {
@@ -82,9 +90,12 @@ export default class UploadModal extends Component {
               <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
             </Dropzone>
 
-            {this.props.files.name != null ? <div>
-            <h2>{this.props.files.length} fichier séléctionné</h2>
-            <div><p>{this.props.files.name}</p></div>
+            {this.props.file != null ? <div>
+              {this.props.file.validType && this.props.file.validSize ?
+                <h2 style={VALID_DOC_STYLE}>Le fichier séléctionné est valide</h2> : 
+                <h2 style={INVALID_DOC_STYLE}>Le fichier séléctionné est invalide</h2>
+              }
+            <div><p>{this.props.file.name}</p></div>
             </div> : null}
           </div>
 
