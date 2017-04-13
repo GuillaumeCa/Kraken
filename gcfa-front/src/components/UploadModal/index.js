@@ -57,14 +57,6 @@ const DROPZONE_MSG_STYLE = {
   margin: 0,
 }
 
-const VALID_DOC_STYLE = {
-  color:'green',
-}
-
-const INVALID_DOC_STYLE = {
-  color:'red',
-}
-
 export default class UploadModal extends Component {
 
   onDrop = (acceptedFile) => {
@@ -72,6 +64,9 @@ export default class UploadModal extends Component {
   }
 
   render() {
+
+    const { file } = this.props;
+
     return (
       <Dialog
         modal={false}
@@ -85,18 +80,36 @@ export default class UploadModal extends Component {
 
           <div>
             <Dropzone ref={(node) => { this.dropzone = node; }} onDrop={this.onDrop} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
-              <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
-              <h2 style={DROPZONE_TITLE_STYLE}>Déposez votre document ici</h2>
-              <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
-            </Dropzone>
 
-            {this.props.file != null ? <div>
-              {this.props.file.validType && this.props.file.validSize ?
-                <h2 style={VALID_DOC_STYLE}>Le fichier sélectionné est valide</h2> : 
-                <h2 style={INVALID_DOC_STYLE}>Le fichier sélectionné est invalide</h2>
+              {
+                !file &&
+                <div>
+                  <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
+                  <h2 style={DROPZONE_TITLE_STYLE}>Déposez votre document ici</h2>
+                  <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
+                </div>
               }
-            <div><p>{this.props.file.name}</p></div>
-            </div> : null}
+
+              {
+                file &&
+                <div>
+                  {
+                    (file.validType && file.validSize) &&
+                    <div>
+                      <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
+                      <h2 style={DROPZONE_TITLE_STYLE}>{file.name}</h2>
+                    </div>
+                  }
+                  {
+                    (!file.validType || !file.validSize) &&
+                    <div>
+                      <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
+                      <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>
+                    </div>
+                  }
+                </div>
+              }
+            </Dropzone>
           </div>
 
         </div>
