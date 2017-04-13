@@ -34,12 +34,14 @@ class Home extends Component {
   state = {
     openModal: false,
     modalData: {},
+    uploadedFile: {},
   }
 
   onClickButton = (data) => {
   	this.setState({
   		openModal: true,
   		modalData: data,
+      uploadedFile: {},
   	})
   }
 
@@ -47,6 +49,7 @@ class Home extends Component {
   	this.setState({
   		openModal: false,
   		modalData: {},
+      uploadedFile: {},
   	})
   }
 
@@ -55,9 +58,18 @@ class Home extends Component {
     this.handleClose()
     // Test send notif
     sendNotification('Document envoyé avec succès');
+    console.log(this.state.uploadedFile)
 
   	// Service call
   	//handleClose();
+  }
+
+  handleSelectFile = (file) => {
+    this.setState({
+      openModal: this.state.openModal,
+      modalData: this.state.modalData,
+      uploadedFile: file[0],
+    })
   }
 
   render() {
@@ -75,7 +87,7 @@ class Home extends Component {
   	  />,
   	];
 
-    const { modalData, openModal } = this.state;
+    const { modalData, openModal, uploadedFile } = this.state;
 
     return (
       <div>
@@ -124,6 +136,8 @@ class Home extends Component {
         	actions={modalButtons}
         	docType={modalData.name}
         	subtitle="A rendre avant le 10/03/2016"
+          files= {uploadedFile}
+          onSelectFile= {(file) => this.handleSelectFile(file)}
         />
       </div>
     );

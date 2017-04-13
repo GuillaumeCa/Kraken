@@ -58,20 +58,15 @@ const DROPZONE_MSG_STYLE = {
 }
 
 export default class UploadModal extends Component {
-  state = {
-    files: [],
-  }
 
   onDrop = (acceptedFiles) => {
-    this.setState({
-      files: acceptedFiles
-    });
+    this.props.onSelectFile(acceptedFiles)
   }
 
   render() {
     return (
       <Dialog
-        modal={true}
+        modal={false}
         open={this.props.open}
         actions={this.props.actions}
       >
@@ -87,9 +82,9 @@ export default class UploadModal extends Component {
               <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
             </Dropzone>
 
-            {this.state.files.length > 0 ? <div>
-            <h2>{this.state.files.length} fichier séléctionné(s)</h2>
-            <div>{this.state.files.map((file) => <p>{file.name}</p> )}</div>
+            {this.props.files.name != null ? <div>
+            <h2>{this.props.files.length} fichier séléctionné</h2>
+            <div><p>{this.props.files.name}</p></div>
             </div> : null}
           </div>
 
