@@ -92,8 +92,8 @@ export default class UploadModal extends Component {
 
             {this.props.file != null ? <div>
               {this.props.file.validType && this.props.file.validSize ?
-                <h2 style={VALID_DOC_STYLE}>Le fichier séléctionné est valide</h2> : 
-                <h2 style={INVALID_DOC_STYLE}>Le fichier séléctionné est invalide</h2>
+                <h2 style={VALID_DOC_STYLE}>Le fichier sélectionné est valide</h2> : 
+                <h2 style={INVALID_DOC_STYLE}>Le fichier sélectionné est invalide</h2>
               }
             <div><p>{this.props.file.name}</p></div>
             </div> : null}
