@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import Delete from 'material-ui/svg-icons/content/remove-circle';
+import Download from 'material-ui/svg-icons/file/cloud-download';
+
 
 import BarCard, { DocumentCard } from '../components/BarCard';
 import UploadModal from '../components/UploadModal';
@@ -15,7 +23,21 @@ const BUTTON_STYLE = {
   fontSize: 20,
 }
 
-const tempData = [
+const deliveredData = [
+  {
+    id: 1,
+    name: "Déclaration de compétences 1",
+  },
+  {
+    id: 2,
+    name: "Déclaration de compétences 2",
+  },
+  {
+    id: 3,
+    name: "Déclaration de compétences 3",
+  },
+]
+const deliverData = [
   {
     id: 1,
     name: "Déclaration de compétences 1",
@@ -34,10 +56,11 @@ class Home extends Component {
   state = {
     openModal: false,
     modalData: {},
+    openEdit: false,
     uploadedFile: null,
   }
 
-  onClickButton = (data) => {
+  showDeliver = (data) => {
   	this.setState({
   		openModal: true,
   		modalData: data,
@@ -71,6 +94,14 @@ class Home extends Component {
     })
   }
 
+  editDoc = (event, doc) => {
+    this.setState({ openEdit: true, anchorEl: event.currentTarget });
+  }
+
+  handleEditClose = () => {
+    this.setState({ openEdit: false, anchorEl: null });
+  }
+
   render() {
 
   	const modalButtons = [
@@ -100,11 +131,11 @@ class Home extends Component {
         <section>
           <h2 className="sub-title">Déposés</h2>
           {
-            tempData.map(data => {
+            deliveredData.map(data => {
               return (
                 <BarCard key={data.id} actions={
-                    <FlatButton primary label="Déposer" labelStyle={BUTTON_STYLE}
-                      onTouchTap={() => this.onClickButton(data)}
+                    <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
+                      onTouchTap={(e) => this.editDoc(e, data)}
                     />
                   }>
                   <DocumentCard title={data.name} subtitle="sous-titre" />
@@ -116,11 +147,11 @@ class Home extends Component {
         <section>
           <h2 className="sub-title">A venir</h2>
           {
-            tempData.map(data => {
+            deliverData.map(data => {
               return (
                 <BarCard key={data.id} actions={
                     <FlatButton primary label="Déposer" labelStyle={BUTTON_STYLE}
-                      onTouchTap={() => this.onClickButton(data)}
+                      onTouchTap={() => this.showDeliver(data)}
                     />
                   }>
                   <DocumentCard title={data.name} subtitle="sous-titre" />
@@ -139,6 +170,19 @@ class Home extends Component {
           file= {uploadedFile}
           onSelectFile= {(file) => this.handleSelectFile(file)}
         />
+        <Popover
+          open={this.state.openEdit}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'right', vertical: 'top'}}
+          onRequestClose={this.handleEditClose}
+        >
+        <Menu>
+          <MenuItem primaryText="Modifier" rightIcon={<Edit />} />
+          <MenuItem primaryText="Supprimer" rightIcon={<Delete />} />
+          <MenuItem primaryText="Télécharger" rightIcon={<Download />} />
+        </Menu>
+      </Popover>
       </div>
     );
   }

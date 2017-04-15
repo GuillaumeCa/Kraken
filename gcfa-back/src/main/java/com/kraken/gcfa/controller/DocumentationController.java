@@ -6,12 +6,16 @@ import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.services.DocumentationService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLConnection;
+import java.nio.file.*;
 import java.util.List;
 
 /**
@@ -58,18 +62,12 @@ public class DocumentationController {
      * @return
      * @throws StorageException
      */
-    @GetMapping("/{fileId}")
-    public void getFile(@PathVariable Long fileId, HttpServletResponse response) throws StorageException, IOException {
+    @GetMapping(value = "/{fileId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public FileSystemResource getFile(@PathVariable Long fileId, HttpServletResponse response) throws StorageException {
         File file = documentationService.getFile(fileId);
-        InputStream fstream;
-        try {
-            fstream = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new StorageException(String.format("The file %s was not found", file.getPath()));
-        }
-        String contentType = URLConnection.guessContentTypeFromName(file.getName());
-        response.setContentType(contentType);
-        IOUtils.copy(fstream, response.getOutputStream());
+        response.addHeader("Access-Control-Expose-Headers", "x-filename");
+        response.addHeader("x-filename", file.getName());
+        return new FileSystemResource(file);
     }
 
     /**

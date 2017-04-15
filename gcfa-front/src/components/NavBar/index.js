@@ -75,7 +75,7 @@ class NavBar extends Component {
             <div>
               <p style={PROFILE_NAME_STYLE}>Guillaume Carré</p>
               <Menu>
-                <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} />
+                <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} onTouchTap={this.handleRequestClose} />
                 <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} />
               </Menu>
             </div>

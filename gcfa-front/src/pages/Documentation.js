@@ -37,6 +37,18 @@ class Documentation extends Component {
       })
   }
 
+  openDoc = (doc) => {
+    documentationService.getDocumentation(doc.id)
+      .then(res => {
+        const filename = res.headers['x-filename'];
+        const a = document.createElement('a');
+        const file = new Blob([res.data], {type: 'application/octet-stream'});
+        a.href = URL.createObjectURL(file);
+        a.download = filename;
+        a.click();
+      })
+  }
+
   render() {
   	const actions = [
   		<FlatButton key={1} primary label="Voir" labelStyle={BUTTON_STYLE} />,
@@ -57,7 +69,7 @@ class Documentation extends Component {
         {
           calendars.map((doc) => {
             return (
-              <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} />}>
+              <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
                 <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
               </BarCard>
             )
