@@ -41,4 +41,13 @@ public class StorageService {
         File file = new File(path.toString());
         return file;
     }
+
+    public void deleteFile(String filePath) throws StorageException {
+        Path path = Paths.get(filePath);
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            throw new StorageException(String.format("The file %s cannot be deleted", path.toString()));
+        }
+    }
 }

@@ -6,9 +6,6 @@ import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.services.DocumentationService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +44,7 @@ public class DocumentationController {
      * @throws StorageException
      */
     @PostMapping
-    private void upload(@RequestParam("file") MultipartFile file, @RequestParam("type") DocumentationType type) throws StorageException {
+    public void upload(@RequestParam("file") MultipartFile file, @RequestParam("type") DocumentationType type) throws StorageException {
         documentationService.storeFile(file, type);
     }
 
@@ -62,7 +59,7 @@ public class DocumentationController {
      * @throws StorageException
      */
     @GetMapping("/{fileId}")
-    private void getFile(@PathVariable Long fileId, HttpServletResponse response) throws StorageException, IOException {
+    public void getFile(@PathVariable Long fileId, HttpServletResponse response) throws StorageException, IOException {
         File file = documentationService.getFile(fileId);
         InputStream fstream;
         try {
@@ -73,6 +70,30 @@ public class DocumentationController {
         String contentType = URLConnection.guessContentTypeFromName(file.getName());
         response.setContentType(contentType);
         IOUtils.copy(fstream, response.getOutputStream());
+    }
+
+    /**
+     * Remplacer une documentation par une autre
+     *
+     * @param file
+     * @param fileId
+     * @throws StorageException
+     */
+    @PutMapping("/{fileId}")
+    public void editFile(@RequestParam("file") MultipartFile file, @PathVariable Long fileId) throws StorageException {
+        Documentation doc = documentationService.deleteFile(fileId);
+        documentationService.storeFile(file, doc.getType());
+    }
+
+    /**
+     * Supprimer une documentation
+     *
+     * @param fileId
+     * @throws StorageException
+     */
+    @DeleteMapping("/{fileId}")
+    public void deleteFile(@PathVariable Long fileId) throws StorageException {
+        documentationService.deleteFile(fileId);
     }
 
 }
