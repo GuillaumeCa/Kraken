@@ -9,9 +9,17 @@ export function isLoggedIn() {
   return !!localStorage.getItem('token')
 }
 
-export function login(user, password) {
-  setToken('1234');
-  return true
+export function login(user, password, cb) {
+  axios.post('/login', {
+    username: user,
+    password: password
+  }).then(res => {
+    localStorage.removeItem('user');
+    setToken(res.data);
+    cb(null);
+  }).catch(err => {
+    cb(err.message);
+  })
 }
 
 export function logout() {

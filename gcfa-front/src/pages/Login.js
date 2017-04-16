@@ -27,9 +27,10 @@ class Login extends Component {
 
 
   handleClick = () => {
-    if (authService.login('e', 'a')) {
+    authService.login('aaa', '1234', (err) => {
+      if (err) return console.log(err);
       this.props.history.push('/');
-    }
+    })
   }
 
   render() {

@@ -19,7 +19,7 @@ import javax.annotation.security.RolesAllowed;
 @CrossOrigin("*")
 public class UserController {
 
-    @GetMapping
+    @GetMapping("/me")
     @RolesAllowed(RolesNames.APPRENTICE)
     public User getUser(@AuthenticationPrincipal User auth) {
         return auth;

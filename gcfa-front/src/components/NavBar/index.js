@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import { Link } from 'react-router-dom';
 import * as authService from '../../services/authService';
+import * as userService from '../../services/userService';
 
 import colors from '../../colors';
 
@@ -37,6 +38,11 @@ class NavBar extends Component {
 
   state = {
     open: false,
+    userData: null,
+  }
+
+  componentDidMount() {
+    userService.getProfile((userData) => this.setState({ userData }));
   }
 
   onLogout = () => {
@@ -53,6 +59,7 @@ class NavBar extends Component {
   }
 
   render() {
+    const { userData } = this.state;
     return (
       <div className="NavBar">
         <div className="main" style={NAVBAR_MAIN_STYLE}>
@@ -63,24 +70,27 @@ class NavBar extends Component {
             <Link to="/documentation">Documentation</Link>
           </div>
         </nav>
-        <div style={NAVBAR_BUTTON_STYLE}>
-          <Avatar size={35} style={AVATAR_STYLE} onTouchTap={this.onClick}>G</Avatar>
-            <Popover
-            open={this.state.open}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            onRequestClose={this.handleRequestClose}
-            >
-            <div>
-              <p style={PROFILE_NAME_STYLE}>Guillaume Carré</p>
-              <Menu>
-                <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} onTouchTap={this.handleRequestClose} />
-                <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} />
-              </Menu>
+          {
+            userData &&
+            <div style={NAVBAR_BUTTON_STYLE}>
+              <Avatar size={35} style={AVATAR_STYLE} onTouchTap={this.onClick}>{userData.firstName.substr(0,1)}</Avatar>
+              <Popover
+                open={this.state.open}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                onRequestClose={this.handleRequestClose}
+              >
+                <div>
+                  <p style={PROFILE_NAME_STYLE}>{ `${userData.firstName} ${userData.lastName}` }</p>
+                  <Menu>
+                    <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} onTouchTap={this.handleRequestClose} />
+                    <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} />
+                  </Menu>
+                </div>
+              </Popover>
             </div>
-          </Popover>
-        </div>
+          }
       </div>
     );
   }
