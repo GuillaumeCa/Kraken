@@ -21,10 +21,11 @@ public class User implements UserDetails {
 
     private String firstName;
     private String lastName;
+    private String login;
     private String email;
     private String sexe;
 
-    private Long ldapId;
+    private String ldapId;
     private String token;
 
     @OneToOne
@@ -86,11 +87,11 @@ public class User implements UserDetails {
         this.token = token;
     }
 
-    public Long getLdapId() {
+    public String getLdapId() {
         return ldapId;
     }
 
-    public void setLdapId(Long ldapId) {
+    public void setLdapId(String ldapId) {
         this.ldapId = ldapId;
     }
 
@@ -134,5 +135,13 @@ public class User implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

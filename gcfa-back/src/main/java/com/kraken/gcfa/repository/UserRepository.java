@@ -11,4 +11,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByToken(String token);
 
+    User findByLdapId(String ldapId);
 }

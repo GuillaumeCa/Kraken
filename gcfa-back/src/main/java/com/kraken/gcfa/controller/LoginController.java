@@ -2,6 +2,7 @@ package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.dto.FormLoginDTO;
 import com.kraken.gcfa.dto.LDAPUserDTO;
+import com.kraken.gcfa.services.AuthService;
 import com.kraken.gcfa.services.LDAPService;
 import com.kraken.gcfa.exceptions.LDAPServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class LoginController {
     @Autowired
     private LDAPService ldapService;
 
+    @Autowired
+    private AuthService authService;
+
     /**
      * Test du LDAP
      */
@@ -30,8 +34,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(@RequestBody FormLoginDTO form) {
+    public String login(@RequestBody FormLoginDTO form) throws Exception {
         // TODO: générer token si l'utilisateur n'est pas dans la bdd mais sur le LDAP
-        return UUID.randomUUID().toString();
+        return authService.generateToken(form);
     }
 }

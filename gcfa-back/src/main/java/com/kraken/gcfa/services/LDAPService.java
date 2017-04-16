@@ -1,7 +1,12 @@
 package com.kraken.gcfa.services;
 
+import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.LDAPUserDTO;
+import com.kraken.gcfa.entity.Role;
+import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.exceptions.LDAPServiceException;
+import com.kraken.gcfa.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.naming.Context;
@@ -15,6 +20,10 @@ import java.util.Hashtable;
  */
 @Service
 public class LDAPService {
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     public LDAPUserDTO getUser(final String user, final String pwd) throws LDAPServiceException {
         // Initial context implementation
         final String INITCTX = "com.sun.jndi.ldap.LdapCtxFactory";
@@ -97,4 +106,19 @@ public class LDAPService {
 
         return ldapUser;
     }
+
+    public User createUserFromLDAP(LDAPUserDTO userDTO) {
+        User user = new User();
+
+        Role role = roleRepository.findByName(RolesNames.APPRENTICE);
+        user.setRole(role);
+
+        user.setEmail(userDTO.getMail());
+        user.setFirstName(userDTO.getPrenom());
+        user.setLastName(userDTO.getNomFamille());
+        user.setLdapId(userDTO.getEmployeeNumber());
+
+        return user;
+    }
+
 }
