@@ -114,7 +114,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={this.state.uploadedFile == null ||this.state.uploadedFile.validType == false || this.state.uploadedFile.validSize == false}
+        disabled={this.state.uploadedFile === null ||this.state.uploadedFile.validType === false || this.state.uploadedFile.validSize === false}
   	  />,
   	];
 
@@ -167,8 +167,8 @@ class Home extends Component {
         	actions={modalButtons}
         	docType={modalData.name}
         	subtitle="A rendre avant le 10/03/2016"
-          file= {uploadedFile}
-          onSelectFile= {(file) => this.handleSelectFile(file)}
+          file={uploadedFile}
+          onSelectFile={(file) => this.handleSelectFile(file)}
         />
         <Popover
           open={this.state.openEdit}

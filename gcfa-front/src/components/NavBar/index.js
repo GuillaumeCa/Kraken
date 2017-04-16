@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './NavBar.css';
 
-import FlatButton from 'material-ui/FlatButton';
 import Avatar from 'material-ui/Avatar';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+
+import Lock from 'material-ui/svg-icons/action/lock';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import { Link } from 'react-router-dom';
 import * as authService from '../../services/authService';
@@ -84,8 +86,8 @@ class NavBar extends Component {
                 <div>
                   <p style={PROFILE_NAME_STYLE}>{ `${userData.firstName} ${userData.lastName}` }</p>
                   <Menu>
-                    <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} onTouchTap={this.handleRequestClose} />
-                    <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} />
+                    <MenuItem primaryText="Profil" containerElement={<Link to="/profil" />} onTouchTap={this.handleRequestClose} rightIcon={<AccountCircle />} />
+                    <MenuItem primaryText="Déconnexion" onTouchTap={this.onLogout} rightIcon={<Lock />} />
                   </Menu>
                 </div>
               </Popover>

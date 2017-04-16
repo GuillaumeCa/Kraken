@@ -29,9 +29,9 @@ class Documentation extends Component {
       .then(res => {
         const { calendars, tools, evaluation } = this.state;
         res.data.forEach((doc) => {
-          if (doc.type == 'CALENDAR') calendars.push(doc);
-          if (doc.type == 'TOOL') tools.push(doc);
-          if (doc.type == 'EVALUATION') evaluation.push(doc);
+          if (doc.type === 'CALENDAR') calendars.push(doc);
+          if (doc.type === 'TOOL') tools.push(doc);
+          if (doc.type === 'EVALUATION') evaluation.push(doc);
         })
         this.setState({ calendars, tools, evaluation });
       })
@@ -56,7 +56,7 @@ class Documentation extends Component {
 
     const { calendars, tools, evaluation } = this.state;
 
-    const renderDate = (date) => <span>Ajouté le <Moment format="DD/MM/YYYY" timestamp>{date}</Moment></span>
+    const renderDate = (date) => <span>Ajouté le <Moment format="DD/MM/YYYY" unix>{date}</Moment></span>
 
     return (
     	<div>

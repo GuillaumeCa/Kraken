@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import Snackbar from 'material-ui/Snackbar';
 
-import colors from '../../colors';
 
 const NOTIFICATION_STYLE = {
   boxShadow: '0 0 10px #ccc',

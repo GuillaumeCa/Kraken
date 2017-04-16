@@ -1,6 +1,4 @@
-import React, { Component } from 'react';
-
-import colors from '../../colors';
+import React from 'react';
 
 const BANNER_HEIGHT = 150;
 

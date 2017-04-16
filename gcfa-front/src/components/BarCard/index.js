@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './BarCard.css';
 
 
@@ -73,6 +73,8 @@ export function DocumentationCard(props) {
         return 'Word.png'
       case 'EXCEL':
         return 'Excel.png'
+      default:
+        return ''
     }
   }
 
