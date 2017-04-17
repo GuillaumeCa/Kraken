@@ -84,7 +84,7 @@ export default class UploadModal extends Component {
                 !file &&
                 <div>
                   <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
-                  <h2 style={DROPZONE_TITLE_STYLE}>Déposez votre document ici</h2>
+                  <h2 style={DROPZONE_TITLE_STYLE}>Cliquez ou déposez votre document ici</h2>
                   <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
                 </div>
               }

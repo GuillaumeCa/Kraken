@@ -1,5 +1,7 @@
 package com.kraken.gcfa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class Company {
         this.name = name;
     }
 
+    @JsonIgnore
     public List<CompanySite> getSites() {
         return sites;
     }

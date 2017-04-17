@@ -32,7 +32,7 @@ public class Apprentice {
     private ContractType contractType;
 
     @ManyToOne
-    private CompanySite company;
+    private CompanySite companySite;
 
     public Long getId() {
         return id;
@@ -90,4 +90,11 @@ public class Apprentice {
         this.contractType = contractType;
     }
 
+    public CompanySite getCompanySite() {
+        return companySite;
+    }
+
+    public void setCompanySite(CompanySite companySite) {
+        this.companySite = companySite;
+    }
 }

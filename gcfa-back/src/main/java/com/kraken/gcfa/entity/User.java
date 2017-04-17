@@ -79,6 +79,7 @@ public class User implements UserDetails {
     	return sexe;
     }
 
+    @JsonIgnore
     public String getToken() {
         return token;
     }
@@ -87,6 +88,7 @@ public class User implements UserDetails {
         this.token = token;
     }
 
+    @JsonIgnore
     public String getLdapId() {
         return ldapId;
     }

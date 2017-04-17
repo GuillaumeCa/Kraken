@@ -2,6 +2,7 @@ package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.LDAPUserDTO;
+import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.Role;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.exceptions.LDAPServiceException;

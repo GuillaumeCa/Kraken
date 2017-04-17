@@ -1,12 +1,10 @@
 package com.kraken.gcfa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 public class Tutor {
@@ -17,7 +15,10 @@ public class Tutor {
 	
 	@OneToMany(mappedBy = "tutor")
     private List<Apprentice> apprentices;
-	
+
+	@ManyToOne
+	private User user;
+
 	//TODO trigger en fonction de la liste des Apprenties
 	private boolean isFreeTutor;
 
@@ -31,6 +32,7 @@ public class Tutor {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public List<Apprentice> getApprentices() {
 		return apprentices;
 	}
@@ -53,5 +55,13 @@ public class Tutor {
 
 	public void setJob(String job) {
 		this.job = job;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
