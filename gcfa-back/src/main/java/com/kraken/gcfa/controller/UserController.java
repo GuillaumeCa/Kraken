@@ -37,7 +37,7 @@ public class UserController {
 
     @PostMapping("/apprentice")
     @RolesAllowed(RolesNames.APPRENTICE)
-    public Apprentice createApprentice(@RequestBody FormApprenticeDTO form) {
+    public Apprentice createApprentice(@RequestBody FormApprenticeDTO form) throws Exception {
         return userService.createApprentice(form);
     }
 

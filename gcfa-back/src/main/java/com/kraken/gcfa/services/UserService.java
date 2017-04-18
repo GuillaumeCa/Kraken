@@ -1,5 +1,6 @@
 package com.kraken.gcfa.services;
 
+import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.FormApprenticeDTO;
 import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.CompanySite;
@@ -35,17 +36,21 @@ public class UserService {
         return apprenticeRepository.findByUser(user);
     }
 
-    public Apprentice createApprentice(FormApprenticeDTO form) {
+    public Apprentice createApprentice(FormApprenticeDTO form) throws Exception {
         User user = userRepository.findOne(form.getUserId());
         Tutor tutor = tutorRepository.findOne(form.getTutorId());
         CompanySite companySite = companySiteRepository.findOne(form.getCompanyId());
 
-        Apprentice apprentice = new Apprentice();
-        apprentice.setContractType(form.getContractType());
-        apprentice.setUser(user);
-        apprentice.setTutor(tutor);
-        apprentice.setCompanySite(companySite);
-        apprenticeRepository.save(apprentice);
-        return apprentice;
+        if (user.getRole().getName().equals(RolesNames.APPRENTICE)) {
+            Apprentice apprentice = new Apprentice();
+            apprentice.setContractType(form.getContractType());
+            apprentice.setUser(user);
+            apprentice.setTutor(tutor);
+            apprentice.setCompanySite(companySite);
+            apprenticeRepository.save(apprentice);
+            return apprentice;
+        } else {
+            throw new Exception("This user is not an apprentice");
+        }
     }
 }

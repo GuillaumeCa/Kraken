@@ -72,7 +72,12 @@ class Home extends Component {
   		openModal: false,
   		modalData: {},
       uploadedFile: null,
+      showOldDocs: false,
   	})
+  }
+
+  toggleOldDocs = () => {
+    this.setState({ showOldDocs: !this.state.showOldDocs });
   }
 
   handleSubmit = () => {
@@ -118,22 +123,24 @@ class Home extends Component {
   	  />,
   	];
 
-    const { modalData, openModal, uploadedFile } = this.state;
+    const { modalData, openModal, uploadedFile, showOldDocs } = this.state;
 
     return (
       <div>
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Suivi</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <FlatButton primary label="Afficher tout" backgroundColor="#fff" hoverColor="#eee" />
+            <FlatButton primary label={showOldDocs ? "Afficher récents" : "Afficher tout"} backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleOldDocs} />
           </div>
         </div>
-        <section>
-          <h2 className="sub-title">Déposés</h2>
-          {
-            deliveredData.map(data => {
-              return (
-                <BarCard key={data.id} actions={
+        {
+          showOldDocs &&
+          <section>
+            <h2 className="sub-title">Déposés</h2>
+            {
+              deliveredData.map(data => {
+                return (
+                  <BarCard key={data.id} actions={
                     <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
                       onTouchTap={(e) => this.editDoc(e, data)}
                     />
@@ -144,6 +151,7 @@ class Home extends Component {
             })
           }
         </section>
+        }
         <section>
           <h2 className="sub-title">A venir</h2>
           {
