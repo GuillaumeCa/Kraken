@@ -43,11 +43,11 @@ public class StorageService {
     }
 
     public void deleteFile(String filePath) throws StorageException {
-        Path path = Paths.get(filePath);
         try {
+        	Path path = Paths.get(filePath);
             Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException(String.format("The file %s cannot be deleted", path.toString()));
+            throw new StorageException(String.format("The file %s cannot be deleted", filePath));
         }
     }
 }
