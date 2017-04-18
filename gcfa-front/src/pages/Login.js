@@ -44,14 +44,12 @@ class Login extends Component {
               <TextField
                 hintText="Nom d'utilisateur"
                 fullWidth
-                required
                 />
               <TextField
                 type="password"
                 hintText="Mot de passe"
                 errorText={error && "This field is required."}
                 fullWidth
-                required
                 />
             </CardText>
             <CardActions style={{ textAlign: 'center' }}>
