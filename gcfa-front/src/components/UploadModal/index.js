@@ -59,7 +59,7 @@ const DROPZONE_MSG_STYLE = {
 export default class UploadModal extends Component {
 
   onDrop = (acceptedFile) => {
-    this.props.onSelectFile(acceptedFile)
+    Object.keys(acceptedFile).length !== 0 ? this.props.onSelectFile(acceptedFile[0]) : this.props.onSelectFile({})
   }
 
   render() {
@@ -78,7 +78,7 @@ export default class UploadModal extends Component {
           <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
 
           <div>
-            <Dropzone ref={(node) => { this.dropzone = node; }} onDrop={this.onDrop} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedFileType} maxSize={1000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
               {
                 !file &&
@@ -93,17 +93,16 @@ export default class UploadModal extends Component {
                 file &&
                 <div>
                   {
-                    (file.validType && file.validSize) &&
+                    (file !== null && Object.keys(file).length !== 0) &&
                     <div>
                       <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
                       <h2 style={DROPZONE_TITLE_STYLE}>{file.name}</h2>
                     </div>
                   }
                   {
-                    (!file.validType || !file.validSize) &&
+                    (file === null || Object.keys(file).length === 0) &&
                     <div>
                       <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
-                      <h3 style={DROPZONE_MSG_STYLE}>({file.name})</h3>
                       <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>
                     </div>
                   }
