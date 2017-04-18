@@ -109,6 +109,8 @@ class Home extends Component {
 
   render() {
 
+    const { modalData, openModal, uploadedFile, showOldDocs } = this.state;
+
   	const modalButtons = [
   	  <FlatButton
   	    label="Annuler"
@@ -119,11 +121,9 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={this.state.uploadedFile === null ||this.state.uploadedFile.validType === false || this.state.uploadedFile.validSize === false}
+        disabled={uploadedFile === null || uploadedFile.validType === false || uploadedFile.validSize === false}
   	  />,
   	];
-
-    const { modalData, openModal, uploadedFile, showOldDocs } = this.state;
 
     return (
       <div>
