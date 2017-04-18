@@ -35,11 +35,15 @@ public class StorageService {
         }
     }
 
-    public File getFile(String filename){
-        Path path = Paths.get(filename);
-        LOG.info("Searching the file at {}", path.toString());
-        File file = new File(path.toString());
-        return file;
+    public File getFile(String filename) throws StorageException {
+        try {
+	        Path path = Paths.get(filename);
+	        LOG.info("Searching the file at {}", path.toString());
+	        File file = new File(path.toString());
+	        return file;
+        } catch (Exception e) {
+            throw new StorageException(String.format("The file %s cannot be found", filename));
+        }
     }
 
     public void deleteFile(String filePath) throws StorageException {
