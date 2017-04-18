@@ -2,6 +2,7 @@ package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.FormApprenticeDTO;
+import com.kraken.gcfa.dto.FormTutorDTO;
 import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.CompanySite;
 import com.kraken.gcfa.entity.Tutor;
@@ -10,6 +11,7 @@ import com.kraken.gcfa.repository.ApprenticeRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 import com.kraken.gcfa.repository.TutorRepository;
 import com.kraken.gcfa.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +54,18 @@ public class UserService {
         } else {
             throw new Exception("This user is not an apprentice");
         }
+    }
+    
+    public Tutor createTutor(FormTutorDTO form) throws Exception {
+    	User user = userRepository.findOne(form.getUserId());
+    	if (user.getRole().getName().equals(RolesNames.TUTOR)) {
+    		Tutor tutor = new Tutor();
+    		tutor.setJob(form.getJob());
+    		tutorRepository.save(tutor);
+    		return tutor;
+    	} else {
+            throw new Exception("This user is not an tutor");
+        }
+    	
     }
 }
