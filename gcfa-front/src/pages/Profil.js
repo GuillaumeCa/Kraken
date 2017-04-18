@@ -5,9 +5,11 @@ import Avatar from 'material-ui/Avatar';
 import * as userService from '../services/userService';
 
 const CONTENT_STYLE = {
+	margin: '0 auto',
 	marginTop: 60,
-  	textAlign: 'center',
-  	fontSize: 25,
+  textAlign: 'center',
+  fontSize: 25,
+	maxWidth: 500,
 	fontWeight: 'normal',
 }
 
@@ -44,19 +46,48 @@ class Profil extends Component {
 		}
     return (
       <div>
-	      <div>
-	        <h1 className="main-title">Profil</h1>
-	      </div>
 				{
 					profil &&
 					<div style={CONTENT_STYLE}>
 						<Avatar size={180}>{profil.user.firstName.slice(0,1)}</Avatar>
-						<p>{`${profil.user.firstName} ${profil.user.lastName}`}</p>
-						<p>Mail: {profil.user.email}</p>
-						<p>Promotion {profil.promotion}</p>
-						<p>Debut du contrat: {debutContract}</p>
-						<p>Contrat: {contractDuration} ans</p>
-						<p>Document rendu: 12/18</p>
+						<h2 className="main-title">{profil.user.firstName} {profil.user.lastName}</h2>
+						<table className="detail-list" style={{ margin: '20px auto' }}>
+							<tr>
+								<th>Mail</th>
+								<td>{profil.user.email}</td>
+							</tr>
+							<tr>
+								<th>Promotion</th>
+								<td>{profil.promotion}</td>
+							</tr>
+							<tr>
+								<th>Début du contrat</th>
+								<td>{debutContract}</td>
+							</tr>
+							<tr>
+								<th>Contrat</th>
+								<td>{contractDuration} ans</td>
+							</tr>
+							<tr>
+								<th>Document rendu</th>
+								<td>12/18</td>
+							</tr>
+						</table>
+						<h2 className="sub-title">Tuteur</h2>
+						<table className="detail-list" style={{ margin: '0 auto' }}>
+							<tr>
+								<th>Prénom Nom</th>
+								<td>{profil.tutor.user.firstName} {profil.tutor.user.lastName}</td>
+							</tr>
+							<tr>
+								<th>Mail</th>
+								<td>{profil.tutor.user.email}</td>
+							</tr>
+							<tr>
+								<th>Emploi</th>
+								<td>{profil.tutor.job}</td>
+							</tr>
+						</table>
 					</div>
 				}
 	  </div>

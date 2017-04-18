@@ -21,3 +21,18 @@
 section {
   margin-bottom: 20px;
 }
+
+.detail-list {
+  font-size: 18px;
+}
+
+.detail-list th {
+  color: #AAA;
+  text-align: right;
+  font-style: italic;
+  padding-right: 10px;
+}
+
+.detail-list td {
+  text-align: left;
+}
