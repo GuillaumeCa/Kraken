@@ -11,3 +11,7 @@ export function getProfile(cb) {
     });
   }
 }
+
+export function getApprenticeProfile() {
+  return axios.get('/user/me/detail');
+}

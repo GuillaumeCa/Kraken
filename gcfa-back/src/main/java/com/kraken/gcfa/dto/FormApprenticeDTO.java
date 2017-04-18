@@ -14,6 +14,7 @@ public class FormApprenticeDTO {
     private Long userId;
     private Long tutorId;
     private ContractType contractType;
+    private Integer promotion;
 
     private Long companyId;
 
@@ -47,5 +48,13 @@ public class FormApprenticeDTO {
 
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
+    }
+
+    public Integer getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Integer promotion) {
+        this.promotion = promotion;
     }
 }

@@ -23,10 +23,8 @@ public class Apprentice {
 
     @OneToMany(mappedBy = "apprentice")
     private List<Document> documents;
-    
-    private String durationContract;
 
-    private Date endContract;
+    private Integer promotion;
 
     @Enumerated(EnumType.STRING)
     private ContractType contractType;
@@ -66,22 +64,6 @@ public class Apprentice {
         this.documents = documents;
     }
 
-    public String getDurationContract() {
-        return durationContract;
-    }
-
-    public void setDurationContract(String durationContract) {
-        this.durationContract = durationContract;
-    }
-
-    public Date getEndContract() {
-        return endContract;
-    }
-
-    public void setEndContract(Date endContract) {
-        this.endContract = endContract;
-    }
-
     public ContractType getContractType() {
         return contractType;
     }
@@ -96,5 +78,13 @@ public class Apprentice {
 
     public void setCompanySite(CompanySite companySite) {
         this.companySite = companySite;
+    }
+
+    public Integer getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Integer promotion) {
+        this.promotion = promotion;
     }
 }

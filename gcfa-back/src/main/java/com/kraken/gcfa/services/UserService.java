@@ -46,6 +46,7 @@ public class UserService {
         if (user.getRole().getName().equals(RolesNames.APPRENTICE)) {
             Apprentice apprentice = new Apprentice();
             apprentice.setContractType(form.getContractType());
+            apprentice.setPromotion(form.getPromotion());
             apprentice.setUser(user);
             apprentice.setTutor(tutor);
             apprentice.setCompanySite(companySite);
