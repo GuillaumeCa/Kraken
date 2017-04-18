@@ -92,6 +92,7 @@ class Home extends Component {
   }
 
   handleSelectFile = (file) => {
+    console.log(file)
     this.setState({
       uploadedFile: Object.assign(file),
     })
@@ -119,7 +120,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={uploadedFile === null || Object.keys(uploadedFile) === 0}
+        disabled={uploadedFile === null || Object.keys(uploadedFile).length === 0}
   	  />,
   	];
 
