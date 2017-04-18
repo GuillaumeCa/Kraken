@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect
+  Redirect,
+  Switch
 } from 'react-router-dom'
 
 import './App.css';
@@ -20,12 +21,12 @@ import Login from './pages/Login';
 import * as authService from './services/authService';
 
 function Private(props) {
-  return <Route path="/" render={props => {
-      if (!authService.isLoggedIn())
-        return <Redirect to="/login" />;
-      return <Layout {...props} />
-    }}
-  />
+  return <Route path="*" render={props => {
+    if (!authService.isLoggedIn())
+      return <Redirect to="/login" />;
+    return <Layout {...props} />
+  }}
+/>
 }
 
 class App extends Component {
@@ -33,10 +34,10 @@ class App extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Router>
-          <div>
+          <Switch>
             <Route path="/login" component={Login} />
             <Private />
-          </div>
+          </Switch>
         </Router>
       </MuiThemeProvider>
     );

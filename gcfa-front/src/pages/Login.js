@@ -23,6 +23,14 @@ const LOGIN_STYLE = {
   margin: 30,
 }
 
+const TITLE_LOGIN_STYLE = {
+  margin: "10px",
+}
+
+const INPUT_LOGIN_STYLE = {
+  padding: "16px 24px",
+}
+
 class Login extends Component {
 
 
@@ -39,8 +47,8 @@ class Login extends Component {
       <div style={BACKGROUND_STYLE}>
         <div style={LOGIN_STYLE}>
           <Card zDepth={3}>
-            <CardText>
-              <h1 className="primary-color">GCFA</h1>
+            <CardText style={INPUT_LOGIN_STYLE}>
+              <h1 className="primary-color center" style={TITLE_LOGIN_STYLE}>GCFA</h1>
               <TextField
                 hintText="Nom d'utilisateur"
                 fullWidth

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
@@ -34,9 +34,12 @@ class Layout extends Component {
         <NavBar history={this.props.history} />
         <div style={CONTAINER_STYLE}>
           <Banner>
-            <Route exact path="/" component={Home} />
-            <Route path="/documentation" component={Documentation} />
-            <Route path="/profil" component={Profil} />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/documentation" component={Documentation} />
+              <Route path="/profil" component={Profil} />
+              <Route component={() => <div>erreur</div>} />
+            </Switch>
           </Banner>
         </div>
         <p style={COPYRIGHT_STYLE}>Copyright © ISEP {year} Institut Supérieur d'électronique de Paris. Tous droits réservés.</p>
