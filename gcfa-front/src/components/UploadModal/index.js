@@ -78,7 +78,7 @@ export default class UploadModal extends Component {
           <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
 
           <div>
-            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedFileType} maxSize={1000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedFileType} maxSize={this.props.maxSize} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
               {
                 !file &&

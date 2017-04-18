@@ -176,6 +176,7 @@ class Home extends Component {
           file={uploadedFile}
           onSelectFile={(file) => this.handleSelectFile(file)}
           acceptedFileType='.pdf'
+          maxSize={1000000}
         />
         <Popover
           open={this.state.openEdit}
