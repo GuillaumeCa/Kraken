@@ -92,10 +92,8 @@ class Home extends Component {
   }
 
   handleSelectFile = (file) => {
-    const uploadedFile = Object.assign(file[0], {validType: file[0].type === 'application/pdf' ? true : false}, {validSize: (file[0].size)/1000000 <= 10 ? true : false })
-
     this.setState({
-      uploadedFile: uploadedFile,
+      uploadedFile: Object.assign(file),
     })
   }
 
@@ -121,7 +119,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={uploadedFile === null || uploadedFile.validType === false || uploadedFile.validSize === false}
+        disabled={uploadedFile === null || Object.keys(uploadedFile) === 0}
   	  />,
   	];
 
@@ -177,6 +175,7 @@ class Home extends Component {
         	subtitle="A rendre avant le 10/03/2016"
           file={uploadedFile}
           onSelectFile={(file) => this.handleSelectFile(file)}
+          acceptedFileType='.pdf'
         />
         <Popover
           open={this.state.openEdit}
