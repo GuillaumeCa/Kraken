@@ -103,6 +103,7 @@ export default class UploadModal extends Component {
                     (!file.validType || !file.validSize) &&
                     <div>
                       <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
+                      <h3 style={DROPZONE_MSG_STYLE}>({file.name})</h3>
                       <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>
                     </div>
                   }
