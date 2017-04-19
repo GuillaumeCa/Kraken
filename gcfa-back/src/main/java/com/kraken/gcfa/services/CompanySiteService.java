@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import com.kraken.gcfa.dto.FormCompanySiteDTO;
 import com.kraken.gcfa.entity.CompanySite;
-import com.kraken.gcfa.repository.ApprenticeRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 
 
@@ -13,7 +12,7 @@ import com.kraken.gcfa.repository.CompanySiteRepository;
 public class CompanySiteService {
 	
 	@Autowired
-	private CompanySiteRepository componySiteRepository;
+	private CompanySiteRepository companySiteRepository;
 
 	
 	public CompanySite createCompanySite(FormCompanySiteDTO formCompanySiteDTO) throws Exception {
@@ -22,7 +21,7 @@ public class CompanySiteService {
 		companySite.setCity(formCompanySiteDTO.getCity());
 		companySite.setCodePostal(formCompanySiteDTO.getCodePostal());
 		companySite.setName(formCompanySiteDTO.getName());		
-		componySiteRepository.save(companySite);
+		companySiteRepository.save(companySite);
 		return companySite;
 	}
 	
