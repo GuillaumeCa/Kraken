@@ -6,6 +6,7 @@ import Moment from 'react-moment';
 import BarCard, { DocumentCard, DocumentationCard } from '../components/BarCard';
 
 import * as documentationService from '../services/documentationService';
+import * as helperService from '../services/helperService';
 
 const BUTTON_STYLE = {
   fontSize: 20,
@@ -26,26 +27,15 @@ class Documentation extends Component {
 
   requestAllDocumentation() {
     documentationService.getAllDocumentation()
-      .then(res => {
-        const { calendars, tools, evaluation } = this.state;
-        res.data.forEach((doc) => {
-          if (doc.type === 'CALENDAR') calendars.push(doc);
-          if (doc.type === 'TOOL') tools.push(doc);
-          if (doc.type === 'EVALUATION') evaluation.push(doc);
-        })
-        this.setState({ calendars, tools, evaluation });
-      })
+      .then(({ calendars, tools, evaluation }) => this.setState({ 
+        calendars, tools, evaluation }));
   }
 
   openDoc = (doc) => {
     documentationService.getDocumentation(doc.id)
       .then(res => {
         const filename = res.headers['x-filename'];
-        const a = document.createElement('a');
-        const file = new Blob([res.data], {type: 'application/octet-stream'});
-        a.href = URL.createObjectURL(file);
-        a.download = filename;
-        a.click();
+        helperService.downloadFile(res.data, filename);
       })
   }
 

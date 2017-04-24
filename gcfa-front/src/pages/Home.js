@@ -55,7 +55,7 @@ const deliverData = [
 class Home extends Component {
   state = {
     openModal: false,
-    modalData: {},
+    docSelected: {},
     openEdit: false,
     uploadedFile: null,
   }
@@ -63,14 +63,14 @@ class Home extends Component {
   showDeliver = (data) => {
   	this.setState({
   		openModal: true,
-  		modalData: data,
+  		docSelected: data,
   	})
   }
 
   handleClose = () => {
   	this.setState({
   		openModal: false,
-  		modalData: {},
+  		docSelected: {},
       uploadedFile: null,
       showOldDocs: false,
   	})
@@ -99,16 +99,33 @@ class Home extends Component {
   }
 
   editDoc = (event, doc) => {
-    this.setState({ openEdit: true, anchorEl: event.currentTarget });
+    this.setState({
+      openEdit: true,
+      anchorEl: event.currentTarget,
+      docSelected: doc,
+    });
   }
 
   handleEditClose = () => {
     this.setState({ openEdit: false, anchorEl: null });
   }
 
+  handleDeleteDoc = () => {
+
+  }
+
+  handleReplaceDoc = () => {
+    this.setState({ openModal: true });
+    this.handleEditClose();
+  }
+
+  handleDownloadDoc = () => {
+    
+  }
+
   render() {
 
-    const { modalData, openModal, uploadedFile, showOldDocs } = this.state;
+    const { docSelected, openModal, uploadedFile, showOldDocs } = this.state;
 
   	const modalButtons = [
   	  <FlatButton
@@ -172,7 +189,7 @@ class Home extends Component {
         	title="Ajouter un document"
         	open={openModal}
         	actions={modalButtons}
-        	docType={modalData.name}
+        	docType={docSelected.name}
         	subtitle="A rendre avant le 10/03/2016"
           file={uploadedFile}
           onSelectFile={(file) => this.handleSelectFile(file)}
@@ -187,9 +204,9 @@ class Home extends Component {
           onRequestClose={this.handleEditClose}
         >
         <Menu>
-          <MenuItem primaryText="Modifier" rightIcon={<Edit />} />
-          <MenuItem primaryText="Supprimer" rightIcon={<Delete />} />
-          <MenuItem primaryText="Télécharger" rightIcon={<Download />} />
+          <MenuItem primaryText="Modifier" rightIcon={<Edit />} onTouchTap={this.handleReplaceDoc} />
+          <MenuItem primaryText="Supprimer" rightIcon={<Delete />} onTouchTap={this.handleDeleteDoc} />
+          <MenuItem primaryText="Télécharger" rightIcon={<Download />} onTouchTap={this.handleDownloadDoc} />
         </Menu>
       </Popover>
       </div>
