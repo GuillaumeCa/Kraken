@@ -25,10 +25,9 @@ class Documentation extends Component {
     this.requestAllDocumentation();
   }
 
-  requestAllDocumentation() {
-    documentationService.getAllDocumentation()
-      .then(({ calendars, tools, evaluation }) => this.setState({ 
-        calendars, tools, evaluation }));
+  async requestAllDocumentation() {
+    const { calendars, tools, evaluation } = await documentationService.getAllDocumentation();
+    this.setState({ calendars, tools, evaluation })
   }
 
   openDoc = (doc) => {
@@ -46,7 +45,7 @@ class Documentation extends Component {
 
     const { calendars, tools, evaluation } = this.state;
 
-    const renderDate = (date) => <span>Ajouté le <Moment format="DD/MM/YYYY" unix>{date}</Moment></span>
+    const renderDate = (date) => <span>Ajouté le <Moment format="DD/MM/YYYY" unix>{date / 1000}</Moment></span>
 
     return (
     	<div>
