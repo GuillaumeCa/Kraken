@@ -20,7 +20,7 @@ public class CompanySiteService {
 		companySite.setAddress(formCompanySiteDTO.getAddress());
 		companySite.setCity(formCompanySiteDTO.getCity());
 		companySite.setCodePostal(formCompanySiteDTO.getCodePostal());
-		companySite.setName(formCompanySiteDTO.getName());		
+		companySite.setName(formCompanySiteDTO.getName());
 		companySiteRepository.save(companySite);
 		return companySite;
 	}
