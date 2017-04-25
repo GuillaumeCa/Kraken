@@ -1,6 +1,8 @@
 package com.kraken.gcfa.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ public class DocumentType {
     /**
      * Utilisé pour calculer la date de rendu du document
      */
+    @Enumerated(EnumType.STRING)
     private ContractType contract;
 
     /**

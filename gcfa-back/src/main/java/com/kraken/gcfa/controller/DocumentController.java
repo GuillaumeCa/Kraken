@@ -7,12 +7,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kraken.gcfa.entity.DocumentationType;
+import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.services.DocumentService;
 
@@ -23,6 +30,20 @@ public class DocumentController {
 	
 	@Autowired
     private DocumentService documentService;
+	
+	
+	  /**
+     * Publier une document
+     *
+     * @param file
+     * @param type
+     * @throws StorageException
+     */
+	//TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
+    @PostMapping(value = "/{typeId}")
+    public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId , @AuthenticationPrincipal User auth) throws StorageException {
+        documentService.storeFile(file, typeId,auth);
+    }
 	
 	/**
      * Récupérer un document avec son apprenticeId
@@ -38,5 +59,17 @@ public class DocumentController {
         response.addHeader("Access-Control-Expose-Headers", "x-filename");
         response.addHeader("x-filename", file.getName());
         return new FileSystemResource(file);
+    }
+    
+    /**
+     * Supprimer une document
+     *
+     * @param fileId
+     * @throws StorageException
+     */
+    //TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
+    @DeleteMapping("/{fileId}")
+    public void deleteFile(@PathVariable Long fileId/*, @AuthenticationPrincipal User auth */) throws StorageException {
+        documentService.deleteFile(fileId/*,auth*/);
     }
 }

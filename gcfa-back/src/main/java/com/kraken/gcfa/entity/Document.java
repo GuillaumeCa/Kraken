@@ -24,10 +24,7 @@ public class Document {
 
     @OneToOne
     private Apprentice apprentice;
-
-    @OneToOne
-    private User creator;
-
+    
     public Document() {
         this.creation = new Date();
     }
@@ -88,11 +85,4 @@ public class Document {
         this.updateDate = updateDate;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
 }

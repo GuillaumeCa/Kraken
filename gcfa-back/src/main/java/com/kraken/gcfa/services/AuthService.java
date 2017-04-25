@@ -1,9 +1,13 @@
 package com.kraken.gcfa.services;
 
+import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.FormLoginDTO;
 import com.kraken.gcfa.dto.LDAPUserDTO;
+import com.kraken.gcfa.entity.Role;
 import com.kraken.gcfa.entity.User;
+import com.kraken.gcfa.repository.RoleRepository;
 import com.kraken.gcfa.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,9 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private LDAPService ldapService;

@@ -1,11 +1,14 @@
 package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
+import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.Document;
 import com.kraken.gcfa.entity.DocumentType;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.repository.DocumentRepository;
+import com.kraken.gcfa.repository.DocumentTypeRepository;
+import com.kraken.gcfa.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,24 +36,33 @@ public class DocumentService {
 
     @Autowired
     private DocumentRepository documentRepository;
+    
+    @Autowired
+    private DocumentTypeRepository documentTypeRepository;
+    
+    @Autowired
+    private UserService userService;
 
     public List<Document> listAll() {
         return documentRepository.findAll();
     }
+    
 
-   public void storeFile(MultipartFile file, DocumentType type) throws StorageException {
-        String path = storageService.storeFile(file, rootLocation);
-
-        Document document = new Document();
-
-        String rawFilename = file.getOriginalFilename();
-        int pos = rawFilename.lastIndexOf(".");
-        document.setName(pos > 0 ? rawFilename.substring(0, pos) : rawFilename);
-
-        document.setCreation(new Date());
-        document.setPath(path);
-        document.setType(type);
-        documentRepository.save(document);
+    public void storeFile(MultipartFile file, Long typeId, User auth) throws StorageException {
+    	if(auth.getRole().getName().equals(RolesNames.APPRENTICE)) {
+    		Apprentice apprentice = userService.getApprentice(auth);
+    		String path = storageService.storeFile(file, rootLocation);
+	        Document document = new Document();
+	        String rawFilename = file.getOriginalFilename();
+	        int pos = rawFilename.lastIndexOf(".");
+	        document.setName(pos > 0 ? rawFilename.substring(0, pos) : rawFilename);
+	        document.setCreation(new Date());
+	        document.setPath(path);
+	        DocumentType type = documentTypeRepository.findOne(typeId);
+	        document.setType(type);
+	        document.setApprentice(apprentice);
+	        documentRepository.save(document);
+    	}
     }
 
     public File getFile(Long apprenticeId) throws StorageException {
