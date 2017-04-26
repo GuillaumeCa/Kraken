@@ -22,6 +22,15 @@ export function login(user, password, cb) {
   })
 }
 
+export function hasRole(roles) {
+  const userRaw = localStorage.getItem('user');
+  if (userRaw) {
+    const user = JSON.parse(userRaw);
+    return roles.includes(user.role.name);
+  }
+  return false;
+}
+
 export function logout() {
   localStorage.removeItem('token');
 }

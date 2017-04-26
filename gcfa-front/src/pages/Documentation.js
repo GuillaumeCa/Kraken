@@ -5,11 +5,19 @@ import Moment from 'react-moment';
 
 import BarCard, { DocumentCard, DocumentationCard } from '../components/BarCard';
 
+
+import Auth from '../components/Auth';
+
 import * as documentationService from '../services/documentationService';
 import * as helperService from '../services/helperService';
 
 const BUTTON_STYLE = {
   fontSize: 20,
+}
+
+const HEAD_STYLE = {
+  display: 'flex',
+  alignItems: 'center',
 }
 
 
@@ -49,8 +57,13 @@ class Documentation extends Component {
 
     return (
     	<div>
-	      <div>
+	      <div style={HEAD_STYLE}>
 	        <h1 className="main-title">Documentation</h1>
+          <div style={{ marginLeft: 'auto' }}>
+            <Auth roles={['ROLE_APPRENTICE']}>
+              <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" />
+            </Auth>
+          </div>
 	      </div>
 
 	      <section>

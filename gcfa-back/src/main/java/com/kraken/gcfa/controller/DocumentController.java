@@ -27,25 +27,25 @@ import com.kraken.gcfa.services.DocumentService;
 @RequestMapping("/document")
 @CrossOrigin("*")
 public class DocumentController {
-	
-	@Autowired
+
+    @Autowired
     private DocumentService documentService;
-	
-	
-	  /**
+
+
+    /**
      * Publier une document
      *
      * @param file
-     * @param type
+     * @param typeId
      * @throws StorageException
      */
-	//TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
+    //TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
     @PostMapping(value = "/{typeId}")
-    public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId , @AuthenticationPrincipal User auth) throws StorageException {
-        documentService.storeFile(file, typeId,auth);
+    public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId, @AuthenticationPrincipal User auth) throws StorageException {
+        documentService.storeFile(file, typeId, auth);
     }
-	
-	/**
+
+    /**
      * Récupérer un document avec son apprenticeId
      *
      * @param apprenticeId
@@ -60,7 +60,7 @@ public class DocumentController {
         response.addHeader("x-filename", file.getName());
         return new FileSystemResource(file);
     }
-    
+
     /**
      * Supprimer une document
      *

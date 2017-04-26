@@ -9,7 +9,6 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Delete from 'material-ui/svg-icons/content/remove-circle';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-
 import BarCard, { DocumentCard } from '../components/BarCard';
 import UploadModal from '../components/UploadModal';
 import { sendNotification } from '../components/Notification';
@@ -120,7 +119,7 @@ class Home extends Component {
   }
 
   handleDownloadDoc = () => {
-    
+
   }
 
   render() {
@@ -185,6 +184,7 @@ class Home extends Component {
           }
         </section>
 
+
         <UploadModal
         	title="Ajouter un document"
         	open={openModal}
@@ -196,6 +196,7 @@ class Home extends Component {
           acceptedFileType='.pdf'
           maxSize={1000000}
         />
+
         <Popover
           open={this.state.openEdit}
           anchorEl={this.state.anchorEl}
