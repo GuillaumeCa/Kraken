@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
 
+import Download from 'material-ui/svg-icons/file/cloud-download';
+
 import BarCard, { DocumentCard, DocumentationCard, List } from '../components/BarCard';
 import Loader from '../components/Loader';
 import UploadModal from '../components/UploadModal';
 import Time from '../components/Time';
+
+
 
 import Auth from '../components/Auth';
 
@@ -48,8 +52,7 @@ class Documentation extends Component {
           this.setState({ calendars, tools, evaluation, error: false, loading: false });
           return;
         }
-        this.setState({ error: true, loading: false });
-      });
+      }).catch(e => this.setState({ error: true, loading: false }));
   }
 
   openDoc = (doc) => {
@@ -107,10 +110,6 @@ class Documentation extends Component {
 
     const renderDate = (date) => <span>Ajouté le <Time format="DD/MM/YYYY" date={date} /></span>
 
-    const actions = [
-      <FlatButton key={1} primary label="Voir" labelStyle={BUTTON_STYLE} />,
-    ]
-
     const modalButtons = [
   	  <FlatButton
   	    label="Annuler"
@@ -142,7 +141,7 @@ class Documentation extends Component {
               <List key={1} data={calendars} emptyLabel="Aucun documents">
                 { calendars.map((doc) => {
                     return (
-                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                      <BarCard key={doc.id} actions={<FlatButton primary  labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} icon={<Download />} />}>
                         <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                       </BarCard>
                     )
@@ -178,7 +177,7 @@ class Documentation extends Component {
             </section>
           </div>
         </Loader>
-        
+
         <UploadModal
         	title="Ajouter une documentation"
         	open={openDocModal}

@@ -2,11 +2,18 @@ import React from 'react';
 
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 
+import Alert from 'material-ui/svg-icons/alert/warning';
+import SvgIcon from 'material-ui/SvgIcon';
+
 import colors from '../../colors';
 
 const LABEL_STYLE = {
+  margin: 80,
   color: colors.GREY_DARK,
-  marginBottom: 30,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 }
 
 const REFRESH = {
@@ -32,7 +39,11 @@ function Loader(props) {
   const message = props.message || "Erreur de chargement";
 
   if (error) {
-    return <div style={LABEL_STYLE}>{message}</div>;
+    return (
+      <div style={LABEL_STYLE}>
+        <SvgIcon style={{ marginBottom: 5, fontSize: 20 }}><Alert color={colors.GREY_DARK} /></SvgIcon> {message}
+      </div>
+    )
   }
 
   if (loading) {
