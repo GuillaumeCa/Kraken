@@ -64,9 +64,8 @@ export default class UploadModal extends Component {
   }
 
   componentWillUpdate() {
-    console.log(this.state)
+
     if(!this.state.open && this.state.file != null){
-      console.log('test')
       this.setState({ file: null })
     }
   }
