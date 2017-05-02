@@ -56,7 +56,7 @@ class Home extends Component {
     openModal: false,
     docSelected: {},
     openEdit: false,
-    uploadedFile: null,
+    notValidFile: true,
   }
 
   showDeliver = (data) => {
@@ -70,8 +70,8 @@ class Home extends Component {
   	this.setState({
   		openModal: false,
   		docSelected: {},
-      uploadedFile: null,
       showOldDocs: false,
+      notValidFile: true,
   	})
   }
 
@@ -79,21 +79,20 @@ class Home extends Component {
     this.setState({ showOldDocs: !this.state.showOldDocs });
   }
 
-  handleSubmit = () => {
+  isValidFile = (isValid) => {
+    this.setState({
+      notValidFile: !isValid,
+    })
+  }
+
+  handleSubmit = (file) => {
 
     this.handleClose()
     // Test send notif
     sendNotification('Document envoyé avec succès');
-    console.log(this.state.uploadedFile)
+    console.log(file.name)
 
   	// Service call
-  }
-
-  handleSelectFile = (file) => {
-    console.log(file)
-    this.setState({
-      uploadedFile: Object.assign(file),
-    })
   }
 
   editDoc = (event, doc) => {
@@ -123,7 +122,7 @@ class Home extends Component {
 
   render() {
 
-    const { docSelected, openModal, uploadedFile, showOldDocs } = this.state;
+    const { docSelected, openModal, notValidFile, showOldDocs } = this.state;
 
   	const modalButtons = [
   	  <FlatButton
@@ -135,7 +134,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={uploadedFile === null || Object.keys(uploadedFile).length === 0}
+        disabled={notValidFile}
   	  />,
   	];
 
@@ -185,15 +184,10 @@ class Home extends Component {
 
 
         <UploadModal
-        	title="Ajouter un document"
         	open={openModal}
         	actions={modalButtons}
         	docType={docSelected.name}
-        	subtitle="A rendre avant le 10/03/2016"
-          file={uploadedFile}
-          onSelectFile={(file) => this.handleSelectFile(file)}
-          acceptedFileType='.pdf'
-          maxSize={1000000}
+          onSelectFile={(isValid) => this.isValidFile(isValid)}
         />
 
         <Popover

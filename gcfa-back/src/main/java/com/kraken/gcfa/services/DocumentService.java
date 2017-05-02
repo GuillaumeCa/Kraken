@@ -91,15 +91,15 @@ public class DocumentService {
 	}
 
 	public void deleteFile(Long documentId, User auth) throws StorageException {
+		Document doc =null;
 		if(auth.getRole().getName().equals(RolesNames.SUPER_ADMIN)) {
-			Document doc = documentRepository.findOne(documentId);
-			storageService.deleteFile(doc.getPath());
-			documentRepository.delete(doc);
+			doc = documentRepository.findOne(documentId);
+			
 		} else if(auth.getRole().getName().equals(RolesNames.APPRENTICE)){
 			Apprentice apprentice = userService.getApprentice(auth);
-			Document doc = documentRepository.findByApprenticeIdAndId(apprentice.getId(), documentId);
-			storageService.deleteFile(doc.getPath());
-			documentRepository.delete(doc);
+			doc = documentRepository.findByApprenticeIdAndId(apprentice.getId(), documentId);
 		}
+		storageService.deleteFile(doc.getPath());
+		documentRepository.delete(doc);
 	}
 }
