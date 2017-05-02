@@ -81,17 +81,25 @@ public class DocumentService {
 			Document doc = documentRepository.findOne(documentId);
 			Tutor tutor = tutorRepository.findByUser(auth);
 			if(tutor.getApprentices().contains(doc.getApprentice())){
-				return storageService.getFile(doc.getPath());
+				if (doc != null) {
+					return storageService.getFile(doc.getPath());
+				}
 			}
 		}
 		throw new StorageException(String.format("You can't access this document : %d", documentId));
 		
 	}
 
-	public Document deleteFile(Long fileId) throws StorageException {
-		Document doc = documentRepository.findOne(fileId);
-		storageService.deleteFile(doc.getPath());
-		documentRepository.delete(doc);
-		return doc;
+	public void deleteFile(Long documentId, User auth) throws StorageException {
+		if(auth.getRole().getName().equals(RolesNames.SUPER_ADMIN)) {
+			Document doc = documentRepository.findOne(documentId);
+			storageService.deleteFile(doc.getPath());
+			documentRepository.delete(doc);
+		} else if(auth.getRole().getName().equals(RolesNames.APPRENTICE)){
+			Apprentice apprentice = userService.getApprentice(auth);
+			Document doc = documentRepository.findByApprenticeIdAndId(apprentice.getId(), documentId);
+			storageService.deleteFile(doc.getPath());
+			documentRepository.delete(doc);
+		}
 	}
 }

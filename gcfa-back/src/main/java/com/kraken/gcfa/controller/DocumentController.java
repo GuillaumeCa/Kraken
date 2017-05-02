@@ -39,7 +39,6 @@ public class DocumentController {
      * @param typeId
      * @throws StorageException
      */
-    //TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
     @PostMapping(value = "/{typeId}")
     public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId, @AuthenticationPrincipal User auth) throws StorageException {
         documentService.storeFile(file, typeId, auth);
@@ -67,9 +66,8 @@ public class DocumentController {
      * @param fileId
      * @throws StorageException
      */
-    //TODO: supprimer les comentaire lorsque la méthode sera fonctionnelle
-    @DeleteMapping("/{fileId}")
-    public void deleteFile(@PathVariable Long fileId/*, @AuthenticationPrincipal User auth */) throws StorageException {
-        documentService.deleteFile(fileId/*,auth*/);
+    @DeleteMapping("/{documentId}")
+    public void deleteFile(@PathVariable Long documentId, @AuthenticationPrincipal User auth) throws StorageException {
+        documentService.deleteFile(documentId,auth);
     }
 }
