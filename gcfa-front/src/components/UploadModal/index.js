@@ -58,13 +58,35 @@ const DROPZONE_MSG_STYLE = {
 
 export default class UploadModal extends Component {
 
-  onDrop = (acceptedFile) => {
-    Object.keys(acceptedFile).length !== 0 ? this.props.onSelectFile(acceptedFile[0]) : this.props.onSelectFile({})
+  state = {
+    file: null,
+    open: this.props.open,
   }
 
+  componentWillUpdate() {
+    console.log(this.state)
+    if(!this.state.open && this.state.file != null){
+      console.log('test')
+      this.setState({ file: null })
+    }
+  }
+
+  onDrop = (acceptedFile) => {
+    if(Object.keys(acceptedFile).length !== 0) {
+
+      this.setState({file: acceptedFile[0]})
+      this.props.onSelectFile(true)
+    } 
+
+    else {
+      this.setState({file: null})
+      this.props.onSelectFile(false)
+    }
+    
+  }
   render() {
 
-    const { file } = this.props;
+    const { file } = this.state;
 
     return (
       <Dialog
@@ -73,12 +95,12 @@ export default class UploadModal extends Component {
         actions={this.props.actions}
       >
         <div style={MODAL_CONTAINER_STYLE}>
-          <h1 style={MODAL_TITLE_STYLE}>{this.props.title}</h1>
+          <h1 style={MODAL_TITLE_STYLE}>Ajouter un document</h1>
           <h2 style={MODAL_DOCTYPE_STYLE}>{this.props.docType}</h2>
-          <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
+          <p style={MODAL_SUBTITLE_STYLE}>A rendre avant le 10/03/2016</p>
 
           <div>
-            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedFileType} maxSize={this.props.maxSize} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept='.pdf' maxSize={1000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
               {
                 !file &&
