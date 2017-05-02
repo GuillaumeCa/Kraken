@@ -53,9 +53,9 @@ public class DocumentController {
      * @return
      * @throws StorageException
      */
-    @GetMapping(value = "/{apprenticeId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public FileSystemResource getFile(@PathVariable Long apprenticeId, HttpServletResponse response) throws StorageException {
-        File file = documentService.getFile(apprenticeId);
+    @GetMapping(value = "/{documentId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public FileSystemResource getFile(@PathVariable Long documentId, HttpServletResponse response, @AuthenticationPrincipal User auth) throws StorageException {
+        File file = documentService.getFile(documentId,auth);
         response.addHeader("Access-Control-Expose-Headers", "x-filename");
         response.addHeader("x-filename", file.getName());
         return new FileSystemResource(file);

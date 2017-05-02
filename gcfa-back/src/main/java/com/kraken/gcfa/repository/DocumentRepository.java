@@ -10,5 +10,5 @@ import com.kraken.gcfa.entity.Document;
 public interface DocumentRepository extends CrudRepository<Document, Long> {
     List<Document> findAll();
     
-    Document findByApprenticeId(Long apprenticeId);
+    Document findByApprenticeIdAndId(Long apprenticeId, Long documentId);
 }
