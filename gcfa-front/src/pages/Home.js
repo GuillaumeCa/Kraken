@@ -87,7 +87,6 @@ class Home extends Component {
     console.log(this.state.uploadedFile)
 
   	// Service call
-  	//handleClose();
   }
 
   handleSelectFile = (file) => {

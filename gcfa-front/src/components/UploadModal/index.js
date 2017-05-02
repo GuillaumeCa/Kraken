@@ -64,51 +64,72 @@ export default class UploadModal extends Component {
 
   render() {
 
-    const { file } = this.props;
+    const {
+      file,
+      open,
+      actions,
+      title,
+      docType,
+      subtitle,
+      acceptedFileType,
+      maxSize,
+      uploading,
+      onUploadProgress,
+    } = this.props;
 
     return (
       <Dialog
         modal={false}
-        open={this.props.open}
-        actions={this.props.actions}
+        open={open}
+        actions={actions}
       >
         <div style={MODAL_CONTAINER_STYLE}>
-          <h1 style={MODAL_TITLE_STYLE}>{this.props.title}</h1>
-          <h2 style={MODAL_DOCTYPE_STYLE}>{this.props.docType}</h2>
-          <p style={MODAL_SUBTITLE_STYLE}>{this.props.subtitle}</p>
+          <h1 style={MODAL_TITLE_STYLE}>{title}</h1>
+          <h2 style={MODAL_DOCTYPE_STYLE}>{docType}</h2>
+          <p style={MODAL_SUBTITLE_STYLE}>{subtitle}</p>
 
           <div>
-            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedFileType} maxSize={this.props.maxSize} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+            {
+              !uploading &&
+              <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={acceptedFileType}
+              maxSize={maxSize} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
-              {
-                !file &&
-                <div>
-                  <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
-                  <h2 style={DROPZONE_TITLE_STYLE}>Cliquez ou déposez votre document ici</h2>
-                  <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
-                </div>
-              }
+                {
+                  !file &&
+                  <div>
+                    <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
+                    <h2 style={DROPZONE_TITLE_STYLE}>Cliquez ou déposez le fichier ici</h2>
+                    <p style={DROPZONE_MSG_STYLE}>PDF obligatoire (10 Mo maximum)</p>
+                  </div>
+                }
 
-              {
-                file &&
-                <div>
-                  {
-                    (file !== null && Object.keys(file).length !== 0) &&
-                    <div>
-                      <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
-                      <h2 style={DROPZONE_TITLE_STYLE}>{file.name}</h2>
-                    </div>
-                  }
-                  {
-                    (file === null || Object.keys(file).length === 0) &&
-                    <div>
-                      <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
-                      <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>
-                    </div>
-                  }
-                </div>
-              }
-            </Dropzone>
+                {
+                  file &&
+                  <div>
+                    {
+                      (file !== null && Object.keys(file).length !== 0) &&
+                      <div>
+                        <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
+                        <h2 style={DROPZONE_TITLE_STYLE}>{file.name}</h2>
+                      </div>
+                    }
+                    {
+                      (file === null || Object.keys(file).length === 0) &&
+                      <div>
+                        <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
+                        <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>
+                      </div>
+                    }
+                  </div>
+                }
+              </Dropzone>
+            }
+
+            {
+              uploading &&
+              <div>{}</div>
+            }
+
           </div>
 
         </div>

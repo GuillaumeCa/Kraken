@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
-import Moment from 'react-moment';
 
-import BarCard, { DocumentCard, DocumentationCard } from '../components/BarCard';
-
+import BarCard, { DocumentCard, DocumentationCard, List } from '../components/BarCard';
+import Loader from '../components/Loader';
+import UploadModal from '../components/UploadModal';
+import Time from '../components/Time';
 
 import Auth from '../components/Auth';
 
@@ -20,94 +21,178 @@ const HEAD_STYLE = {
   alignItems: 'center',
 }
 
-
 class Documentation extends Component {
 
   state = {
     calendars: [],
     tools: [],
     evaluation: [],
+    loading: true,
+    error: false,
+    openDocModal: false,
+    file: null,
+    uploadStarted: false,
+    uploadProgress: 0,
   }
 
   componentDidMount() {
     this.requestAllDocumentation();
   }
 
-  async requestAllDocumentation() {
-    const { calendars, tools, evaluation } = await documentationService.getAllDocumentation();
-    this.setState({ calendars, tools, evaluation })
+  requestAllDocumentation() {
+    this.setState({ loading: true, error: false });
+    documentationService.getAllDocumentation()
+      .then(data => {
+        if (data) {
+          const { calendars, tools, evaluation } = data;
+          this.setState({ calendars, tools, evaluation, error: false, loading: false });
+          return;
+        }
+        this.setState({ error: true, loading: false });
+      });
   }
 
   openDoc = (doc) => {
     documentationService.getDocumentation(doc.id)
+    .then(res => {
+      const filename = res.headers['x-filename'];
+      helperService.downloadFile(res.data, filename);
+    })
+  }
+
+  openDocModal = () => {
+    this.setState({ openDocModal: true });
+  }
+
+  onSelectFile = (file) => {
+    this.setState({ file });
+  }
+
+  onUploadDoc = (type) => {
+    this.setState({ uploadProgress: 0, uploadStarted: true });
+    documentationService.upload(this.state.file, type, this.onUploadProgress)
       .then(res => {
-        const filename = res.headers['x-filename'];
-        helperService.downloadFile(res.data, filename);
-      })
+
+        this.closeDocModal();
+      });
+  }
+
+  onUploadProgress = (progress) => {
+    this.setState({
+      uploadProgress: Math.round((progress.loaded * 100) / progress.total)
+    });
+  }
+
+  closeDocModal = () => {
+    this.setState({
+      uploadProgress: 0,
+      uploadStarted: false,
+      openDocModal: false
+    });
   }
 
   render() {
-  	const actions = [
-  		<FlatButton key={1} primary label="Voir" labelStyle={BUTTON_STYLE} />,
+
+    const {
+      calendars,
+      tools,
+      evaluation,
+      openDocModal,
+      loading,
+      error,
+      uploadProgress,
+      uploadStarted,
+      file,
+    } = this.state;
+
+    const renderDate = (date) => <span>Ajouté le <Time format="DD/MM/YYYY" date={date} /></span>
+
+    const actions = [
+      <FlatButton key={1} primary label="Voir" labelStyle={BUTTON_STYLE} />,
     ]
 
-    const { calendars, tools, evaluation } = this.state;
-
-    const renderDate = (date) => <span>Ajouté le <Moment format="DD/MM/YYYY" unix>{date / 1000}</Moment></span>
+    const modalButtons = [
+  	  <FlatButton
+  	    label="Annuler"
+  	    primary={true}
+        onTouchTap={this.closeDocModal}
+  	  />,
+  	  <FlatButton
+  	    label="Déposer"
+  	    primary={true}
+        onTouchTap={this.onUploadDoc}
+  	  />,
+  	];
 
     return (
-    	<div>
-	      <div style={HEAD_STYLE}>
-	        <h1 className="main-title">Documentation</h1>
+      <div>
+        <div style={HEAD_STYLE}>
+          <h1 className="main-title">Documentation</h1>
           <div style={{ marginLeft: 'auto' }}>
             <Auth roles={['ROLE_APPRENTICE']}>
-              <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" />
+                <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.openDocModal} />
             </Auth>
           </div>
-	      </div>
+        </div>
 
-	      <section>
-		    <h2 className="sub-title">Calendriers</h2>
-        {
-          calendars.map((doc) => {
-            return (
-              <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
-              </BarCard>
-            )
-          })
-        }
-		    <BarCard actions={actions}>
-		      <DocumentationCard title="Calendrier A3 (Promo 2017)" type="PDF" subtitle="déposé le 10/02/2016" />
-		    </BarCard>
-		    <BarCard actions={actions}>
-		      <DocumentationCard title="Calendrier A2 (Promo 2018)" type="WORD" subtitle="déposé le 10/02/2016" />
-		    </BarCard>
-		    <BarCard actions={actions}>
-		      <DocumentationCard title="Calendrier A1 (Promo 2019)" type="EXCEL" subtitle="déposé le 10/02/2016" />
-		    </BarCard>
-		  </section>
-
-	      <section>
-	        <h2 className="sub-title">Outils de l'apprenti</h2>
-	        <BarCard actions={actions}>
-	          <DocumentCard title="Présentation de GCFA" />
-	        </BarCard>
-	        <BarCard actions={actions}>
-	          <DocumentCard title="Guide de l'alternance"/>
-	        </BarCard>
-	      </section>
-
-	      <section>
-	        <h2 className="sub-title">Documents d'évaluation</h2>
-	        <BarCard actions={actions}>
-	          <DocumentCard title="Évaluation de début d'alternance"/>
-	        </BarCard>
-	        <BarCard actions={actions}>
-	          <DocumentCard title="Rapport d'étape"/>
-	        </BarCard>
-	      </section>
-	    </div>
+        <Loader loading={loading} error={error}>
+          <div>
+            <section>
+              <h2 className="sub-title">Calendriers</h2>
+              <List key={1} data={calendars} emptyLabel="Aucun documents">
+                { calendars.map((doc) => {
+                    return (
+                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                      </BarCard>
+                    )
+                  })
+                }
+              </List>
+            </section>
+            <section>
+              <h2 className="sub-title">Outils de l'apprenti</h2>
+              <List key={2} data={tools} emptyLabel="Aucun documents">
+                { tools.map((doc) => {
+                    return (
+                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                      </BarCard>
+                    )
+                  })
+                }
+              </List>
+            </section>
+            <section>
+              <h2 className="sub-title">Documents d'évaluation</h2>
+              <List key={3} data={evaluation} emptyLabel="Aucun documents">
+                { evaluation.map((doc) => {
+                    return (
+                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                      </BarCard>
+                    )
+                  })
+                }
+              </List>
+            </section>
+          </div>
+        </Loader>
+        
+        <UploadModal
+        	title="Ajouter une documentation"
+        	open={openDocModal}
+        	actions={modalButtons}
+          uploadProgress={uploadProgress}
+          uploading={uploadStarted}
+          onSelectFile={file => this.setState({ file })}
+          file={file}
+        	docType="pdf"
+        	subtitle=""
+          acceptedFileType='.pdf'
+          maxSize={1000000}
+        />
+      </div>
     );
   }
 }

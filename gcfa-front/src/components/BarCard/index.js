@@ -87,3 +87,16 @@ export function DocumentationCard(props) {
     </div>
   )
 }
+
+
+const EMPTY_STYLE = {
+  color: colors.GREY_DARK,
+  marginBottom: 30,
+}
+
+export function List(props) {
+  if (props.data.length > 0) {
+    return <div>{props.children}</div>;
+  }
+  return <div style={EMPTY_STYLE}>{props.emptyLabel}</div>
+}

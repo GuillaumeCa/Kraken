@@ -22,7 +22,6 @@ export default class NotificationCenter extends Component {
   }
 
   onReceiveNotification(e) {
-    console.log(e);
     this.setState({ message: e.detail.message, open: true });
     if (this.timeout) clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
