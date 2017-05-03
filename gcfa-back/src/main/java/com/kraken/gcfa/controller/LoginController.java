@@ -16,7 +16,6 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(value = "/login")
-@CrossOrigin("*")
 public class LoginController {
 
     @Autowired
@@ -33,6 +32,13 @@ public class LoginController {
         return ldapService.getUser(user, pwd);
     }
 
+    /**
+     * Test de la connexion
+     *
+     * @param form
+     * @return
+     * @throws Exception
+     */
     @PostMapping
     public String login(@RequestBody FormLoginDTO form) throws Exception {
         // TODO: générer token si l'utilisateur n'est pas dans la bdd mais sur le LDAP

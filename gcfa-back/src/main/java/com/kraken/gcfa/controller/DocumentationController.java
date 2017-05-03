@@ -24,7 +24,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/documentation")
-@CrossOrigin("*")
 public class DocumentationController {
 
     @Autowired
@@ -51,8 +50,6 @@ public class DocumentationController {
     public void upload(@RequestParam("file") MultipartFile file, @RequestParam("type") DocumentationType type) throws StorageException {
         documentationService.storeFile(file, type);
     }
-
-
 
     /**
      * Récupérer une documentation avec son id

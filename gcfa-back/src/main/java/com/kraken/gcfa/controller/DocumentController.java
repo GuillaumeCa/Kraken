@@ -17,12 +17,10 @@ import java.io.File;
 
 @RestController
 @RequestMapping("/document")
-@CrossOrigin("*")
 public class DocumentController {
 
     @Autowired
     private DocumentService documentService;
-
 
     /**
      * Publier une document
@@ -39,7 +37,7 @@ public class DocumentController {
     /**
      * Récupérer un document avec son apprenticeId
      *
-     * @param apprenticeId
+     * @param documentId
      * @param response
      * @return
      * @throws StorageException

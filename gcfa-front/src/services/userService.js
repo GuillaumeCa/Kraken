@@ -8,6 +8,8 @@ export function getProfile(cb) {
     axios.get('/user/me').then(res => {
       localStorage.setItem('user', JSON.stringify(res.data));
       cb(res.data);
+    }).catch(err => {
+      console.log(err.message);
     });
   }
 }
