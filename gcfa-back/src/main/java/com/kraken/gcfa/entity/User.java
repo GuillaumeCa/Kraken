@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by Guillaume on 21/03/2017.
@@ -27,6 +28,8 @@ public class User implements UserDetails {
 
     private String ldapId;
     private String token;
+    private Date tokenExpiration;
+    private String password;
 
     @OneToOne
     private Role role;
@@ -106,7 +109,7 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
@@ -145,5 +148,17 @@ public class User implements UserDetails {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getTokenExpiration() {
+        return tokenExpiration;
+    }
+
+    public void setTokenExpiration(Date tokenExpiration) {
+        this.tokenExpiration = tokenExpiration;
     }
 }

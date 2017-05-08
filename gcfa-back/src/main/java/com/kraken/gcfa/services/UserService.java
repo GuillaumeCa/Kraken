@@ -46,7 +46,7 @@ public class UserService {
         	updateApprenticeInformations(apprentice, form);
             return apprentice;
         } else {
-            throw new Exception("This user is not an apprentice");
+            throw new Exception("The user with id " + user.getId() + " is not an apprentice");
         }
     }
 

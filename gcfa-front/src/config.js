@@ -1,8 +1,8 @@
 import axios from 'axios';
-
-export const BASE_URL = "http://localhost:8081";
-export const REQUEST_TIMEOUT = 5000;
-
+import {
+  BASE_URL,
+  REQUEST_TIMEOUT
+} from './constants';
 
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.timeout = REQUEST_TIMEOUT;

@@ -31,3 +31,15 @@ export function hasRole(roles) {
 export function logout() {
   localStorage.clear();
 }
+
+export function handle403Errors(history) {
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+    if (error.status == 403) {
+      logout();
+      history.push('/')
+    }
+    return Promise.reject(error);
+  });
+}

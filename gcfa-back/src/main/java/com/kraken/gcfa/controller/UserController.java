@@ -2,7 +2,9 @@ package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.FormApprenticeDTO;
+import com.kraken.gcfa.dto.FormTutorDTO;
 import com.kraken.gcfa.entity.Apprentice;
+import com.kraken.gcfa.entity.Tutor;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,6 @@ public class UserController {
      * @return
      */
     @GetMapping("/me")
-    @RolesAllowed(RolesNames.APPRENTICE)
     public User getUser(@AuthenticationPrincipal User auth) {
         return auth;
     }
@@ -57,8 +58,15 @@ public class UserController {
     }
 
     @PutMapping("/apprentice")
+    @RolesAllowed(RolesNames.SUPER_ADMIN)
     public Apprentice updateApprentice(FormApprenticeDTO form) throws Exception {
         return userService.updateApprentice(form);
+    }
+
+    @PostMapping("/tutor")
+    @RolesAllowed(RolesNames.SUPER_ADMIN)
+    public Tutor createTutor(FormTutorDTO form) throws Exception {
+        return userService.createTutor(form);
     }
 
 }

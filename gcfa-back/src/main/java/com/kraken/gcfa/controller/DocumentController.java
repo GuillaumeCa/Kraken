@@ -1,6 +1,9 @@
 package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.constants.RolesNames;
+import com.kraken.gcfa.dto.FormDocumentTypeDTO;
+import com.kraken.gcfa.entity.Document;
+import com.kraken.gcfa.entity.DocumentType;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.services.DocumentService;
@@ -14,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.List;
 
 @RestController
 @RequestMapping("/document")
@@ -60,5 +64,17 @@ public class DocumentController {
     @RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.APPRENTICE})
     public void deleteFile(@PathVariable Long documentId, @AuthenticationPrincipal User auth) throws StorageException {
         documentService.deleteFile(documentId, auth);
+    }
+
+    @GetMapping("/due")
+    @RolesAllowed(RolesNames.APPRENTICE)
+    public List<DocumentType> dueDocuments(@AuthenticationPrincipal User auth) {
+        return documentService.getDueDocuments(auth);
+    }
+
+    @PostMapping("/type")
+    @RolesAllowed(RolesNames.SUPER_ADMIN)
+    public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {
+        return documentService.createDocumentType(form);
     }
 }

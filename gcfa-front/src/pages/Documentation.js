@@ -9,12 +9,14 @@ import Loader from '../components/Loader';
 import UploadModal from '../components/UploadModal';
 import Time from '../components/Time';
 
-
-
 import Auth from '../components/Auth';
 
 import * as documentationService from '../services/documentationService';
 import * as helperService from '../services/helperService';
+
+import {
+  SUPER_ADMIN
+} from '../constants';
 
 const BUTTON_STYLE = {
   fontSize: 20,
@@ -128,7 +130,7 @@ class Documentation extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Documentation</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <Auth roles={['ROLE_APPRENTICE']}>
+            <Auth roles={[SUPER_ADMIN]}>
                 <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.openDocModal} />
             </Auth>
           </div>
