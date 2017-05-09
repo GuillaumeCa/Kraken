@@ -9,6 +9,14 @@ import NotificationCenter from '../components/Notification';
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
+import Auth from '../components/Auth';
+
+
+import {
+  SUPER_ADMIN,
+  APPRENTICE,
+  TUTOR,
+} from '../constants';
 
 import colors from '../colors';
 
@@ -35,8 +43,8 @@ class Layout extends Component {
         <div style={CONTAINER_STYLE}>
           <Banner>
             <Switch>
-              <Route exact path="/" component={Home} />
               <Route path="/documentation" component={Documentation} />
+              <Route exact path="/" component={Home} />
               <Route path="/profil" component={Profil} />
               <Route component={() => <div>erreur</div>} />
             </Switch>

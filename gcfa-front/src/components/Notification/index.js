@@ -22,7 +22,7 @@ export default class NotificationCenter extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('notification');
+    document.removeEventListener('notification', this.onReceiveNotification.bind(this));
   }
 
   onReceiveNotification(e) {

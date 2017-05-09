@@ -15,6 +15,13 @@ import * as userService from '../../services/userService';
 
 import colors from '../../colors';
 
+import Auth from '../../components/Auth';
+import {
+  SUPER_ADMIN,
+  APPRENTICE,
+} from '../../constants';
+
+
 const NAVBAR_MAIN_STYLE = {
   color: colors.PRIMARY
 }
@@ -69,7 +76,14 @@ class NavBar extends Component {
         </div>
         <nav className="navigation">
           <div className="link">
-            <Link to="/documentation">Documentation</Link>
+            <Auth roles={[SUPER_ADMIN]}>
+                <Link to="/users">Documentation</Link>
+                <Link to="/documentation">Documentation</Link>
+                <Link to="/stats">Documentation</Link>
+            </Auth>
+            <Auth roles={[APPRENTICE]}>
+                <Link to="/documentation">Documentation</Link>
+            </Auth>
           </div>
         </nav>
           {
