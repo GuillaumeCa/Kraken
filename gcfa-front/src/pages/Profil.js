@@ -52,41 +52,45 @@ class Profil extends Component {
 						<Avatar size={180}>{profil.user.firstName.slice(0,1)}</Avatar>
 						<h2 className="main-title">{profil.user.firstName} {profil.user.lastName}</h2>
 						<table className="detail-list" style={{ margin: '20px auto' }}>
-							<tr>
-								<th>Mail</th>
-								<td>{profil.user.email}</td>
-							</tr>
-							<tr>
-								<th>Promotion</th>
-								<td>{profil.promotion}</td>
-							</tr>
-							<tr>
-								<th>Début du contrat</th>
-								<td>{debutContract}</td>
-							</tr>
-							<tr>
-								<th>Contrat</th>
-								<td>{contractDuration} ans</td>
-							</tr>
-							<tr>
-								<th>Document rendu</th>
-								<td>12/18</td>
-							</tr>
+							<tbody>
+								<tr>
+									<th>Mail</th>
+									<td>{profil.user.email}</td>
+								</tr>
+								<tr>
+									<th>Promotion</th>
+									<td>{profil.promotion}</td>
+								</tr>
+								<tr>
+									<th>Début du contrat</th>
+									<td>{debutContract}</td>
+								</tr>
+								<tr>
+									<th>Contrat</th>
+									<td>{contractDuration} ans</td>
+								</tr>
+								<tr>
+									<th>Document rendu</th>
+									<td>12/18</td>
+								</tr>
+							</tbody>
 						</table>
 						<h2 className="sub-title">Tuteur</h2>
 						<table className="detail-list" style={{ margin: '0 auto' }}>
-							<tr>
-								<th>Prénom Nom</th>
-								<td>{profil.tutor.user.firstName} {profil.tutor.user.lastName}</td>
-							</tr>
-							<tr>
-								<th>Mail</th>
-								<td>{profil.tutor.user.email}</td>
-							</tr>
-							<tr>
-								<th>Emploi</th>
-								<td>{profil.tutor.job}</td>
-							</tr>
+							<tbody>
+								<tr>
+									<th>Prénom Nom</th>
+									<td>{profil.tutor.user.firstName} {profil.tutor.user.lastName}</td>
+								</tr>
+								<tr>
+									<th>Mail</th>
+									<td>{profil.tutor.user.email}</td>
+								</tr>
+								<tr>
+									<th>Emploi</th>
+									<td>{profil.tutor.job}</td>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 				}
