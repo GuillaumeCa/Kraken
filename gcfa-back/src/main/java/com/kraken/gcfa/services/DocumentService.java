@@ -108,7 +108,6 @@ public class DocumentService {
 				listDocumentTypes.remove(document.getType());
 			} 
 		}
-
 		return listDocumentTypes;
 	}
 
