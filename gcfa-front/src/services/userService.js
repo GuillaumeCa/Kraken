@@ -7,10 +7,9 @@ export function getProfile(cb) {
   } else {
     axios.get('/user/me').then(res => {
       localStorage.setItem('user', JSON.stringify(res.data));
+      console.log(res.data)
       cb(res.data);
-    }).catch(err => {
-      console.log(err.message);
-    });
+    })
   }
 }
 
