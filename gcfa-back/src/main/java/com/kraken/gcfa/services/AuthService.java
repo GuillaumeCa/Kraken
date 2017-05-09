@@ -28,7 +28,7 @@ public class AuthService {
     @Autowired
     private LDAPService ldapService;
 
-    private final int EXPIRATION_TOKEN_DURATION = 2 * 60 * 60;
+    private final int EXPIRATION_TOKEN_DURATION = 2 * 60 * 60 * 1000;
 
     public String generateToken(FormLoginDTO login) throws Exception {
 

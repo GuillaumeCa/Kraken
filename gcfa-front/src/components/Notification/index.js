@@ -21,6 +21,10 @@ export default class NotificationCenter extends Component {
     document.addEventListener('notification', this.onReceiveNotification.bind(this));
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('notification');
+  }
+
   onReceiveNotification(e) {
     this.setState({ message: e.detail.message, open: true });
     if (this.timeout) clearTimeout(this.timeout);
