@@ -82,12 +82,27 @@ public class UserService {
     	User user = userRepository.findOne(form.getUserId());
     	if (user.getRole().getName().equals(RolesNames.TUTOR)) {
     		Tutor tutor = new Tutor();
-    		tutor.setJob(form.getJob());
-    		tutorRepository.save(tutor);
+    		updateTutorInformations(tutor, form);
     		return tutor;
     	} else {
-            throw new Exception("This user is not an tutor");
+            throw new Exception("This user is not a tutor");
         }
+    }
+    
+    public Tutor updateTutor(FormTutorDTO form) throws Exception {
+    	User user = userRepository.findOne(form.getUserId());
+    	if (user.getRole().getName().equals(RolesNames.TUTOR)) {
+    		Tutor tutor = getTutor(user);
+    		updateTutorInformations(tutor, form);
+    		return tutor;
+    	} else {
+            throw new Exception("This user is not a tutor");
+        }
+    }
+    
+    private void updateTutorInformations(Tutor tutor, FormTutorDTO form) throws Exception {
+		tutor.setJob(form.getJob());
+		tutorRepository.save(tutor);
     }
 
 }
