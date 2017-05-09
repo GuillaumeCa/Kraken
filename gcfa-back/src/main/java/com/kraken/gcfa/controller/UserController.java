@@ -62,11 +62,27 @@ public class UserController {
     public Apprentice updateApprentice(FormApprenticeDTO form) throws Exception {
         return userService.updateApprentice(form);
     }
-
+    
+    @GetMapping("/tutor/detail")
+    public ResponseEntity getTutor(@AuthenticationPrincipal User user) {
+        switch (user.getRole().getName()) {
+            case RolesNames.TUTOR:
+                return new ResponseEntity<>(userService.getTutor(user), HttpStatus.OK);
+            default:
+                return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+    }
     @PostMapping("/tutor")
     @RolesAllowed(RolesNames.SUPER_ADMIN)
     public Tutor createTutor(FormTutorDTO form) throws Exception {
         return userService.createTutor(form);
     }
+
+    @PutMapping("/tutor")
+    @RolesAllowed(RolesNames.SUPER_ADMIN)
+    public Tutor updateTutor(FormTutorDTO form) throws Exception {
+        return userService.updateTutor(form);
+    }
+
 
 }
