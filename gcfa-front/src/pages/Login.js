@@ -33,11 +33,17 @@ const INPUT_LOGIN_STYLE = {
 
 class Login extends Component {
 
+  state = {
+    username: 'eee',
+    password: '1244',
+  }
 
   handleClick = () => {
-    authService.login('aaa', '1234', (err) => {
-      if (err) return console.log(err);
+    const { username, password } = this.state;
+    authService.login(username, password).then(res => {
       this.props.history.push('/');
+    }).catch(err => {
+      console.log(err.message);
     })
   }
 
@@ -51,12 +57,14 @@ class Login extends Component {
               <h1 className="primary-color center" style={TITLE_LOGIN_STYLE}>GCFA</h1>
               <TextField
                 hintText="Nom d'utilisateur"
+                onChange={(e) => this.setState({ username: e.target.value })}
                 fullWidth
                 />
               <TextField
                 type="password"
                 hintText="Mot de passe"
                 errorText={error && "This field is required."}
+                onChange={(e) => this.setState({ password: e.target.value })}
                 fullWidth
                 />
             </CardText>

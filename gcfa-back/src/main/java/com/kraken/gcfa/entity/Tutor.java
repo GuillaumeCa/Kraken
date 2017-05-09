@@ -16,7 +16,7 @@ public class Tutor {
 	@OneToMany(mappedBy = "tutor")
     private List<Apprentice> apprentices;
 
-	@ManyToOne
+	@OneToOne
 	private User user;
 
 	//TODO trigger en fonction de la liste des Apprenties

@@ -9,17 +9,14 @@ export function isLoggedIn() {
   return !!localStorage.getItem('token')
 }
 
-export function login(user, password, cb) {
-  axios.post('/login', {
+export function login(user, password) {
+  return axios.post('/login', {
     username: user,
     password: password
   }).then(res => {
     localStorage.removeItem('user');
     setToken(res.data);
-    cb(null);
-  }).catch(err => {
-    cb(err.message);
-  })
+  });
 }
 
 export function hasRole(roles) {
@@ -32,5 +29,17 @@ export function hasRole(roles) {
 }
 
 export function logout() {
-  localStorage.removeItem('token');
+  localStorage.clear();
+}
+
+export function handle403Errors(history) {
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+    if (error.status == 403) {
+      logout();
+      history.push('/')
+    }
+    return Promise.reject(error);
+  });
 }

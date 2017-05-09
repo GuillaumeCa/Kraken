@@ -20,7 +20,11 @@ import Login from './pages/Login';
 
 import * as authService from './services/authService';
 
+
+
 function Private(props) {
+  authService.handle403Errors(props.history);
+
   return <Route path="*" render={props => {
     if (!authService.isLoggedIn())
       return <Redirect to="/login" />;
