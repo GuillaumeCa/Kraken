@@ -4,6 +4,8 @@ import FlatButton from 'material-ui/FlatButton';
 import {Card, CardActions, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import ActionLockOpen from 'material-ui/svg-icons/action/lock-open';
+import Banner from '../components/Banner';
+
 
 import * as authService from '../services/authService';
 
@@ -12,10 +14,6 @@ const BACKGROUND_STYLE = {
   alignItems: 'center',
   justifyContent: 'center',
   minHeight: '100vh',
-  background: 'url(background.jpg)',
-  backgroundRepeat: 'none',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
 }
 
 const LOGIN_STYLE = {
@@ -50,36 +48,40 @@ class Login extends Component {
   render() {
     const error = false;
     return (
-      <div style={BACKGROUND_STYLE}>
-        <div style={LOGIN_STYLE}>
-          <Card zDepth={3}>
-            <CardText style={INPUT_LOGIN_STYLE}>
-              <h1 className="primary-color center" style={TITLE_LOGIN_STYLE}>GCFA</h1>
-              <TextField
-                hintText="Nom d'utilisateur"
-                onChange={(e) => this.setState({ username: e.target.value })}
-                fullWidth
-                />
-              <TextField
-                type="password"
-                hintText="Mot de passe"
-                errorText={error && "This field is required."}
-                onChange={(e) => this.setState({ password: e.target.value })}
-                fullWidth
-                />
-            </CardText>
-            <CardActions style={{ textAlign: 'center' }}>
-              <FlatButton
-                secondary
-                label="Connexion"
-                labelPosition="after"
-                icon={<ActionLockOpen />}
-                onTouchTap={this.handleClick}
-                />
-              <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
-            </CardActions>
-          </Card>
-        </div>
+      <div>
+        <Banner>
+          <div style={BACKGROUND_STYLE}>
+            <div style={LOGIN_STYLE}>
+              <Card zDepth={3}>
+                <CardText style={INPUT_LOGIN_STYLE}>
+                  <h1 className="primary-color center" style={TITLE_LOGIN_STYLE}>GCFA</h1>
+                  <TextField
+                    hintText="Nom d'utilisateur"
+                    onChange={(e) => this.setState({ username: e.target.value })}
+                    fullWidth
+                    />
+                  <TextField
+                    type="password"
+                    hintText="Mot de passe"
+                    errorText={error && "This field is required."}
+                    onChange={(e) => this.setState({ password: e.target.value })}
+                    fullWidth
+                    />
+                </CardText>
+                <CardActions style={{ textAlign: 'center' }}>
+                  <FlatButton
+                    secondary
+                    label="Connexion"
+                    labelPosition="after"
+                    icon={<ActionLockOpen />}
+                    onTouchTap={this.handleClick}
+                    />
+                  <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
+                </CardActions>
+              </Card>
+            </div>
+          </div>
+        </Banner>
       </div>
     );
 
