@@ -88,8 +88,9 @@ public class AuthService {
     }
 
     public boolean isTokenExpired(User user) {
+        if (user == null) return false;
         Date exp = user.getTokenExpiration();
-        return exp == null || exp.before(new Date());
+        return exp.before(new Date());
     }
 
 }

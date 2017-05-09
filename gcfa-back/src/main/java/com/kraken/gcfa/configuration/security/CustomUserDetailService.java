@@ -27,7 +27,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String token) throws UsernameNotFoundException {
         User user = userRepository.findByToken(token);
         if (authService.isTokenExpired(user)) {
-            return null;
+            throw new UsernameNotFoundException("The token has expired");
         }
         if (user != null) {
             user = authService.updateTokenExpiration(user);
