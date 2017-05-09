@@ -75,7 +75,8 @@ class Documentation extends Component {
 
   onUploadDoc = (type) => {
     this.setState({ uploadProgress: 0, uploadStarted: true });
-    documentationService.upload(this.state.file, type, this.onUploadProgress)
+    console.log(this.state.file)
+    documentationService.upload(this.state.file, 'CALENDAR', this.onUploadProgress)
       .then(res => {
 
         this.closeDocModal();
@@ -187,11 +188,7 @@ class Documentation extends Component {
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
           onSelectFile={file => this.setState({ file })}
-          file={file}
         	docType="pdf"
-        	subtitle=""
-          acceptedFileType='.pdf'
-          maxSize={1000000}
         />
       </div>
     );

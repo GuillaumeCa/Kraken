@@ -74,12 +74,13 @@ export default class UploadModal extends Component {
     if(Object.keys(acceptedFile).length !== 0) {
 
       this.setState({file: acceptedFile[0]})
-      this.props.onSelectFile(true)
-    } 
+      this.props.onSelectFile(acceptedFile[0])
+    }
 
     else {
       this.setState({file: null})
-      this.props.onSelectFile(false)
+      console.log("erreur")
+      //this.props.onSelectFile(false, null)
     }
     
   }
@@ -99,7 +100,7 @@ export default class UploadModal extends Component {
           <p style={MODAL_SUBTITLE_STYLE}>A rendre avant le 10/03/2016</p>
 
           <div>
-            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept='.pdf' maxSize={1000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+            <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept='.pdf' maxSize={10000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
               {
                 !file &&
