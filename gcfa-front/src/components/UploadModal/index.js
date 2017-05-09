@@ -59,34 +59,36 @@ const DROPZONE_MSG_STYLE = {
 export default class UploadModal extends Component {
 
   state = {
-    file: null,
+    acceptedFile: null,
+    rejectedFile: null,
     open: this.props.open,
   }
 
   componentWillUpdate() {
 
     if(!this.state.open && this.state.file != null){
-      this.setState({ file: null })
+      this.setState({ acceptedFile: null, rejectedFile: null })
     }
   }
 
-  onDrop = (acceptedFile) => {
+  onDrop = (acceptedFile, rejectedFile) => {
+    console.log(acceptedFile)
     if(Object.keys(acceptedFile).length !== 0) {
 
-      this.setState({file: acceptedFile[0]})
-      this.props.onSelectFile(acceptedFile[0])
+      this.setState({acceptedFile: acceptedFile[0], rejectedFile: null})
     }
 
     else {
-      this.setState({file: null})
-      console.log("erreur")
-      //this.props.onSelectFile(false, null)
+      this.setState({aceptedFile: null, rejectedFile: rejectedFile[0]})
     }
+
+    this.props.onSelectFile(acceptedFile[0])
+
     
   }
   render() {
 
-    const { file } = this.state;
+    const { acceptedFile, rejectedFile } = this.state;
 
     return (
       <Dialog
@@ -103,7 +105,7 @@ export default class UploadModal extends Component {
             <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept='.pdf' maxSize={10000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
               {
-                !file &&
+                (!acceptedFile && !rejectedFile) &&
                 <div>
                   <img src="icons/download.png" alt="download-icon" style={DROPZONE_ICON_STYLE}/>
                   <h2 style={DROPZONE_TITLE_STYLE}>Cliquez ou déposez votre document ici</h2>
@@ -112,17 +114,16 @@ export default class UploadModal extends Component {
               }
 
               {
-                file &&
                 <div>
                   {
-                    (file !== null && Object.keys(file).length !== 0) &&
+                    (acceptedFile && !rejectedFile) &&
                     <div>
                       <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
-                      <h2 style={DROPZONE_TITLE_STYLE}>{file.name}</h2>
+                      <h2 style={DROPZONE_TITLE_STYLE}>{acceptedFile.name}</h2>
                     </div>
                   }
                   {
-                    (file === null || Object.keys(file).length === 0) &&
+                    rejectedFile &&
                     <div>
                       <h2 style={DROPZONE_TITLE_STYLE}>Le fichier séléctionné est invalide</h2>
                       <p style={DROPZONE_MSG_STYLE}>Réessayer avec un fichier au format PDF et pesant moins de 10 Mo</p>

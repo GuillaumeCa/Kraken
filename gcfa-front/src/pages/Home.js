@@ -187,7 +187,7 @@ class Home extends Component {
         	open={openModal}
         	actions={modalButtons}
         	docType={docSelected.name}
-          onSelectFile={(isValid) => this.isValidFile(isValid)}
+          onSelectFile={(file) => this.isValidFile(file !== null)}
         />
 
         <Popover
