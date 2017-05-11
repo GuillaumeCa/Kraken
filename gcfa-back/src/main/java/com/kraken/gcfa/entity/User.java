@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String token;
     private Date tokenExpiration;
     private String password;
+    private Boolean active;
 
     @OneToOne
     private Role role;
@@ -154,11 +155,21 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    @JsonIgnore
     public Date getTokenExpiration() {
         return tokenExpiration;
     }
 
     public void setTokenExpiration(Date tokenExpiration) {
         this.tokenExpiration = tokenExpiration;
+    }
+
+    @JsonIgnore
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

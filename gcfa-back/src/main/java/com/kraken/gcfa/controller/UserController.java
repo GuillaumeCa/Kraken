@@ -72,6 +72,7 @@ public class UserController {
                 return new ResponseEntity<>(user, HttpStatus.OK);
         }
     }
+
     @PostMapping("/tutor")
     @RolesAllowed(RolesNames.SUPER_ADMIN)
     public Tutor createTutor(FormTutorDTO form) throws Exception {

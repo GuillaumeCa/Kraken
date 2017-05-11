@@ -1,5 +1,7 @@
 package com.kraken.gcfa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Apprentice {
     @OneToOne
     private Tutor tutor;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "apprentice")
     private List<Document> documents;
 

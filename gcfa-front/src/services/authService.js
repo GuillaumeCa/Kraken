@@ -33,13 +33,13 @@ export function logout() {
 }
 
 export function handle403Errors(history) {
-  // axios.interceptors.response.use(
-  //   response => response,
-  //   error => {
-  //   if (error.status == 403) {
-  //     logout();
-  //     history.push('/')
-  //   }
-  //   return Promise.reject(error);
-  // });
+  axios.interceptors.response.use(
+    response => response,
+    error => {
+    if (error.status == 403) {
+      logout();
+      history.push('/')
+    }
+    return Promise.reject(error);
+  });
 }

@@ -1,6 +1,12 @@
 package com.kraken.gcfa.configuration.security;
 
+import com.kraken.gcfa.entity.User;
+import com.kraken.gcfa.services.AuthService;
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +30,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private AuthService authService;
+
     private String getToken(HttpServletRequest req) {
         String authHeader = req.getHeader(TOKEN_HEADER);
         if (authHeader != null && authHeader.startsWith(TOKEN_HEADER_PREFIX)) {
@@ -38,13 +47,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         if (authToken != null) {
             // Get user
-            UserDetails userDetails = userDetailsService.loadUserByUsername(authToken);
-            if (userDetails != null) {
-                // Create authentication object
-                TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
 
+            UserDetails userDetails = userDetailsService.loadUserByUsername(authToken);
+
+            if (userDetails != null) {
+
+                TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
                 authentication.setToken(authToken);
-                authentication.setAuthenticated(true);
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

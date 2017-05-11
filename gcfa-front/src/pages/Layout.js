@@ -6,6 +6,8 @@ import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
 import NotificationCenter from '../components/Notification';
 
+import * as authService from '../services/authService';
+
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
@@ -35,6 +37,11 @@ const COPYRIGHT_STYLE = {
 }
 
 class Layout extends Component {
+
+  componentDidMount() {
+    authService.handle403Errors(this.props.history);
+  }
+
   render() {
     const year = (new Date()).getFullYear();
     return (
