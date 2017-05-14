@@ -31,9 +31,10 @@ class Home extends Component {
     openModal: false,
     docSelected: {},
     openEdit: false,
-    notValidFile: true,
-    docSent: [],
+    notValidFile: false,
+    sentDocs: [],
     dueDocs: [],
+    file: null,
 
     loadingDue: false,
     loadingSent: false,
@@ -59,7 +60,6 @@ class Home extends Component {
     this.setState({ loadingDue: true });
     documentService.getDueDocuments()
       .then(docs => {
-        console.log('due');
         this.setState({ loadingDue: false, dueDocs: docs.data });
       })
   }
@@ -75,7 +75,7 @@ class Home extends Component {
 
   toggleOldDocs = () => {
     this.requestSent();
-    this.setState({ showOldDocs: !this.state.showOldDocs });
+    this.setState({ showSentDocs: !this.state.showSentDocs });
   }
 
   isValidFile = (isValid) => {
@@ -84,19 +84,15 @@ class Home extends Component {
     })
   }
 
-  handleSubmit = (file) => {
-    const { docSelected } = this.state;
+  handleSubmit = () => {
+    const { docSelected, file } = this.state;
     this.setState({ uploadProgress: 0, uploadStarted: true });
     documentService.uploadDocument(file, docSelected.id, this.onUploadProgress)
       .then(res => {
         this.handleClose();
-        this.requestAllDocumentation();
+        this.updateData();
+        sendNotification('Document envoyé avec succès');
       });
-
-    // Test send notif
-    sendNotification('Document envoyé avec succès');
-
-  	// Service call
   }
 
   onUploadProgress = (progress) => {
@@ -109,9 +105,10 @@ class Home extends Component {
   	this.setState({
   		openModal: false,
   		docSelected: {},
-      notValidFile: true,
+      notValidFile: false,
       uploadProgress: 0,
-      uploadStarted: false
+      uploadStarted: false,
+      file: null
   	})
   }
 
@@ -129,7 +126,13 @@ class Home extends Component {
   }
 
   handleDeleteDoc = () => {
-
+    const { docSelected } = this.state;
+    documentService.deleteDocument(docSelected.id)
+      .then(() => {
+        sendNotification('Document supprimé avec succès');
+        this.updateData();
+      })
+    this.setState({ openEdit: false });
   }
 
   handleReplaceDoc = () => {
@@ -138,7 +141,16 @@ class Home extends Component {
   }
 
   handleDownloadDoc = () => {
+    const { docSelected } = this.state;
+    documentService.getDocument(docSelected.id);
+    this.setState({ openEdit: false });
+  }
 
+  updateData() {
+    this.requestDue();
+    if (this.state.showSentDocs) {
+      this.requestSent();
+    }
   }
 
   render() {
@@ -147,8 +159,8 @@ class Home extends Component {
       docSelected,
       openModal,
       notValidFile,
-      showOldDocs,
-      docSent,
+      showSentDocs,
+      sentDocs,
       dueDocs,
 
       loadingSent,
@@ -169,7 +181,7 @@ class Home extends Component {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        disabled={notValidFile}
+        // disabled={notValidFile}
   	  />,
   	];
 
@@ -178,25 +190,25 @@ class Home extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Suivi</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <FlatButton primary label={showOldDocs ? "Masquer envoyés" : "Afficher envoyés"} backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleOldDocs} />
+            <FlatButton primary label={showSentDocs ? "Masquer déposés" : "Afficher déposés"} backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleOldDocs} />
           </div>
         </div>
 
         {
-          showOldDocs &&
+          showSentDocs &&
           <Loader loading={loadingSent}>
             <section>
               <h2 className="sub-title">Déposés</h2>
-              <List data={docSent} emptyLabel="Aucun documents déposés">
+              <List data={sentDocs} emptyLabel="Aucun documents déposés">
                 {
-                  docSent.map(data => {
+                  sentDocs.map(data => {
                     return (
                       <BarCard key={data.id} actions={
                         <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
                           onTouchTap={(e) => this.editDoc(e, data)}
                         />
                       }>
-                        <DocumentCard title={data.name} subtitle="sous-titre" />
+                        <DocumentCard title={data.type.name} subtitle="sous-titre" />
                       </BarCard>
                     )
                   })
@@ -236,7 +248,7 @@ class Home extends Component {
           subtitle={docSelected.subtitle}
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
-          onSelectFile={(file) => this.isValidFile(file !== null)}
+          onSelectFile={file => this.setState({ file })}
         />
 
         <Popover

@@ -5,7 +5,9 @@ export function downloadFile(file, filename) {
   const blob = new Blob([file], {type: 'application/octet-stream'});
   a.href = URL.createObjectURL(blob);
   a.download = filename;
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
 }
 
 export function handleError(err) {

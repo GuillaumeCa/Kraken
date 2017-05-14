@@ -16,7 +16,12 @@ export function uploadDocument(file, typeId, onUploadProgress) {
 }
 
 export function getDocument(id) {
-  return axios.get(`/document/${id}`, { responseType: 'arraybuffer' });
+  return axios.get(`/document/${id}`, { responseType: 'arraybuffer' })
+    .then(res => {
+      const filename = res.headers['x-filename'];
+      helper.downloadFile(res.data, filename);
+      return res;
+    });
 }
 
 export function deleteDocument(id) {

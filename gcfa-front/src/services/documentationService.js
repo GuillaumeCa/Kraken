@@ -14,6 +14,10 @@ export function getAllDocumentation() {
 
 export function getDocumentation(id) {
   return axios.get(`/documentation/${id}`, { responseType: 'arraybuffer' })
+              .then(res => {
+                const filename = res.headers['x-filename'];
+                helper.downloadFile(res.data, filename);
+              })
               .catch(helper.handleError);
 }
 

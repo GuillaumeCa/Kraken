@@ -15,7 +15,6 @@ import Time from '../components/Time';
 import Auth from '../components/Auth';
 
 import * as documentationService from '../services/documentationService';
-import * as helperService from '../services/helperService';
 
 import {
 
@@ -68,11 +67,7 @@ class Documentation extends Component {
   }
 
   openDoc = (doc) => {
-    documentationService.getDocumentation(doc.id)
-    .then(res => {
-      const filename = res.headers['x-filename'];
-      helperService.downloadFile(res.data, filename);
-    })
+    documentationService.getDocumentation(doc.id);
   }
 
   openDocModal = () => {
