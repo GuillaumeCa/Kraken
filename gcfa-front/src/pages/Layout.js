@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
@@ -38,8 +38,14 @@ const COPYRIGHT_STYLE = {
 
 class Layout extends Component {
 
-  componentDidMount() {
-    authService.handle403Errors(this.props.history);
+  constructor(props) {
+    super(props);
+
+    authService.handle403Errors(() => {
+      console.log('reroute');
+      authService.logout();
+      this.props.history.push('/');
+    })
   }
 
   render() {
@@ -50,8 +56,8 @@ class Layout extends Component {
         <div style={CONTAINER_STYLE}>
           <Banner>
             <Switch>
-              <Route path="/documentation" component={Documentation} />
               <Route exact path="/" component={Home} />
+              <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
               <Route component={() => <div>erreur</div>} />
             </Switch>

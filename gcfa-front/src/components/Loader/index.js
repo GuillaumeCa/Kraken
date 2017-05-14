@@ -61,7 +61,7 @@ function Loader(props) {
       </div>
     )
   } else {
-    return children;
+    return <div>{children}</div>;
   }
   return null;
 }

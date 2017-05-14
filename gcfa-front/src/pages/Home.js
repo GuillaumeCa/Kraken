@@ -59,10 +59,11 @@ class Home extends Component {
     notValidFile: true,
   }
 
-  showDeliver = (data) => {
+  showDeliver = (doc) => {
+    doc.subtitle = `Document à rendre le 12/02/16`;
   	this.setState({
   		openModal: true,
-  		docSelected: data,
+  		docSelected: doc,
   	})
   }
 
@@ -96,6 +97,8 @@ class Home extends Component {
   }
 
   editDoc = (event, doc) => {
+    doc.subtitle = `Document à rendre le 12/02/16`;
+    console.log(doc);
     this.setState({
       openEdit: true,
       anchorEl: event.currentTarget,
@@ -122,7 +125,12 @@ class Home extends Component {
 
   render() {
 
-    const { docSelected, openModal, notValidFile, showOldDocs } = this.state;
+    const {
+      docSelected,
+      openModal,
+      notValidFile,
+      showOldDocs,
+    } = this.state;
 
   	const modalButtons = [
   	  <FlatButton
@@ -187,6 +195,7 @@ class Home extends Component {
         	open={openModal}
         	actions={modalButtons}
         	docType={docSelected.name}
+          subtitle={docSelected.subtitle}
           onSelectFile={(file) => this.isValidFile(file !== null)}
         />
 

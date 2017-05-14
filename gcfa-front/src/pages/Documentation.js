@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
@@ -9,13 +11,20 @@ import Loader from '../components/Loader';
 import UploadModal from '../components/UploadModal';
 import Time from '../components/Time';
 
+
 import Auth from '../components/Auth';
 
 import * as documentationService from '../services/documentationService';
 import * as helperService from '../services/helperService';
 
 import {
-  SUPER_ADMIN
+
+  SUPER_ADMIN,
+
+  CALENDAR,
+  TOOL,
+  EVALUATION,
+
 } from '../constants';
 
 const BUTTON_STYLE = {
@@ -39,6 +48,7 @@ class Documentation extends Component {
     file: null,
     uploadStarted: false,
     uploadProgress: 0,
+    fileType: CALENDAR,
   }
 
   componentDidMount() {
@@ -74,12 +84,12 @@ class Documentation extends Component {
   }
 
   onUploadDoc = (type) => {
+    const { file, fileType } = this.state;
     this.setState({ uploadProgress: 0, uploadStarted: true });
-    console.log(this.state.file)
-    documentationService.upload(this.state.file, 'CALENDAR', this.onUploadProgress)
+    documentationService.upload(file, fileType, this.onUploadProgress)
       .then(res => {
-
         this.closeDocModal();
+        this.requestAllDocumentation();
       });
   }
 
@@ -97,6 +107,10 @@ class Documentation extends Component {
     });
   }
 
+  onSetFileType = (e, i, value) => {
+    this.setState({ fileType: value });
+  }
+
   render() {
 
     const {
@@ -109,6 +123,7 @@ class Documentation extends Component {
       uploadProgress,
       uploadStarted,
       file,
+      fileType,
     } = this.state;
 
     const renderDate = (date) => <span>Ajouté le <Time format="DD/MM/YYYY" date={date} /></span>
@@ -131,9 +146,9 @@ class Documentation extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Documentation</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <Auth roles={[SUPER_ADMIN]}>
+            {/* <Auth roles={[SUPER_ADMIN]}> */}
                 <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.openDocModal} />
-            </Auth>
+            {/* </Auth> */}
           </div>
         </div>
 
@@ -189,7 +204,17 @@ class Documentation extends Component {
           uploading={uploadStarted}
           onSelectFile={file => this.setState({ file })}
         	docType="pdf"
-        />
+        >
+          <SelectField
+            floatingLabelText="Type de document"
+            value={fileType}
+            onChange={this.onSetFileType}
+          >
+            <MenuItem value={CALENDAR} primaryText="Calendrier" />
+            <MenuItem value={TOOL} primaryText="Outil de l'apprenti" />
+            <MenuItem value={EVALUATION} primaryText="Document d'évaluation" />
+          </SelectField>
+        </UploadModal>
       </div>
     );
   }

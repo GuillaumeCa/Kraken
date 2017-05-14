@@ -14,7 +14,6 @@ export function login(user, password) {
     username: user,
     password: password
   }).then(res => {
-    localStorage.removeItem('user');
     setToken(res.data);
   });
 }
@@ -29,17 +28,17 @@ export function hasRole(roles) {
 }
 
 export function logout() {
+  axios.defaults.headers.common['Authorization'] = null;
   localStorage.clear();
 }
 
-export function handle403Errors(history) {
+export function handle403Errors(on403) {
   axios.interceptors.response.use(
     response => response,
     error => {
-    if (error.status == 403) {
-      logout();
-      history.push('/')
-    }
-    return Promise.reject(error);
-  });
+      if (error.response.status == 403) {
+        on403();
+      }
+      // return Promise.reject(error);
+    });
 }
