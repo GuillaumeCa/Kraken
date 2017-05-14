@@ -9,9 +9,13 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Delete from 'material-ui/svg-icons/content/remove-circle';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import BarCard, { DocumentCard } from '../components/BarCard';
+import BarCard, { DocumentCard, List } from '../components/BarCard';
 import UploadModal from '../components/UploadModal';
 import { sendNotification } from '../components/Notification';
+import Loader from '../components/Loader';
+import Time from '../components/Time';
+
+import * as documentService from '../services/documentService';
 
 const HEAD_STYLE = {
   display: 'flex',
@@ -22,61 +26,55 @@ const BUTTON_STYLE = {
   fontSize: 20,
 }
 
-const deliveredData = [
-  {
-    id: 1,
-    name: "Déclaration de compétences 1",
-  },
-  {
-    id: 2,
-    name: "Déclaration de compétences 2",
-  },
-  {
-    id: 3,
-    name: "Déclaration de compétences 3",
-  },
-]
-const deliverData = [
-  {
-    id: 1,
-    name: "Déclaration de compétences 1",
-  },
-  {
-    id: 2,
-    name: "Déclaration de compétences 2",
-  },
-  {
-    id: 3,
-    name: "Déclaration de compétences 3",
-  },
-]
-
 class Home extends Component {
   state = {
     openModal: false,
     docSelected: {},
     openEdit: false,
     notValidFile: true,
+    docSent: [],
+    dueDocs: [],
+
+    loadingDue: false,
+    loadingSent: false,
+
+    uploadStarted: false,
+    uploadProgress: 0,
+
   }
 
-  showDeliver = (doc) => {
-    doc.subtitle = `Document à rendre le 12/02/16`;
+  componentDidMount() {
+    this.requestDue();
+  }
+
+  requestSent() {
+    this.setState({ loadingSent: true });
+    documentService.getSentDocuments()
+      .then(docs => {
+        this.setState({ loadingSent: false, sentDocs: docs.data });
+      })
+  }
+
+  requestDue() {
+    this.setState({ loadingDue: true });
+    documentService.getDueDocuments()
+      .then(docs => {
+        console.log('due');
+        this.setState({ loadingDue: false, dueDocs: docs.data });
+      })
+  }
+
+  uploadDoc = (doc) => {
+    doc.subtitle = <span>Document à rendre le <Time format="DD/MM/YYYY" date={Date.now() + doc.deltaDeadline} /></span>;
   	this.setState({
   		openModal: true,
   		docSelected: doc,
   	})
   }
 
-  handleClose = () => {
-  	this.setState({
-  		openModal: false,
-  		docSelected: {},
-      showOldDocs: false,
-      notValidFile: true,
-  	})
-  }
 
   toggleOldDocs = () => {
+    this.requestSent();
     this.setState({ showOldDocs: !this.state.showOldDocs });
   }
 
@@ -87,18 +85,38 @@ class Home extends Component {
   }
 
   handleSubmit = (file) => {
+    const { docSelected } = this.state;
+    this.setState({ uploadProgress: 0, uploadStarted: true });
+    documentService.uploadDocument(file, docSelected.id, this.onUploadProgress)
+      .then(res => {
+        this.handleClose();
+        this.requestAllDocumentation();
+      });
 
-    this.handleClose()
     // Test send notif
     sendNotification('Document envoyé avec succès');
-    console.log(file.name)
 
   	// Service call
   }
 
+  onUploadProgress = (progress) => {
+    this.setState({
+      uploadProgress: Math.round((progress.loaded * 100) / progress.total)
+    });
+  }
+
+  handleClose = () => {
+  	this.setState({
+  		openModal: false,
+  		docSelected: {},
+      notValidFile: true,
+      uploadProgress: 0,
+      uploadStarted: false
+  	})
+  }
+
   editDoc = (event, doc) => {
-    doc.subtitle = `Document à rendre le 12/02/16`;
-    console.log(doc);
+    doc.subtitle = <span>Document à rendre le <Time format="DD/MM/YYYY" date={doc.deltaDeadline} /></span>;
     this.setState({
       openEdit: true,
       anchorEl: event.currentTarget,
@@ -130,6 +148,15 @@ class Home extends Component {
       openModal,
       notValidFile,
       showOldDocs,
+      docSent,
+      dueDocs,
+
+      loadingSent,
+      loadingDue,
+
+      uploadStarted,
+      uploadProgress,
+
     } = this.state;
 
   	const modalButtons = [
@@ -151,44 +178,55 @@ class Home extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Suivi</h1>
           <div style={{ marginLeft: 'auto' }}>
-            <FlatButton primary label={showOldDocs ? "Afficher récents" : "Afficher tout"} backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleOldDocs} />
+            <FlatButton primary label={showOldDocs ? "Masquer envoyés" : "Afficher envoyés"} backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleOldDocs} />
           </div>
         </div>
+
         {
           showOldDocs &&
-          <section>
-            <h2 className="sub-title">Déposés</h2>
-            {
-              deliveredData.map(data => {
-                return (
-                  <BarCard key={data.id} actions={
-                    <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
-                      onTouchTap={(e) => this.editDoc(e, data)}
-                    />
-                  }>
-                  <DocumentCard title={data.name} subtitle="sous-titre" />
-                </BarCard>
-              )
-            })
-          }
-        </section>
+          <Loader loading={loadingSent}>
+            <section>
+              <h2 className="sub-title">Déposés</h2>
+              <List data={docSent} emptyLabel="Aucun documents déposés">
+                {
+                  docSent.map(data => {
+                    return (
+                      <BarCard key={data.id} actions={
+                        <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
+                          onTouchTap={(e) => this.editDoc(e, data)}
+                        />
+                      }>
+                        <DocumentCard title={data.name} subtitle="sous-titre" />
+                      </BarCard>
+                    )
+                  })
+                }
+              </List>
+            </section>
+          </Loader>
         }
-        <section>
-          <h2 className="sub-title">A venir</h2>
-          {
-            deliverData.map(data => {
-              return (
-                <BarCard key={data.id} actions={
-                    <FlatButton primary label="Déposer" labelStyle={BUTTON_STYLE}
-                      onTouchTap={() => this.showDeliver(data)}
-                    />
-                  }>
-                  <DocumentCard title={data.name} subtitle="sous-titre" />
-                </BarCard>
-              )
-            })
-          }
-        </section>
+        <Loader loading={loadingDue}>
+          <section>
+            <h2 className="sub-title">A venir</h2>
+            <List data={dueDocs} emptyLabel="Aucun documents à venir">
+              {
+                dueDocs.map(data => {
+                  return (
+                    <BarCard key={data.id} actions={
+                        <FlatButton primary label="Déposer" labelStyle={BUTTON_STYLE}
+                          onTouchTap={() => this.uploadDoc(data)}
+                        />
+                      }>
+                      <DocumentCard title={data.name} subtitle={
+                        <span>À rendre le <Time format="DD MMMM YYYY" date={Date.now() + + data.deltaDeadline} /></span>
+                      } />
+                    </BarCard>
+                  )
+                })
+              }
+            </List>
+          </section>
+        </Loader>
 
 
         <UploadModal
@@ -196,6 +234,8 @@ class Home extends Component {
         	actions={modalButtons}
         	docType={docSelected.name}
           subtitle={docSelected.subtitle}
+          uploadProgress={uploadProgress}
+          uploading={uploadStarted}
           onSelectFile={(file) => this.isValidFile(file !== null)}
         />
 

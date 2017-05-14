@@ -72,6 +72,12 @@ public class DocumentController {
         return documentService.getDueDocuments(auth);
     }
 
+    @GetMapping
+    @RolesAllowed(RolesNames.APPRENTICE)
+    public List<Document> documentsSent(@AuthenticationPrincipal User auth) {
+        return documentService.getDocuments(auth);
+    }
+
     @PostMapping("/type")
     @RolesAllowed(RolesNames.SUPER_ADMIN)
     public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {

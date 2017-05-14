@@ -1,5 +1,7 @@
 package com.kraken.gcfa.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -69,6 +71,7 @@ public class Document {
         this.creation = creation;
     }
 
+    @JsonIgnore
     public Apprentice getApprentice() {
         return apprentice;
     }

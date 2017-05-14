@@ -22,7 +22,7 @@ const REFRESH = {
 }
 const LOADER = {
   textAlign: 'center',
-  margin: '100px auto',
+  margin: '30px auto',
 }
 const LOADING_TEXT = {
   fontWeight: 'normal',

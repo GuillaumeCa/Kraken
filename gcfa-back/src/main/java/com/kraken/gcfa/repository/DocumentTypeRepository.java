@@ -13,6 +13,6 @@ public interface DocumentTypeRepository extends CrudRepository<DocumentType, Lon
 
     List<DocumentType> findAll();
 
-    List<DocumentType> findByContract(ContractType contract);
+    List<DocumentType> findByContractOrderByDeltaDeadline(ContractType contract);
 
 }

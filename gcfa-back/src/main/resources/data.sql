@@ -13,13 +13,13 @@ INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (6,"
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (7,"THREE_YEARS",54432000000,"Journal 7");
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (8,"THREE_YEARS",62208000000,"Journal 8");
 
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (9,"THREE_YEARS",7776000000,"Rapport d etape 1");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (10,"THREE_YEARS",15552000000,"Rapport d etape 2");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (11,"THREE_YEARS",23328000000,"Rapport d etape 3");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (12,"THREE_YEARS",31104000000,"Rapport d etape 4");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (13,"THREE_YEARS",38880000000,"Rapport d etape 5");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (14,"THREE_YEARS",46656000000,"Rapport d etape 6");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (15,"THREE_YEARS",54432000000,"Rapport d etape 7");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (9,"THREE_YEARS",7776000000,"Rapport d'étape 1");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (10,"THREE_YEARS",15552000000,"Rapport d'étape 2");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (11,"THREE_YEARS",23328000000,"Rapport d'étape 3");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (12,"THREE_YEARS",31104000000,"Rapport d'étape 4");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (13,"THREE_YEARS",38880000000,"Rapport d'étape 5");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (14,"THREE_YEARS",46656000000,"Rapport d'étape 6");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (15,"THREE_YEARS",54432000000,"Rapport d'étape 7");
 
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (16,"THREE_YEARS",23328000000,"Synthese 1");
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (17,"THREE_YEARS",46656000000,"Synthese 2");
@@ -37,11 +37,11 @@ INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (26,
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (27,"TWO_YEARS",38880000000,"Journal 5");
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (28,"TWO_YEARS",46656000000,"Journal 6");
 
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (29,"TWO_YEARS",7776000000,"Rapport d etape 1");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (30,"TWO_YEARS",15552000000,"Rapport d etape 2");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (31,"TWO_YEARS",23328000000,"Rapport d etape 3");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (32,"TWO_YEARS",31104000000,"Rapport d etape 4");
-INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (33,"TWO_YEARS",38880000000,"Rapport d etape 5");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (29,"TWO_YEARS",7776000000,"Rapport d'étape 1");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (30,"TWO_YEARS",15552000000,"Rapport d'étape 2");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (31,"TWO_YEARS",23328000000,"Rapport d'étape 3");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (32,"TWO_YEARS",31104000000,"Rapport d'étape 4");
+INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (33,"TWO_YEARS",38880000000,"Rapport d'étape 5");
 
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (36,"TWO_YEARS",23328000000,"Synthese 1");
 INSERT IGNORE INTO document_type(id ,contract, delta_deadline, name) VALUES (38,"TWO_YEARS",46656000000,"Rapport final 8");
