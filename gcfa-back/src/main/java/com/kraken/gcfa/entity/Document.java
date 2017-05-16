@@ -20,6 +20,7 @@ public class Document {
     private String path;
     private Date creation;
     private Date updateDate;
+    private String fileType;
 
     @OneToOne
     private DocumentType type;
@@ -87,5 +88,13 @@ public class Document {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
 
 }

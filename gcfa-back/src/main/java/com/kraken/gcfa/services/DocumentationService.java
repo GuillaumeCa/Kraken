@@ -4,6 +4,7 @@ import com.kraken.gcfa.entity.Documentation;
 import com.kraken.gcfa.entity.DocumentationType;
 import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.repository.DocumentationRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -43,17 +45,22 @@ public class DocumentationService {
         String rawFilename = file.getOriginalFilename();
         int pos = rawFilename.lastIndexOf(".");
         documentation.setName(pos > 0 ? rawFilename.substring(0, pos) : rawFilename);
-
+        String fileType = pos > 0 ? rawFilename.substring(pos,rawFilename.length()) : rawFilename;
+        List<String> extensions = Arrays.asList(".pdf",".doc",".docx","xls","xlsx"); 
+        if(!extensions.contains(fileType)) {
+            throw new StorageException(String.format("The file Type %s is not expected ", fileType));
+        }
         documentation.setCreation(new Date());
         documentation.setPath(path);
         documentation.setType(type);
+        documentation.setFileType(fileType);
         documentationRepository.save(documentation);
     }
 
     public File getFile(Long fileId) throws StorageException {
         Documentation doc = documentationRepository.findOne(fileId);
         if (doc != null) {
-            return storageService.getFile(doc.getPath());
+            return storageService.getFile(doc.getPath())  ;
         } else {
             throw new StorageException(String.format("The file with id %d was not found", fileId));
         }

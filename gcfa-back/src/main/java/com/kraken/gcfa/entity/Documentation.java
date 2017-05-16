@@ -16,6 +16,7 @@ public class Documentation {
     private String name;
     private String path;
     private Date creation;
+    private String FileType;
 
     @Enumerated(EnumType.STRING)
     private DocumentationType type;
@@ -59,4 +60,12 @@ public class Documentation {
     public void setType(DocumentationType type) {
         this.type = type;
     }
+
+	public String getFileType() {
+		return FileType;
+	}
+
+	public void setFileType(String fileType) {
+		FileType = fileType;
+	}
 }

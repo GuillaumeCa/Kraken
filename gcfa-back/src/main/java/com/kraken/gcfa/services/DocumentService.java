@@ -57,11 +57,18 @@ public class DocumentService {
             String rawFilename = file.getOriginalFilename();
             int pos = rawFilename.lastIndexOf(".");
             document.setName(pos > 0 ? rawFilename.substring(0, pos) : rawFilename);
+            
+            String fileType = pos > 0 ? rawFilename.substring(pos,rawFilename.length()) : rawFilename;
+            String extension = ".pdf"; 
+            if(fileType != extension) {
+                throw new StorageException(String.format("The file Type %s is not expected ", fileType));
+            }
             document.setCreation(new Date());
             document.setPath(path);
             DocumentType type = documentTypeRepository.findOne(typeId);
             document.setType(type);
             document.setApprentice(apprentice);
+            document.setFileType(fileType);
             documentRepository.save(document);
         }
     }
