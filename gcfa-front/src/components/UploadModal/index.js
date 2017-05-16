@@ -60,7 +60,7 @@ const DROPZONE_MSG_STYLE = {
 export default class UploadModal extends Component {
 
   state = {
-    acceptedFile: null,
+    acceptedFile: this.props.file,
     rejectedFile: null,
     open: this.props.open,
   }
@@ -123,7 +123,7 @@ export default class UploadModal extends Component {
               !uploading &&
               <div>
                 {children}
-                <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept='.pdf' maxSize={10000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
+                <Dropzone ref={(node) => { this.dropzone = node; }} multiple={false} onDrop={this.onDrop} accept={this.props.acceptedType} maxSize={10000000} style={DROPZONE_STYLE} className="dropzone" activeClassName="dropzone-hover">
 
                   {
                     (!acceptedFile && !rejectedFile) &&
@@ -137,7 +137,7 @@ export default class UploadModal extends Component {
                   {
                     <div>
                       {
-                        (acceptedFile && !rejectedFile) &&
+                        (acceptedFile  && !rejectedFile) &&
                         <div>
                           <img src="icons/PDF.png" alt="icon-file" style={DROPZONE_ICON_STYLE}/>
                           <h2 style={DROPZONE_TITLE_STYLE}>{acceptedFile.name}</h2>

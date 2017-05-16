@@ -272,6 +272,8 @@ state = {
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
           onSelectFile={file => this.setState({ file })}
+          file={docSelected}
+          acceptedType='.pdf'
         />
 
         <Popover

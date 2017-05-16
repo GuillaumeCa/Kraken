@@ -54,8 +54,9 @@ class Documentation extends Component {
     uploadStarted: false,
     uploadProgress: 0,
     fileType: CALENDAR,
-    docSelected: {},
+    docSelected: null,
     openEdit: false,
+    isEdit: false,
   }
 
   componentDidMount() {
@@ -87,13 +88,30 @@ class Documentation extends Component {
   }
 
   onUploadDoc = (type) => {
-    const { file, fileType } = this.state;
     this.setState({ uploadProgress: 0, uploadStarted: true });
-    documentationService.upload(file, fileType, this.onUploadProgress)
-      .then(res => {
+
+    if(!this.state.isEdit) {
+      const { file, fileType } = this.state;
+
+      documentationService.upload(file, fileType, this.onUploadProgress)
+        .then(res => {
+          this.closeDocModal();
+          this.updateData();
+        });
+    }
+
+    else {
+      const { docSelected, file } = this.state;
+      documentationService.editDocumentation(docSelected.id, file, this.onUploadProgress)
+      .then(() => {
+        sendNotification('Document modifié avec succès');
         this.closeDocModal();
-        this.requestAllDocumentation();
-      });
+        this.updateData();
+      })
+
+      this.setState({isEdit: false});
+    }
+    
   }
 
   onUploadProgress = (progress) => {
@@ -125,15 +143,9 @@ class Documentation extends Component {
   }
 
   handleReplaceDoc = () => {
-    this.setState({ openModal: true });
+
     this.handleEditClose();
-    const { docSelected, file } = this.state;
-    documentationService.editDocumentation(docSelected.id, file, this.onUploadProgress)
-      .then(() => {
-        sendNotification('Document modifié avec succès');
-        this.updateData();
-      })
-    this.setState({ openEdit: false });
+    this.setState({ openDocModal: true, isEdit: true });
   }
 
   handleDownloadDoc = () => {
@@ -171,6 +183,7 @@ class Documentation extends Component {
       uploadStarted,
       file,
       fileType,
+      docSelected
     } = this.state;
 
     const renderDate = (date) => <span>Ajouté le <Time format="DD/MM/YYYY" date={date} /></span>
@@ -206,15 +219,15 @@ class Documentation extends Component {
               <List key={1} data={calendars} emptyLabel="Aucun documents">
                 { calendars.map((doc) => {
                     return (
-                      <div>
+                      <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                          <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                          <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
@@ -229,15 +242,15 @@ class Documentation extends Component {
               <List key={2} data={tools} emptyLabel="Aucun documents">
                 { tools.map((doc) => {
                     return (
-                      <div>
+                      <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                          <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                          <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
@@ -252,15 +265,15 @@ class Documentation extends Component {
               <List key={3} data={evaluation} emptyLabel="Aucun documents">
                 { evaluation.map((doc) => {
                     return (
-                      <div>
+                      <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                          <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
-                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                          <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
                             <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
@@ -280,7 +293,8 @@ class Documentation extends Component {
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
           onSelectFile={file => this.setState({ file })}
-        	docType="pdf"
+          file={docSelected}
+          acceptedType='.pdf, .xls, .xlsx, .doc, .docx'
         >
           <SelectField
             floatingLabelText="Type de document"
