@@ -49,6 +49,10 @@ public class UserService {
             throw new Exception("The user with id " + user.getId() + " is not an apprentice");
         }
     }
+    
+    public void deleteApprentice(User user) throws Exception {
+    	apprenticeRepository.deleteByUser(user);
+    }
 
     public Apprentice updateApprentice(FormApprenticeDTO form) throws Exception {
         User user = userRepository.findOne(form.getUserId());
@@ -87,6 +91,10 @@ public class UserService {
     	} else {
             throw new Exception("This user is not a tutor");
         }
+    }
+    
+    public void deleteTutor(User user) throws Exception {
+    	tutorRepository.deleteByUser(user);
     }
     
     public Tutor updateTutor(FormTutorDTO form) throws Exception {

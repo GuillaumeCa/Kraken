@@ -56,6 +56,17 @@ public class UserController {
     public Apprentice createApprentice(@RequestBody FormApprenticeDTO form) throws Exception {
         return userService.createApprentice(form);
     }
+    
+    @GetMapping("/apprentice")
+    public boolean deleteApprentice(@AuthenticationPrincipal User user) throws Exception {
+        switch (user.getRole().getName()) {
+            case RolesNames.APPRENTICE:
+                userService.deleteApprentice(user);
+                return true;
+            default:
+                return false;
+        }
+    }
 
     @PutMapping("/apprentice")
     @RolesAllowed(RolesNames.SUPER_ADMIN)
@@ -83,6 +94,17 @@ public class UserController {
     @RolesAllowed(RolesNames.SUPER_ADMIN)
     public Tutor updateTutor(FormTutorDTO form) throws Exception {
         return userService.updateTutor(form);
+    }
+    
+    @GetMapping("/tutor")
+    public boolean deleteTutor(@AuthenticationPrincipal User user) throws Exception {
+        switch (user.getRole().getName()) {
+            case RolesNames.TUTOR:
+                userService.deleteTutor(user);
+                return true;
+            default:
+            	return false;
+        }
     }
 
 }

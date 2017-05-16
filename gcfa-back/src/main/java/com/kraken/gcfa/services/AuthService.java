@@ -32,24 +32,25 @@ public class AuthService {
 
     public String generateToken(FormLoginDTO login) throws Exception {
 
-
-        // ldapService.getUser(login.getUsername(), login.getPassword());
-
-        String searchBasicUser = basicLogin(login);
-        if (searchBasicUser != null) {
-            return searchBasicUser;
-        }
-
-        /*
-            TODO: replace with proper implementation of ldap query for user, currently faked
-         */
-        LDAPUserDTO ldapUser = new LDAPUserDTO();
-        ldapUser.setPrenom("Jean");
-        ldapUser.setNomFamille("Dupont");
-        ldapUser.setMail("jean.dupont@isep.fr");
-        ldapUser.setEmployeeNumber("1234");
-
-        User user = userRepository.findByLdapId(ldapUser.getEmployeeNumber());
+    	
+    	LDAPUserDTO ldapUser;
+    	User user = null;
+    	try {	
+	    	ldapUser = ldapService.getUser(login.getUsername(), login.getPassword());
+	        /*
+	        LDAPUserDTO ldapUser = new LDAPUserDTO();
+	        ldapUser.setPrenom("Jean");
+	        ldapUser.setNomFamille("Dupont");
+	        ldapUser.setMail("jean.dupont@isep.fr");
+	        ldapUser.setEmployeeNumber("1234");
+	         */
+	        user = userRepository.findByLdapId(ldapUser.getEmployeeNumber());
+    	}catch (Exception e) {
+	        String searchBasicUser = basicLogin(login);
+	        if (searchBasicUser != null) {
+	            return searchBasicUser;
+	        }
+    	}
         String token = UUID.randomUUID().toString();
         if (user != null) {
             user.setToken(token);
@@ -57,21 +58,15 @@ public class AuthService {
             userRepository.save(user);
             return token;
         } else {
-            // TODO: remove and replace with csv import
-            User userCreated = ldapService.createUserFromLDAP(ldapUser);
-            userCreated.setToken(token);
-            userCreated = updateTokenExpiration(userCreated);
-            userRepository.save(userCreated);
-            return token;
-            //throw new Exception("L'utilisateur est inconnu");
+        	throw new Exception("L'utilisateur est inconnu");
         }
     }
 
     public String basicLogin(FormLoginDTO form) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(form.getPassword());
-        User user = userRepository.findByEmailAndPassword(form.getUsername(), hashedPassword);
-        if (user != null) {
+        User user = userRepository.findByEmail(form.getUsername());
+        
+        if (user != null && passwordEncoder.matches(form.getPassword(), user.getPassword())) {
             String token = UUID.randomUUID().toString();
             user = updateTokenExpiration(user);
             user.setToken(token);

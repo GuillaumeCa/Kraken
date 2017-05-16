@@ -11,4 +11,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface TutorRepository extends CrudRepository<Tutor, Long> {
 	Tutor findByUser(User user);
+	void deleteByUser(User user);
 }
