@@ -36,14 +36,14 @@ INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (2
 INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (26, "TWO_YEARS", 1, 1, "Journal 4", 2);
 INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (27, "TWO_YEARS", 1, 9, "Journal 5", 2);
 
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (31, "TWO_YEARS", 1, 1, "Rapport d'étape 1", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (32, "TWO_YEARS", 1, 5, "Rapport d'étape 2", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (33, "TWO_YEARS", 1, 9, "Rapport d'étape 3", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (34, "TWO_YEARS", 1, 1, "Rapport d'étape 4", 2);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (28, "TWO_YEARS", 1, 1, "Rapport d'étape 1", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (29, "TWO_YEARS", 1, 5, "Rapport d'étape 2", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (30, "TWO_YEARS", 1, 9, "Rapport d'étape 3", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (31, "TWO_YEARS", 1, 1, "Rapport d'étape 4", 2);
 
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (38, "TWO_YEARS", 1, 10, "Synthese 1", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (40, "TWO_YEARS", 1, 9, "Rapport final", 2);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (32, "TWO_YEARS", 1, 10, "Synthese 1", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (33, "TWO_YEARS", 1, 9, "Rapport final", 2);
 
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (41,"TWO_YEARS", 1, 1,"Evaluation debut", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (43,"TWO_YEARS", 1, 10,"Evaluation fin A2", 1);
-INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (44,"TWO_YEARS", 1, 9,"Evaluation fin A3", 2);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (34,"TWO_YEARS", 1, 1,"Evaluation debut", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (35,"TWO_YEARS", 1, 10,"Evaluation fin A2", 1);
+INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (36,"TWO_YEARS", 1, 9,"Evaluation fin A3", 2);
