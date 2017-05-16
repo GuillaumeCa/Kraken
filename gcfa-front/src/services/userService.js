@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-export function getProfile(cb) {
+export function getProfile() {
   const userData = JSON.parse(localStorage.getItem('user'));
   if (userData) {
-    cb(userData);
+    return Promise.resolve(userData);
   } else {
-    axios.get('/user/me').then(res => {
-      localStorage.setItem('user', JSON.stringify(res.data));
-      console.log(res.data)
-      cb(res.data);
-    })
+    return axios.get('/user/me')
+                .then(res => {
+                  localStorage.setItem('user', JSON.stringify(res.data));
+                  return res.data
+                })
   }
 }
 

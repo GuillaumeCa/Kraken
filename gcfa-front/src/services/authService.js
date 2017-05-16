@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as userService from './userService';
 
 export function setToken(token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
@@ -15,6 +16,7 @@ export function login(user, password) {
     password: password
   }).then(res => {
     setToken(res.data);
+    return userService.getProfile();
   });
 }
 

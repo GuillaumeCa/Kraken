@@ -41,7 +41,6 @@ class Layout extends Component {
     super(props);
 
     authService.handle403Errors(() => {
-      console.log('reroute');
       authService.logout();
       this.props.history.push('/');
     })

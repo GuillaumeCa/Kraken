@@ -51,7 +51,8 @@ class NavBar extends Component {
   }
 
   componentDidMount() {
-    userService.getProfile((userData) => this.setState({ userData }));
+    userService.getProfile()
+      .then(userData => this.setState({ userData }));
   }
 
   onLogout = () => {
