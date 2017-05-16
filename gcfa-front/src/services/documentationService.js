@@ -28,3 +28,13 @@ export function upload(file, type, onUploadProgress) {
   return axios.post('/documentation', data, { onUploadProgress })
               .catch(helper.handleError);
 }
+
+export function editDocumentation(id, file, onUploadProgress) {
+  var data = new FormData();
+  data.append('file', file);
+  return axios.put(`/documentation/${id}`, data, { onUploadProgress });
+}
+
+export function deleteDocumentation(id) {
+  return axios.delete(`/documentation/${id}`);  
+}

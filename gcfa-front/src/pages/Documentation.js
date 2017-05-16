@@ -3,7 +3,11 @@ import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
 
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import Delete from 'material-ui/svg-icons/content/remove-circle';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import BarCard, { DocumentCard, DocumentationCard, List } from '../components/BarCard';
@@ -15,11 +19,13 @@ import Time from '../components/Time';
 import Auth from '../components/Auth';
 
 import * as documentationService from '../services/documentationService';
+import { sendNotification } from '../components/Notification';
+
 
 import {
 
   SUPER_ADMIN,
-
+  APPRENTICE,
   CALENDAR,
   TOOL,
   EVALUATION,
@@ -48,6 +54,9 @@ class Documentation extends Component {
     uploadStarted: false,
     uploadProgress: 0,
     fileType: CALENDAR,
+    docSelected: {},
+    openEdit: false,
+
   }
 
   componentDidMount() {
@@ -92,6 +101,46 @@ class Documentation extends Component {
     this.setState({
       uploadProgress: Math.round((progress.loaded * 100) / progress.total)
     });
+  }
+
+  editDoc = (event, doc) => {
+    this.setState({
+      openEdit: true,
+      anchorEl: event.currentTarget,
+      docSelected: doc,
+    });
+  }
+
+  handleEditClose = () => {
+    this.setState({ openEdit: false, anchorEl: null });
+  }
+
+  handleDeleteDoc = () => {
+    const { docSelected } = this.state;
+    documentationService.deleteDocumentation(docSelected.id)
+      .then(() => {
+        sendNotification('Document supprimé avec succès');
+        this.updateData();
+      })
+    this.setState({ openEdit: false });
+  }
+
+  handleReplaceDoc = () => {
+    this.setState({ openModal: true });
+    this.handleEditClose();
+    const { docSelected, file } = this.state;
+    documentationService.editDocumentation(docSelected.id, file, this.onUploadProgress)
+      .then(() => {
+        sendNotification('Document modifié avec succès');
+        this.updateData();
+      })
+    this.setState({ openEdit: false });
+  }
+
+  handleDownloadDoc = () => {
+    const { docSelected } = this.state;
+    documentationService.getDocumentation(docSelected.id);
+    this.setState({ openEdit: false });
   }
 
   closeDocModal = () => {
@@ -141,9 +190,9 @@ class Documentation extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">Documentation</h1>
           <div style={{ marginLeft: 'auto' }}>
-            {/* <Auth roles={[SUPER_ADMIN]}> */}
-                <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.openDocModal} />
-            {/* </Auth> */}
+            <Auth roles={[SUPER_ADMIN]} >
+              <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.openDocModal} />
+            </Auth>
           </div>
         </div>
 
@@ -154,9 +203,19 @@ class Documentation extends Component {
               <List key={1} data={calendars} emptyLabel="Aucun documents">
                 { calendars.map((doc) => {
                     return (
-                      <BarCard key={doc.id} actions={<FlatButton primary  labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} icon={<Download />} />}>
-                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
-                      </BarCard>
+                      <div>
+                        <Auth roles={[APPRENTICE]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+
+                        <Auth roles={[SUPER_ADMIN]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+                      </div>
                     )
                   })
                 }
@@ -167,9 +226,19 @@ class Documentation extends Component {
               <List key={2} data={tools} emptyLabel="Aucun documents">
                 { tools.map((doc) => {
                     return (
-                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
-                      </BarCard>
+                      <div>
+                        <Auth roles={[APPRENTICE]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+
+                        <Auth roles={[SUPER_ADMIN]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+                      </div>
                     )
                   })
                 }
@@ -180,9 +249,19 @@ class Documentation extends Component {
               <List key={3} data={evaluation} emptyLabel="Aucun documents">
                 { evaluation.map((doc) => {
                     return (
-                      <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                        <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
-                      </BarCard>
+                      <div>
+                        <Auth roles={[APPRENTICE]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+
+                        <Auth roles={[SUPER_ADMIN]} >
+                          <BarCard key={doc.id} actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
+                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                          </BarCard>
+                        </Auth>
+                      </div>
                     )
                   })
                 }
@@ -210,6 +289,20 @@ class Documentation extends Component {
             <MenuItem value={EVALUATION} primaryText="Document d'évaluation" />
           </SelectField>
         </UploadModal>
+
+          <Popover
+            open={this.state.openEdit}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            onRequestClose={this.handleEditClose}
+          >
+          <Menu>
+            <MenuItem primaryText="Modifier" rightIcon={<Edit />} onTouchTap={this.handleReplaceDoc} />
+            <MenuItem primaryText="Supprimer" rightIcon={<Delete />} onTouchTap={this.handleDeleteDoc} />
+            <MenuItem primaryText="Télécharger" rightIcon={<Download />} onTouchTap={this.handleDownloadDoc} />
+          </Menu>
+        </Popover>
       </div>
     );
   }
