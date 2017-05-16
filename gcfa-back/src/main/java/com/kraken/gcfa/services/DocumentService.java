@@ -102,7 +102,7 @@ public class DocumentService {
     public List<DocumentType> getDueDocuments(User user) {
         Apprentice apprentice = userService.getApprentice(user);
         List<Document> documents = documentRepository.findByApprentice(apprentice);
-        List<DocumentType> listDocumentTypes = documentTypeRepository.findByContractOrderByDeltaDeadline(apprentice.getContractType());
+        List<DocumentType> listDocumentTypes = documentTypeRepository.findByContract(apprentice.getContractType());
         for (Document document : documents) {
             if (listDocumentTypes.contains(document.getType())) {
                 listDocumentTypes.remove(document.getType());
