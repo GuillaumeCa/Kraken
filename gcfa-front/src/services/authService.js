@@ -36,7 +36,7 @@ export function handle403Errors(on403) {
   axios.interceptors.response.use(
     response => response,
     error => {
-      if (error.response.status == 403) {
+      if (error.response.status === 403) {
         on403();
       }
       // return Promise.reject(error);

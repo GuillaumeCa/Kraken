@@ -24,6 +24,12 @@ export function getDocument(id) {
     });
 }
 
+export function editDocument(id, file, onUploadProgress) {
+  var data = new FormData();
+  data.append('file', file);
+  return axios.put(`/document/${id}`, data, { onUploadProgress });
+}
+
 export function deleteDocument(id) {
   return axios.delete(`/document/${id}`);
 }

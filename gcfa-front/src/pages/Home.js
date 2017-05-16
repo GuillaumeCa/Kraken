@@ -39,6 +39,9 @@ class Home extends Component {
     loadingDue: false,
     loadingSent: false,
 
+    errorDue: false,
+    errorSent: false,
+
     uploadStarted: false,
     uploadProgress: 0,
 
@@ -54,6 +57,9 @@ class Home extends Component {
       .then(docs => {
         this.setState({ loadingSent: false, sentDocs: docs.data });
       })
+      .catch(err => {
+        this.setState({ loadingSent: false, errorSent: true });
+      })
   }
 
   requestDue() {
@@ -61,6 +67,9 @@ class Home extends Component {
     documentService.getDueDocuments()
       .then(docs => {
         this.setState({ loadingDue: false, dueDocs: docs.data });
+      })
+      .catch(err => {
+        this.setState({ loadingDue: false, errorDue: true });
       })
   }
 
@@ -138,6 +147,13 @@ class Home extends Component {
   handleReplaceDoc = () => {
     this.setState({ openModal: true });
     this.handleEditClose();
+    const { docSelected, file } = this.state;
+    documentService.editDocument(docSelected.id, file, this.onUploadProgress)
+      .then(() => {
+        sendNotification('Document modifié avec succès');
+        this.updateData();
+      })
+    this.setState({ openEdit: false });
   }
 
   handleDownloadDoc = () => {
@@ -165,6 +181,9 @@ class Home extends Component {
 
       loadingSent,
       loadingDue,
+
+      errorSent,
+      errorDue,
 
       uploadStarted,
       uploadProgress,
@@ -196,9 +215,9 @@ class Home extends Component {
 
         {
           showSentDocs &&
-          <Loader loading={loadingSent}>
-            <section>
-              <h2 className="sub-title">Déposés</h2>
+          <section>
+            <h2 className="sub-title">Déposés</h2>
+            <Loader loading={loadingSent} error={errorSent}>
               <List data={sentDocs} emptyLabel="Aucun documents déposés">
                 {
                   sentDocs.map(data => {
@@ -208,18 +227,20 @@ class Home extends Component {
                           onTouchTap={(e) => this.editDoc(e, data)}
                         />
                       }>
-                        <DocumentCard title={data.type.name} subtitle="sous-titre" />
+                        <DocumentCard title={data.type.name} subtitle={
+                          <span>rendu le <Time format="DD MMMM YYYY" date={data.creation} /></span>
+                        } />
                       </BarCard>
                     )
                   })
                 }
               </List>
-            </section>
-          </Loader>
+            </Loader>
+          </section>
         }
-        <Loader loading={loadingDue}>
-          <section>
-            <h2 className="sub-title">A venir</h2>
+        <section>
+          <h2 className="sub-title">A venir</h2>
+          <Loader loading={loadingDue} error={errorDue}>
             <List data={dueDocs} emptyLabel="Aucun documents à venir">
               {
                 dueDocs.map(data => {
@@ -237,8 +258,8 @@ class Home extends Component {
                 })
               }
             </List>
-          </section>
-        </Loader>
+          </Loader>
+        </section>
 
 
         <UploadModal

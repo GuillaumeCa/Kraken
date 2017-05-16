@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
@@ -11,7 +11,6 @@ import * as authService from '../services/authService';
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
-import Auth from '../components/Auth';
 
 
 import {
