@@ -116,7 +116,9 @@ public class DocumentService {
         DocumentType doc = new DocumentType();
         doc.setName(form.getName());
         doc.setContract(form.getContract());
-        doc.setDeltaDeadline(form.getDeltaDueDate());
+        doc.setDay(form.getDay());
+        doc.setMonth(form.getMonth());
+        doc.setYear(form.getYear());
         return documentTypeRepository.save(doc);
     }
 

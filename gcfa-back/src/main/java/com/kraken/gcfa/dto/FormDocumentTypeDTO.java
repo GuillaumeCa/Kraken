@@ -15,7 +15,11 @@ public class FormDocumentTypeDTO {
     @Enumerated(EnumType.STRING)
     private ContractType contract;
 
-    private Long deltaDueDate;
+    private Integer day;
+    
+    private Integer month;
+    
+    private Integer year;
 
     public String getName() {
         return name;
@@ -33,11 +37,27 @@ public class FormDocumentTypeDTO {
         this.contract = contract;
     }
 
-    public Long getDeltaDueDate() {
-        return deltaDueDate;
-    }
+	public Integer getDay() {
+		return day;
+	}
 
-    public void setDeltaDueDate(Long deltaDueDate) {
-        this.deltaDueDate = deltaDueDate;
-    }
+	public void setDay(Integer day) {
+		this.day = day;
+	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 }

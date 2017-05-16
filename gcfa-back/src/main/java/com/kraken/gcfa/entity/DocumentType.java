@@ -25,11 +25,12 @@ public class DocumentType {
      */
     @Enumerated(EnumType.STRING)
     private ContractType contract;
+    
+    private Integer day;
+    
+    private Integer month;
 
-    /**
-     * Delta entre la date de début du contrat et la date de rendu du document
-     */
-    private Long deltaDeadline;
+    private Integer year;    
 
     public Long getId() {
         return id;
@@ -55,11 +56,27 @@ public class DocumentType {
         this.contract = contract;
     }
 
-    public Long getDeltaDeadline() {
-        return deltaDeadline;
-    }
+	public Integer getDay() {
+		return day;
+	}
 
-    public void setDeltaDeadline(Long deltaDeadline) {
-        this.deltaDeadline = deltaDeadline;
-    }
+	public void setDay(Integer day) {
+		this.day = day;
+	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 }
