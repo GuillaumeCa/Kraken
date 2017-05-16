@@ -9,13 +9,13 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Delete from 'material-ui/svg-icons/content/remove-circle';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import BarCard, { DocumentCard, List } from '../components/BarCard';
-import UploadModal from '../components/UploadModal';
-import { sendNotification } from '../components/Notification';
-import Loader from '../components/Loader';
-import Time from '../components/Time';
+import BarCard, { DocumentCard, List } from '../../components/BarCard';
+import UploadModal from '../../components/UploadModal';
+import { sendNotification } from '../../components/Notification';
+import Loader from '../../components/Loader';
+import Time from '../../components/Time';
 
-import * as documentService from '../services/documentService';
+import * as documentService from '../../services/documentService';
 
 const HEAD_STYLE = {
   display: 'flex',
@@ -26,8 +26,10 @@ const BUTTON_STYLE = {
   fontSize: 20,
 }
 
-class Home extends Component {
-  state = {
+
+class ApprenticeHome extends Component {
+
+state = {
     openModal: false,
     docSelected: {},
     openEdit: false,
@@ -290,4 +292,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default ApprenticeHome;
