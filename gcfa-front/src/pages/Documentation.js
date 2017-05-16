@@ -56,7 +56,6 @@ class Documentation extends Component {
     fileType: CALENDAR,
     docSelected: {},
     openEdit: false,
-
   }
 
   componentDidMount() {
@@ -141,6 +140,10 @@ class Documentation extends Component {
     const { docSelected } = this.state;
     documentationService.getDocumentation(docSelected.id);
     this.setState({ openEdit: false });
+  }
+
+  updateData() {
+    this.requestAllDocumentation();;
   }
 
   closeDocModal = () => {
