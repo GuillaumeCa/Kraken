@@ -23,64 +23,65 @@ import java.util.List;
 @RequestMapping("/document")
 public class DocumentController {
 
-    @Autowired
-    private DocumentService documentService;
+	@Autowired
+	private DocumentService documentService;
 
-    /**
-     * Publier une document
-     *
-     * @param file
-     * @param typeId
-     * @throws StorageException
-     */
-    @PostMapping(value = "/{typeId}")
-    public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId, @AuthenticationPrincipal User auth) throws StorageException {
-        documentService.storeFile(file, typeId, auth);
-    }
+	/**
+	 * Publier une document
+	 *
+	 * @param file
+	 * @param typeId
+	 * @throws StorageException
+	 */
+	@PostMapping(value = "/{typeId}")
+	public void upload(@RequestParam("file") MultipartFile file, @PathVariable Long typeId, @AuthenticationPrincipal User auth) throws StorageException {
+		documentService.storeFile(file, typeId, auth);
+	}
 
-    /**
-     * Récupérer un document avec son apprenticeId
-     *
-     * @param documentId
-     * @param response
-     * @return
-     * @throws StorageException
-     */
-    @GetMapping(value = "/{documentId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public FileSystemResource getFile(@PathVariable Long documentId, HttpServletResponse response, @AuthenticationPrincipal User auth) throws StorageException {
-        File file = documentService.getFile(documentId, auth);
-        response.addHeader("Access-Control-Expose-Headers", "x-filename");
-        response.addHeader("x-filename", file.getName());
-        return new FileSystemResource(file);
-    }
+	/**
+	 * Récupérer un document avec son apprenticeId
+	 *
+	 * @param documentId
+	 * @param response
+	 * @return
+	 * @throws StorageException
+	 */
+	@GetMapping(value = "/{documentId}", produces = MediaType.APPLICATION_PDF_VALUE)
+	public FileSystemResource getFile(@PathVariable Long documentId, HttpServletResponse response, @AuthenticationPrincipal User auth) throws StorageException {
+		Document doc = documentService.getDocument(documentId, auth);
+		File file = documentService.getFile(doc);
+		response.addHeader("Access-Control-Expose-Headers", "x-filename");
+		response.addHeader("x-filename", doc.getName() + doc.getFileType());
+		return new FileSystemResource(file);
+	}
 
-    /**
-     * Supprimer une document
-     *
-     * @param documentId
-     * @throws StorageException
-     */
-    @DeleteMapping("/{documentId}")
-    @RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.APPRENTICE})
-    public void deleteFile(@PathVariable Long documentId, @AuthenticationPrincipal User auth) throws StorageException {
-        documentService.deleteFile(documentId, auth);
-    }
+	/**
+	 * Supprimer une document
+	 *
+	 * @param documentId
+	 * @throws StorageException
+	 */
+	@DeleteMapping("/{documentId}")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.APPRENTICE})
+	public void deleteFile(@PathVariable Long documentId, @AuthenticationPrincipal User auth) throws StorageException {
+		documentService.deleteFile(documentId, auth);
+	}
 
-    @GetMapping("/due")
-    @RolesAllowed(RolesNames.APPRENTICE)
-    public List<DocumentType> dueDocuments(@AuthenticationPrincipal User auth) {
-        return documentService.getDueDocuments(auth);
-    }
+	@GetMapping("/due")
+	@RolesAllowed(RolesNames.APPRENTICE)
+	public List<DocumentType> dueDocuments(@AuthenticationPrincipal User auth) {
+		return documentService.getDueDocuments(auth);
+	}
 
-    @GetMapping
-    @RolesAllowed(RolesNames.APPRENTICE)
-    public List<Document> documentsSent(@AuthenticationPrincipal User auth) {
-        return documentService.getDocuments(auth);
-    }
+	@GetMapping
+	@RolesAllowed(RolesNames.APPRENTICE)
+	public List<Document> documentsSent(@AuthenticationPrincipal User auth) {
+		return documentService.getDocuments(auth);
+	}
 
-    @PostMapping("/type")
-    @RolesAllowed(RolesNames.SUPER_ADMIN)
-    public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {
-        return documentService.createDocumentType(form);
-    }
+	@PostMapping("/type")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {
+		return documentService.createDocumentType(form);
+	}
 }
