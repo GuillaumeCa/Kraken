@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +116,14 @@ public class DocumentService {
                 listDocumentTypes.remove(document.getType());
             }
         }
+        listDocumentTypes.sort((a, b) -> {
+            Calendar c1 = Calendar.getInstance();
+            c1.set(a.getYear(), a.getMonth(), a.getDay());
+
+            Calendar c2 = Calendar.getInstance();
+            c2.set(b.getYear(), b.getMonth(), b.getDay());
+            return c1.getTime().compareTo(c2.getTime());
+        });
         return listDocumentTypes;
     }
 

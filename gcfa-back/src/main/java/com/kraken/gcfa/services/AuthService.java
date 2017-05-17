@@ -44,13 +44,21 @@ public class AuthService {
 	        ldapUser.setMail("jean.dupont@isep.fr");
 	        ldapUser.setEmployeeNumber("1234");
 	         */
-	        user = userRepository.findByLdapId(ldapUser.getEmployeeNumber());
     	}catch (Exception e) {
 	        String searchBasicUser = basicLogin(login);
 	        if (searchBasicUser != null) {
 	            return searchBasicUser;
 	        }
+
+            ldapUser = new LDAPUserDTO();
+	        ldapUser.setPrenom("Jean");
+	        ldapUser.setNomFamille("Dupont");
+	        ldapUser.setMail("jean.dupont@isep.fr");
+	        ldapUser.setEmployeeNumber("1234");
     	}
+
+        user = userRepository.findByLdapId(ldapUser.getEmployeeNumber());
+
         String token = UUID.randomUUID().toString();
         if (user != null) {
             user.setToken(token);
