@@ -9,7 +9,9 @@ export const CALENDAR = "CALENDAR";
 export const TOOL = "TOOL";
 export const EVALUATION = "EVALUATION";
 
-// CONTRACT START TIMESTAMP
+// CONTRACT TYPE APPRENTICE
+export const TWO_YEARS = "TWO_YEARS";
+export const THREE_YEARS = "THREE_YEARS";
 
 // Config
 export const BASE_URL = "http://localhost:8081";

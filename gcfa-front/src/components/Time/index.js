@@ -6,10 +6,11 @@ function Time(props) {
   return <Moment format={format} unix>{date / 1000}</Moment>;
 }
 
-function DueTime(props) {
-  const { doc, format,  } = props;
+export function DueTime(props) {
+  const { doc, format, startYear } = props;
   const { day, month, year } = doc;
-  return <Moment format={format}></Moment>
+  const dueDate = new Date(startYear + year, month - 1, day);
+  return <Moment format={format}>{dueDate}</Moment>
 }
 
 export default Time;

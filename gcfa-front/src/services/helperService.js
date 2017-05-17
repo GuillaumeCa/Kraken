@@ -14,8 +14,3 @@ export function handleError(err) {
   sendNotification(`Erreur de chargement`);
   throw err;
 }
-
-
-export function computeDueDate(contractType, promoYear, deltaDue) {
-
-}

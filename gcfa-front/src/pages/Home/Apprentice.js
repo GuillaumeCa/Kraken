@@ -13,9 +13,10 @@ import BarCard, { DocumentCard, List } from '../../components/BarCard';
 import UploadModal from '../../components/UploadModal';
 import { sendNotification } from '../../components/Notification';
 import Loader from '../../components/Loader';
-import Time from '../../components/Time';
+import Time, { DueTime } from '../../components/Time';
 
 import * as documentService from '../../services/documentService';
+import * as userService from '../../services/userService';
 
 const HEAD_STYLE = {
   display: 'flex',
@@ -25,7 +26,6 @@ const HEAD_STYLE = {
 const BUTTON_STYLE = {
   fontSize: 20,
 }
-
 
 class ApprenticeHome extends Component {
 
@@ -47,10 +47,13 @@ state = {
     uploadStarted: false,
     uploadProgress: 0,
 
+    apprenticeStartY: 0,
   }
 
   componentDidMount() {
     this.requestDue();
+    userService.getApprenticeStartDate()
+      .then(apprenticeStartY => this.setState({ apprenticeStartY }))
   }
 
   requestSent() {
@@ -74,15 +77,6 @@ state = {
         this.setState({ loadingDue: false, errorDue: true });
       })
   }
-
-  uploadDoc = (doc) => {
-    doc.subtitle = <span>Document à rendre le <Time format="DD/MM/YYYY" date={Date.now() + doc.deltaDeadline} /></span>;
-  	this.setState({
-  		openModal: true,
-  		docSelected: doc,
-  	})
-  }
-
 
   toggleOldDocs = () => {
     this.requestSent();
@@ -123,8 +117,18 @@ state = {
   	})
   }
 
+  uploadDoc = (doc) => {
+    const { apprenticeStartY } = this.state;
+    doc.subtitle = <span>Document à rendre le <DueTime format="DD/MM/YYYY" doc={doc} startYear={apprenticeStartY} /></span>;
+  	this.setState({
+  		openModal: true,
+  		docSelected: doc,
+  	})
+  }
+
   editDoc = (event, doc) => {
-    doc.subtitle = <span>Document à rendre le <Time format="DD/MM/YYYY" date={doc.deltaDeadline} /></span>;
+    const { apprenticeStartY } = this.state;
+    doc.subtitle = <span>Document à rendre le <DueTime format="DD/MM/YYYY" doc={doc} startYear={apprenticeStartY} /></span>;
     this.setState({
       openEdit: true,
       anchorEl: event.currentTarget,
@@ -190,7 +194,9 @@ state = {
       uploadStarted,
       uploadProgress,
 
+      apprenticeStartY,
     } = this.state;
+
 
   	const modalButtons = [
   	  <FlatButton
@@ -202,7 +208,6 @@ state = {
   	    label="Déposer"
   	    primary={true}
   	    onTouchTap={this.handleSubmit}
-        // disabled={notValidFile}
   	  />,
   	];
 
@@ -253,7 +258,7 @@ state = {
                         />
                       }>
                       <DocumentCard title={data.name} subtitle={
-                        <span>À rendre le <Time format="DD MMMM YYYY" date={Date.now() + + data.deltaDeadline} /></span>
+                        <span>À rendre le <DueTime format="Do MMMM YYYY" doc={data} startYear={apprenticeStartY} /></span>
                       } />
                     </BarCard>
                   )
