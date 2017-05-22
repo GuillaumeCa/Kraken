@@ -12,6 +12,8 @@ import com.kraken.gcfa.repository.CompanySiteRepository;
 import com.kraken.gcfa.repository.TutorRepository;
 import com.kraken.gcfa.repository.UserRepository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,11 @@ public class UserService {
 
     public Apprentice getApprentice(User user) {
         return apprenticeRepository.findByUser(user);
+    }
+    
+    public List<Apprentice> getApprenticeFromTutor(User user) {
+    	Tutor tutor = tutorRepository.findByUser(user);    	
+        return tutor.getApprentices();
     }
 
     public Apprentice createApprentice(FormApprenticeDTO form) throws Exception {
