@@ -42,10 +42,12 @@ public class UserController {
      * @return
      */
     @GetMapping("/me/detail")
-    public ResponseEntity getApprentice(@AuthenticationPrincipal User user) {
+    public ResponseEntity getUserProfil(@AuthenticationPrincipal User user) {
         switch (user.getRole().getName()) {
             case RolesNames.APPRENTICE:
                 return new ResponseEntity<>(userService.getApprentice(user), HttpStatus.OK);
+            case RolesNames.TUTOR:
+                return new ResponseEntity<>(userService.getTutor(user), HttpStatus.OK);
             default:
                 return new ResponseEntity<>(user, HttpStatus.OK);
         }

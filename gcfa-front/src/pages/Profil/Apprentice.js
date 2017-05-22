@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Avatar from 'material-ui/Avatar';
 
-import * as userService from '../services/userService';
+import * as userService from '../../services/userService';
 
 const CONTENT_STYLE = {
 	margin: '0 auto',
@@ -14,13 +14,13 @@ const CONTENT_STYLE = {
 }
 
 
-class Profil extends Component {
+class ApprenticeProfil extends Component {
 	state = {
 		profil: null,
 	}
 
 	componentDidMount() {
-		userService.getApprenticeProfile().then(res => {
+		userService.getUserProfile().then(res => {
 			this.setState({ profil: res.data });
 		})
 	}
@@ -99,4 +99,4 @@ class Profil extends Component {
   }
 }
 
-export default Profil;
+export default ApprenticeProfil;

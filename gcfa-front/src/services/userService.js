@@ -14,12 +14,13 @@ export function getProfile() {
   }
 }
 
-export function getApprenticeProfile() {
+export function getUserProfile() {
   return axios.get('/user/me/detail');
 }
 
+
 export function getApprenticeStartDate() {
-  return getApprenticeProfile().then(res => {
+  return getProfile().then(res => {
     switch (res.data.contractType) {
       case TWO_YEARS:
         return res.data.promotion - 2;
