@@ -60,14 +60,19 @@ public class DocumentService {
 			}
 
 			String path = storageService.storeFile(file, rootLocation);
-
-			Document document = new Document();
+			
+			Document document;
+			document = documentRepository.findByApprenticeIdAndTypeId(apprentice.getId(), typeId);
+			
+			if (document == null) {
+				document = new Document();
+				DocumentType type = documentTypeRepository.findOne(typeId);
+				document.setType(type);
+			}
 			document.setName(storageService.getFilename(rawFilename));
 
 			document.setCreation(new Date());
 			document.setPath(path);
-			DocumentType type = documentTypeRepository.findOne(typeId);
-			document.setType(type);
 			document.setApprentice(apprentice);
 			document.setFileType(fileType);
 			documentRepository.save(document);

@@ -9,6 +9,10 @@ import java.util.Date;
  * Created by Guillaume on 23/03/2017.
  * gcfa-back
  */
+@Table(
+	    uniqueConstraints=
+	        @UniqueConstraint(columnNames={"type_id", "apprentice_id"})
+	)
 @Entity
 public class Document {
 

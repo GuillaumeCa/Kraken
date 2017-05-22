@@ -12,6 +12,8 @@ public interface DocumentRepository extends CrudRepository<Document, Long> {
     List<Document> findAll();
     
     Document findByApprenticeIdAndId(Long apprenticeId, Long documentId);
+
+    Document findByApprenticeIdAndTypeId(Long apprenticeId, Long typeId);
     
     List<Document> findByApprentice(Apprentice apprentice);
 }
