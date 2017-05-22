@@ -57,6 +57,7 @@ class Documentation extends Component {
     docSelected: null,
     openEdit: false,
     isEdit: false,
+    isValidFile: false,
   }
 
   componentDidMount() {
@@ -167,6 +168,13 @@ class Documentation extends Component {
     });
   }
 
+  checkSelectedFile = (file) => {
+    let isValid = false;
+
+    isValid = file == null ? false : true;
+    this.setState({isValidFile: isValid});
+  }
+
   onSetFileType = (e, i, value) => {
     this.setState({ fileType: value });
   }
@@ -199,6 +207,7 @@ class Documentation extends Component {
   	    label="Déposer"
   	    primary={true}
         onTouchTap={this.onUploadDoc}
+        disabled={!this.state.isValidFile}
   	  />,
   	];
 
@@ -293,7 +302,7 @@ class Documentation extends Component {
         	actions={modalButtons}
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
-          onSelectFile={file => this.setState({ file })}
+          onSelectFile={file => this.checkSelectedFile(file)}
           file={docSelected}
           acceptedType='.pdf, .xls, .xlsx, .doc, .docx'
         >

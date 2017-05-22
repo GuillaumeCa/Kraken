@@ -70,15 +70,20 @@ export default class UploadModal extends Component {
     if(!this.state.open && this.state.acceptedFile != null){
       this.setState({ acceptedFile: null, rejectedFile: null })
     }
+
+    if(!this.state.open && this.state.rejectedFile != null){
+      this.setState({ acceptedFile: null, rejectedFile: null })
+    }
   }
 
   onDrop = (acceptedFile, rejectedFile) => {
     if(Object.keys(acceptedFile).length !== 0) {
       this.setState({acceptedFile: acceptedFile[0], rejectedFile: null})
+      this.props.onSelectFile(acceptedFile[0])
     } else {
       this.setState({aceptedFile: null, rejectedFile: rejectedFile[0]})
+      this.props.onSelectFile(null)
     }
-    this.props.onSelectFile(acceptedFile[0])
   }
 
 
