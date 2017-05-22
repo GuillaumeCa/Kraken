@@ -228,6 +228,7 @@ state = {
               <List data={sentDocs} emptyLabel="Aucun documents déposés">
                 {
                   sentDocs.map(data => {
+                    data.id = data.type.id
                     return (
                       <BarCard key={data.id} actions={
                         <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}
