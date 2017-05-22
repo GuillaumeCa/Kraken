@@ -67,7 +67,7 @@ export default class UploadModal extends Component {
 
   componentWillUpdate() {
 
-    if(!this.state.open && this.state.file != null){
+    if(!this.state.open && this.state.acceptedFile != null){
       this.setState({ acceptedFile: null, rejectedFile: null })
     }
   }

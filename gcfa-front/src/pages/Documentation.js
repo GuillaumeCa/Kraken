@@ -129,7 +129,7 @@ class Documentation extends Component {
   }
 
   handleEditClose = () => {
-    this.setState({ openEdit: false, anchorEl: null });
+    this.setState({ openEdit: false, anchorEl: null, docSelected: null });
   }
 
   handleDeleteDoc = () => {
@@ -162,7 +162,8 @@ class Documentation extends Component {
     this.setState({
       uploadProgress: 0,
       uploadStarted: false,
-      openDocModal: false
+      openDocModal: false,
+      docSelected: null,
     });
   }
 
