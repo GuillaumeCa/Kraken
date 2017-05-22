@@ -8,9 +8,12 @@ import NotificationCenter from '../components/Notification';
 
 import * as authService from '../services/authService';
 
+import Auth from '../components/Auth';
+
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
+import Users from './Users';
 
 
 import {
@@ -57,6 +60,11 @@ class Layout extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
+
+              <Auth roles={[SUPER_ADMIN]}>
+                <Route path="/users" component={Users} />              
+              </Auth>
+
               <Route component={() => <div>erreur</div>} />
             </Switch>
           </Banner>
