@@ -2,6 +2,7 @@ package com.kraken.gcfa.dto;
 
 public class FormCompanySiteDTO {
 
+	private Long idCompany;
     private String name;
     private String address;
     private Integer codePostal;
@@ -39,4 +40,12 @@ public class FormCompanySiteDTO {
     public void setCity(String city) {
         this.city = city;
     }
+
+	public Long getIdCompany() {
+		return idCompany;
+	}
+
+	public void setIdCompany(Long idCompany) {
+		this.idCompany = idCompany;
+	}
 }

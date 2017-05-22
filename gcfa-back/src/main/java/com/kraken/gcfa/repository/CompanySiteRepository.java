@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
  * gcfa-back
  */
 public interface CompanySiteRepository extends CrudRepository<CompanySite, Long> {
+	CompanySite findByName(String name);
 }
