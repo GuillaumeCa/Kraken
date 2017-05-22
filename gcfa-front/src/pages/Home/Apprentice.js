@@ -92,7 +92,7 @@ state = {
   handleSubmit = () => {
     const { docSelected, file } = this.state;
     this.setState({ uploadProgress: 0, uploadStarted: true });
-    documentService.uploadDocument(file, docSelected.id, this.onUploadProgress)
+    documentService.uploadDocument(file, docSelected.type.id, this.onUploadProgress)
       .then(res => {
         this.handleClose();
         this.updateData();
@@ -142,6 +142,7 @@ state = {
 
   handleDeleteDoc = () => {
     const { docSelected } = this.state;
+    console.log(docSelected);
     documentService.deleteDocument(docSelected.id)
       .then(() => {
         sendNotification('Document supprimé avec succès');
@@ -228,7 +229,6 @@ state = {
               <List data={sentDocs} emptyLabel="Aucun documents déposés">
                 {
                   sentDocs.map(data => {
-                    data.id = data.type.id
                     return (
                       <BarCard key={data.id} actions={
                         <FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE}

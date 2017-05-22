@@ -20,7 +20,7 @@ export function getUserProfile() {
 
 
 export function getApprenticeStartDate() {
-  return getProfile().then(res => {
+  return getUserProfile().then(res => {
     switch (res.data.contractType) {
       case TWO_YEARS:
         return res.data.promotion - 2;
