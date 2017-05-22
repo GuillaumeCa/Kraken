@@ -111,7 +111,7 @@ class Documentation extends Component {
 
       this.setState({isEdit: false});
     }
-    
+
   }
 
   onUploadProgress = (progress) => {
@@ -223,13 +223,13 @@ class Documentation extends Component {
                       <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
                           <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
                           <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
                       </div>

@@ -60,7 +60,7 @@ const DROPZONE_MSG_STYLE = {
 export default class UploadModal extends Component {
 
   state = {
-    acceptedFile: this.props.file,
+    acceptedFile: null,
     rejectedFile: null,
     open: this.props.open,
   }
@@ -73,7 +73,6 @@ export default class UploadModal extends Component {
   }
 
   onDrop = (acceptedFile, rejectedFile) => {
-    console.log(acceptedFile)
     if(Object.keys(acceptedFile).length !== 0) {
       this.setState({acceptedFile: acceptedFile[0], rejectedFile: null})
     } else {

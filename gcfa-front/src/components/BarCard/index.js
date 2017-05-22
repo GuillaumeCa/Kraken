@@ -67,15 +67,18 @@ const DOCUMENTATION_STYLE = {
 export function DocumentationCard(props) {
   const selectIcon = (type) => {
     switch (type) {
-      case 'PDF':
+      case '.pdf':
         return 'PDF.png'
-      case 'WORD':
+      case '.docx':
+      case '.doc':
         return 'Word.png'
-      case 'EXCEL':
+      case '.xls':
+      case '.xlsx':
         return 'Excel.png'
       default:
         return ''
     }
+
   }
 
   return (
