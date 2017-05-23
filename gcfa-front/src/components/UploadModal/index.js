@@ -96,6 +96,7 @@ export default class UploadModal extends Component {
       subtitle,
       uploading,
       uploadProgress,
+      title
     } = this.props;
 
     const {
@@ -110,7 +111,7 @@ export default class UploadModal extends Component {
         actions={actions}
       >
         <div style={MODAL_CONTAINER_STYLE}>
-          <h1 style={MODAL_TITLE_STYLE}>Ajouter un document</h1>
+          <h1 style={MODAL_TITLE_STYLE}>{title}</h1>
           <h2 style={MODAL_DOCTYPE_STYLE}>{docType}</h2>
           <p style={MODAL_SUBTITLE_STYLE}>{subtitle}</p>
 

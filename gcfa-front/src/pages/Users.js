@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import UploadModal from '../components/UploadModal';
+import FormModal from '../components/UserForm';
 
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
@@ -27,7 +28,7 @@ class Users extends Component {
   state = {
   	currentTab: 0,
     allTabs: ["Apprentis", "Tuteurs", "Consultants"],
-    openEdit: null,
+    openEdit: false,
     anchorEl: null,
     error: false,
     openDocModal: false,
@@ -36,7 +37,7 @@ class Users extends Component {
     uploadProgress: 0,
     docSelected: null,
     isValidFile: false,
-
+    openFormModal: false,
   }
 
   requestAllApprentice = () => {
@@ -52,18 +53,25 @@ class Users extends Component {
   }
 
   addUser = (event) => {
-    this.setState({
-      openEdit: true,
-      anchorEl: event.currentTarget,
-    });
+    if(this.state.currentTab == 0) {
+      this.setState({
+        openEdit: true,
+        anchorEl: event.currentTarget,
+      });
+    }
+
+    else {
+      this.handleOpenForm()
+    }
   }
 
   handleEditClose = () => {
     this.handleEditClose();
   }
 
-  createApprentice = () => {
+  handleOpenForm = () => {
     this.handleEditClose();
+    this.setState({openFormModal: true});
   }
 
   handleEditClose = () => {
@@ -94,6 +102,7 @@ class Users extends Component {
       uploadStarted: false,
       openDocModal: false,
       docSelected: null,
+      openFormModal: false
     });
   }
 
@@ -117,6 +126,7 @@ class Users extends Component {
       uploadStarted,
       uploadProgress,
       docSelected,
+      openFormModal,
     } = this.state;
 
     const modalButtons = [
@@ -133,16 +143,28 @@ class Users extends Component {
       />,
     ];
 
+    const modalFormButtons = [
+      <FlatButton
+        label="Annuler"
+        primary={true}
+        onTouchTap={this.closeDocModal}
+      />,
+      <FlatButton
+        label="Créer"
+        primary={true}
+        onTouchTap={this.closeDocModal}
+      />,
+    ];
+
     return (
     	<div>
         <div style={HEAD_STYLE}>
           <h1 className="main-title">{allTabs[currentTab]}</h1>
-          {
-            (currentTab == 0) &&
-            <div style={{ marginLeft: 'auto' }}>
-              <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.addUser} />
-            </div>
-          }
+      
+          <div style={{ marginLeft: 'auto' }}>
+            <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.addUser} />
+          </div>
+          
         </div>
 
 	    	<Drawer
@@ -160,18 +182,18 @@ class Users extends Component {
         <Popover
             open={this.state.openEdit}
             anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'center', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
             onRequestClose={this.handleEditClose}
           >
           <Menu>
-            <MenuItem primaryText="Créer" rightIcon={<Edit />} onTouchTap={this.createApprentice} />
+            <MenuItem primaryText="Créer" rightIcon={<Edit />} onTouchTap={this.handleOpenForm} />
             <MenuItem primaryText="Import CSV" rightIcon={<Download />} onTouchTap={this.importApprentice} />
           </Menu>
         </Popover>
 
         <UploadModal
-          title=""
+          title="Import CSV"
           open={openDocModal}
           actions={modalButtons}
           uploadProgress={uploadProgress}
@@ -179,6 +201,12 @@ class Users extends Component {
           onSelectFile={file => this.checkSelectedFile(file)}
           file={docSelected}
           acceptedType='.csv'
+        />
+
+        <FormModal
+          actions={modalFormButtons}
+          openModal={openFormModal}
+          userType={currentTab}
         />
 	    </div>
     )
