@@ -54,6 +54,31 @@ export function DocumentCard(props) {
   )
 }
 
+const USER_STYLE = {
+  padding: 15,
+}
+const USER_TITLE_STYLE = {
+  fontSize: 20,
+  fontWeight: 'normal',
+  color: colors.GREY_DARK,
+  margin: 0,
+  marginBottom: 3,
+}
+const USER_SUBTITLE_STYLE = {
+  margin: 0,
+  color: colors.GREY_DARK,
+  fontStyle: 'italic',
+}
+
+export function UserCard(props) {
+  return (
+    <div style={USER_STYLE}>
+      <h1 style={USER_TITLE_STYLE}>{props.title}</h1>
+      <p style={USER_SUBTITLE_STYLE}>{props.subtitle}</p>
+    </div>
+  )
+}
+
 const ICON_TYPE_DOC_STYLE = {
   width: 30,
 }

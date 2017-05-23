@@ -14,8 +14,7 @@ import FormModal from '../components/UserForm';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import Documentation from './Documentation';
-import Profil from './Profil';
+import ApprenticeList from '../components/ApprenticeList';
 
 
 import * as documentationService from '../services/documentationService';
@@ -172,8 +171,8 @@ class Users extends Component {
 	    	</Drawer>
 
         <Switch>
-          <Route path="/users/apprentices" component={() => <div>Aprentis</div>} />
-          <Route path="/users/tutors" component={Profil} />
+          <Route path="/users/apprentices" component={ApprenticeList} />
+          <Route path="/users/tutors" component={() => <div>Consultants</div>} />
           <Route path="/users/consultants" component={() => <div>Consultants</div>} />
           <Route component={() => <div>erreur</div>} />
         </Switch>
