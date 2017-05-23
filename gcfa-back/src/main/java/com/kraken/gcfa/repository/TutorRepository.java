@@ -3,6 +3,7 @@ package com.kraken.gcfa.repository;
 import com.kraken.gcfa.entity.Tutor;
 import com.kraken.gcfa.entity.User;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -11,5 +12,9 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface TutorRepository extends CrudRepository<Tutor, Long> {
 	Tutor findByUser(User user);
+	
+	
+	@Query("FROM Tutor as t JOIN t.user as u WHERE u.email=?1")
+	Tutor findTutorByEmail(String email);
 	void deleteByUser(User user);
 }

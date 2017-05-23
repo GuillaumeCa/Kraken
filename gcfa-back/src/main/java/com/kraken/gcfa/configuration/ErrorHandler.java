@@ -1,15 +1,14 @@
 package com.kraken.gcfa.configuration;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.xml.ws.ResponseWrapper;
 
 /**
  * Created by Guillaume on 08/05/2017.
@@ -18,10 +17,12 @@ import javax.xml.ws.ResponseWrapper;
 @ControllerAdvice
 public class ErrorHandler {
 
+	private final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity handleException() {
+    public ResponseEntity handleException(NullPointerException e) {
+    	logger.error(e.toString());
         return new ResponseEntity<>(new ErrorMessage("The request is not correct"), HttpStatus.BAD_REQUEST);
     }
 
