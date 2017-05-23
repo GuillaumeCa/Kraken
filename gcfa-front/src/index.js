@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import App from './App';
 import './index.css';
+import './simple-grid.css';
 
 import './config';
 
