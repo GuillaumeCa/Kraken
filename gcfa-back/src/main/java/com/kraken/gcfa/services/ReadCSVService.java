@@ -51,10 +51,10 @@ public class ReadCSVService {
 	public List<Apprentice> createApprenticeFromCSV(MultipartFile file) throws Exception {
 		
 		List<Apprentice> apprentices = new ArrayList<Apprentice>();
+		List<User> users = new ArrayList<User>();
 		Role role = roleRepository.findByName(RolesNames.APPRENTICE); 
 		List<String> lines =  new BufferedReader(new InputStreamReader(file.getInputStream(),StandardCharsets.UTF_8))
-			.lines().collect(Collectors.toList()
-		);
+			.lines().collect(Collectors.toList());
 		lines.remove(0);
 		for(String line : lines) {
 			Apprentice apprentice = new Apprentice();
@@ -70,14 +70,13 @@ public class ReadCSVService {
 				user.setEmail(param[3]);
 				user.setSexe(param[4]);
 				apprentice.setUser(user);
-				userRepository.save(user);
+				users.add(user);
 
 				companySite = companySiteRepository.findByName(param[5]);
-				if(companySite != null) {
-					apprentice.setCompanySite(companySite);
-				} else {
+				if(companySite == null) {
 					throw new NotFoundException(String.format("The CompanySite %s don't exist", param[5]));
 				}
+				apprentice.setCompanySite(companySite);
 				apprentice.setPromotion(Integer.parseInt((param[6])));
 				if(param[7] == "3 ans") {
 					apprentice.setContractType(ContractType.THREE_YEARS);
@@ -85,17 +84,18 @@ public class ReadCSVService {
 					apprentice.setContractType(ContractType.TWO_YEARS);
 				}
 				tutor = tutorRepository.findTutorByEmail(param[8]);
-				if(tutor != null) {
-					apprentice.setTutor(tutor);
-				} else {
-					throw new NotFoundException(String.format("The Tutor with email %s don't exist", param[8]));
-				}
+				if(tutor == null) {
+					throw new NotFoundException(String.format("The Tutor with email %s doesn't exist", param[8]));
+				} 
+				apprentice.setTutor(tutor);
+					
 			}
 			else {
 				throw new NotFoundException(String.format("The CSV doesn't have apprentice"));
 			}
 			apprentices.add(apprentice);
 		}
+		userRepository.save(users);
 		apprenticeRepository.save(apprentices);
 		return apprentices;
 	}
