@@ -90,7 +90,7 @@ class NavBar extends Component {
           {
             userData &&
             <div style={NAVBAR_BUTTON_STYLE}>
-              <Avatar size={35} style={AVATAR_STYLE} onTouchTap={this.onClick}>{userData.firstName.substr(0,1)}</Avatar>
+              <Avatar size={35} style={AVATAR_STYLE} onTouchTap={this.onClick}>{userData.firstName.substr(0,1)}{userData.lastName.substr(0,1)}</Avatar>
               <Popover
                 open={this.state.open}
                 anchorEl={this.state.anchorEl}

@@ -49,7 +49,7 @@ class ApprenticeProfil extends Component {
 				{
 					profil &&
 					<div style={CONTENT_STYLE}>
-						<Avatar size={180}>{profil.user.firstName.slice(0,1)}</Avatar>
+						<Avatar size={180}>{profil.user.firstName.slice(0,1)}{profil.user.lastName.slice(0,1)}</Avatar>
 						<h2 className="main-title">{profil.user.firstName} {profil.user.lastName}</h2>
 						<table className="detail-list" style={{ margin: '20px auto' }}>
 							<tbody>
