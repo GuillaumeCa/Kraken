@@ -44,6 +44,18 @@ public class UserService {
     	Tutor tutor = tutorRepository.findByUser(user);    	
         return tutor.getApprentices();
     }
+    
+    public List<User> searchApprentince(String str) {    	
+    	return userRepository.searchUser(1, str);
+    }
+    
+    public List<User> searchTutor(String str) {    	
+    	return userRepository.searchUser(2, str);
+    }
+    
+    public List<User> searchConsultant(String str) {    	
+    	return userRepository.searchUser(3, str);
+    }
 
     public Apprentice createApprentice(FormApprenticeDTO form) throws Exception {
         User user = userRepository.findOne(form.getUserId());
