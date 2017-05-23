@@ -51,6 +51,10 @@ public class UserController {
 				return new ResponseEntity<>(userService.getApprentice(user), HttpStatus.OK);
 			case RolesNames.TUTOR:
 				return new ResponseEntity<>(userService.getTutor(user), HttpStatus.OK);
+			case RolesNames.SUPER_ADMIN:
+				return new ResponseEntity<>(user, HttpStatus.OK);
+			case RolesNames.CONSULTANT:
+				return new ResponseEntity<>(user, HttpStatus.OK);
 			default:
 				return new ResponseEntity<>(user, HttpStatus.OK);
 		}

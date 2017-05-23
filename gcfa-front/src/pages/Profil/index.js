@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Admin from './Admin';
 import Apprentice from './Apprentice';
+import User from './User';
 import Tutor from './Tutor';
 
 
@@ -14,10 +14,13 @@ class Profil extends Component {
     return (
       <div>
         <Auth roles={[Roles.SUPER_ADMIN]}>
-            <Admin />
+            <User />
         </Auth>
         <Auth roles={[Roles.APPRENTICE]}>
             <Apprentice />
+        </Auth>
+        <Auth roles={[Roles.CONSULTANT]}>
+            <User />
         </Auth>
         <Auth roles={[Roles.TUTOR]}>
             <Tutor />

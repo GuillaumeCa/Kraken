@@ -24,6 +24,18 @@ INSERT IGNORE INTO user(id, email, first_name,
 	VALUES (3,"julien.voyat@isep.fr","Julien",
 	"Voyat","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
 	"Male",1,1);
+INSERT IGNORE INTO user(id, email, first_name, 
+	last_name, password, 
+	sexe, role_id, active) 
+	VALUES (4,"consultant@isep.fr","Michel",
+	"Jack","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
+	"Male",3,1);
+INSERT IGNORE INTO user(id, email, first_name, 
+	last_name, password, 
+	sexe, role_id, active) 
+	VALUES (5,"admin@isep.fr","Paul",
+	"Savavabasy","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
+	"Male",4,1);
 	
 INSERT IGNORE INTO company(id, name)
 	VALUES (1,"company XXX");
