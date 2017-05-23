@@ -4,6 +4,8 @@ import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /**
  * Created by Guillaume on 17/04/2017.
  * gcfa-back
@@ -11,4 +13,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface ApprenticeRepository extends CrudRepository<Apprentice, Long> {
     Apprentice findByUser(User user);
     void deleteByUser(User user);
+    List<Apprentice> findAll();
 }

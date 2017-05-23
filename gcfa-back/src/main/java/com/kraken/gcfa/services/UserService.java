@@ -88,6 +88,10 @@ public class UserService {
     public Tutor getTutor(User user) {
         return tutorRepository.findByUser(user);
     }
+
+	public Tutor getTutor(Long userId) {
+		return tutorRepository.findOne(userId);
+	}
     
     public Tutor createTutor(FormTutorDTO form) throws Exception {
     	User user = userRepository.findOne(form.getUserId());
@@ -120,4 +124,7 @@ public class UserService {
 		tutorRepository.save(tutor);
     }
 
+	public List<Apprentice> getApprentices() {
+    	return apprenticeRepository.findAll();
+	}
 }
