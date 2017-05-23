@@ -213,7 +213,7 @@ class Documentation extends Component {
 
     return (
       <div>
-        <div style={HEAD_STYLE}>
+        <div className="row" style={HEAD_STYLE}>
           <h1 className="main-title">Documentation</h1>
           <div style={{ marginLeft: 'auto' }}>
             <Auth roles={[SUPER_ADMIN]} >

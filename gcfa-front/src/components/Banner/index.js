@@ -3,7 +3,7 @@ import React from 'react';
 const BANNER_HEIGHT = 150;
 
 const BACKGROUND_STYLE = {
-  background: 'url(background.jpg)',
+  background: 'url(/background.jpg)',
   backgroundRepeat: 'none',
   backgroundSize: 'cover',
   backgroundPosition: '50% 30%',

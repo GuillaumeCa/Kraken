@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -10,6 +13,10 @@ import FormModal from '../components/UserForm';
 
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
+
+import Documentation from './Documentation';
+import Profil from './Profil';
+
 
 import * as documentationService from '../services/documentationService';
 
@@ -28,8 +35,6 @@ class Users extends Component {
   state = {
   	currentTab: 0,
     allTabs: ["Apprentis", "Tuteurs", "Consultants"],
-    openEdit: false,
-    anchorEl: null,
     error: false,
     openDocModal: false,
     file: null,
@@ -54,10 +59,7 @@ class Users extends Component {
 
   addUser = (event) => {
     if(this.state.currentTab == 0) {
-      this.setState({
-        openEdit: true,
-        anchorEl: event.currentTarget,
-      });
+      this.importApprentice();
     }
 
     else {
@@ -65,12 +67,7 @@ class Users extends Component {
     }
   }
 
-  handleEditClose = () => {
-    this.handleEditClose();
-  }
-
   handleOpenForm = () => {
-    this.handleEditClose();
     this.setState({openFormModal: true});
   }
 
@@ -79,7 +76,6 @@ class Users extends Component {
   }
 
   importApprentice = () => {
-    this.handleEditClose();
     this.setState({ openDocModal: true });
   }
 
@@ -118,8 +114,6 @@ class Users extends Component {
     const {
       currentTab,
       allTabs,
-      openEdit,
-      anchorEl,
       error,
       openDocModal,
       file,
@@ -160,11 +154,9 @@ class Users extends Component {
     	<div>
         <div style={HEAD_STYLE}>
           <h1 className="main-title">{allTabs[currentTab]}</h1>
-      
           <div style={{ marginLeft: 'auto' }}>
             <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.addUser} />
           </div>
-          
         </div>
 
 	    	<Drawer
@@ -173,24 +165,18 @@ class Users extends Component {
           width={200}
 	    	>
 	    	  <div style={DRAWER_STYLE}>
-		    	  <MenuItem key={1} onTouchTap={this.requestAllApprentice}>Apprentis</MenuItem>
-		        <MenuItem key={2} onTouchTap={this.requestAllTutor}>Tuteurs</MenuItem>
-		        <MenuItem key={3} onTouchTap={this.requestAllConsultant}>Consultants</MenuItem>
+		    	  <Link to="/users/apprentices"><MenuItem key={1} onTouchTap={this.requestAllApprentice}>Apprentis</MenuItem></Link>
+            <Link to="/users/tutors"><MenuItem key={2} onTouchTap={this.requestAllTutor}>Tuteurs</MenuItem></Link>
+            <Link to="/users/consultants"><MenuItem key={3} onTouchTap={this.requestAllConsultant}>Consultants</MenuItem></Link>
 		     </div>
 	    	</Drawer>
 
-        <Popover
-            open={this.state.openEdit}
-            anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={this.handleEditClose}
-          >
-          <Menu>
-            <MenuItem primaryText="Créer" rightIcon={<Edit />} onTouchTap={this.handleOpenForm} />
-            <MenuItem primaryText="Import CSV" rightIcon={<Download />} onTouchTap={this.importApprentice} />
-          </Menu>
-        </Popover>
+        <Switch>
+          <Route path="/users/apprentices" component={() => <div>Aprentis</div>} />
+          <Route path="/users/tutors" component={Profil} />
+          <Route path="/users/consultants" component={() => <div>Consultants</div>} />
+          <Route component={() => <div>erreur</div>} />
+        </Switch>
 
         <UploadModal
           title="Import CSV"

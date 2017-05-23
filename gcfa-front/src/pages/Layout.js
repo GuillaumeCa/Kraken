@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Banner from '../components/Banner';
@@ -62,7 +62,8 @@ class Layout extends Component {
               <Route path="/profil" component={Profil} />
 
               <Auth roles={[SUPER_ADMIN]}>
-                <Route path="/users" component={Users} />              
+                <Redirect from="/users" to="/users/apprentices" />
+                <Route path="/users" component={Users} />
               </Auth>
 
               <Route component={() => <div>erreur</div>} />
