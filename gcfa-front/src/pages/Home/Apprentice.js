@@ -37,6 +37,7 @@ state = {
     sentDocs: [],
     dueDocs: [],
     file: null,
+    replaceDoc: false,
 
     loadingDue: false,
     loadingSent: false,
@@ -90,14 +91,33 @@ state = {
   }
 
   handleSubmit = () => {
-    const { docSelected, file } = this.state;
+    const { docSelected, file, replaceDoc } = this.state;
     this.setState({ uploadProgress: 0, uploadStarted: true });
-    documentService.uploadDocument(file, docSelected.type.id, this.onUploadProgress)
+    if (replaceDoc) {
+      this.replaceDoc()
+    } else {
+      this.uploadNewDoc()
+    }
+  }
+
+  uploadNewDoc() {
+    const { docSelected, file } = this.state;
+    documentService.uploadDocument(file, docSelected.id, this.onUploadProgress)
       .then(res => {
         this.handleClose();
         this.updateData();
         sendNotification('Document envoyé avec succès');
       });
+  }
+
+  replaceDoc() {
+    const { docSelected, file } = this.state;
+    documentService.editDocument(docSelected.type.id, file, this.onUploadProgress)
+      .then(() => {
+        sendNotification(`"${docSelected.type.name}" modifié avec succès`);
+        this.updateData();
+        this.handleClose();
+      })
   }
 
   onUploadProgress = (progress) => {
@@ -113,6 +133,7 @@ state = {
       notValidFile: false,
       uploadProgress: 0,
       uploadStarted: false,
+      replaceDoc: false,
       file: null
   	})
   }
@@ -128,7 +149,7 @@ state = {
 
   editDoc = (event, doc) => {
     const { apprenticeStartY } = this.state;
-    doc.subtitle = <span>Document à rendre le <DueTime format="DD/MM/YYYY" doc={doc} startYear={apprenticeStartY} /></span>;
+    doc.subtitle = <span>Document à rendre le <DueTime format="DD/MM/YYYY" doc={doc.type} startYear={apprenticeStartY} /></span>;
     this.setState({
       openEdit: true,
       anchorEl: event.currentTarget,
@@ -142,7 +163,6 @@ state = {
 
   handleDeleteDoc = () => {
     const { docSelected } = this.state;
-    console.log(docSelected);
     documentService.deleteDocument(docSelected.id)
       .then(() => {
         sendNotification('Document supprimé avec succès');
@@ -152,15 +172,8 @@ state = {
   }
 
   handleReplaceDoc = () => {
-    this.setState({ openModal: true });
+    this.setState({ openModal: true, openEdit: true, replaceDoc: true });
     this.handleEditClose();
-    const { docSelected, file } = this.state;
-    documentService.editDocument(docSelected.id, file, this.onUploadProgress)
-      .then(() => {
-        sendNotification('Document modifié avec succès');
-        this.updateData();
-      })
-    this.setState({ openEdit: false });
   }
 
   handleDownloadDoc = () => {
@@ -185,6 +198,7 @@ state = {
       showSentDocs,
       sentDocs,
       dueDocs,
+      replaceDoc,
 
       loadingSent,
       loadingDue,
@@ -271,6 +285,7 @@ state = {
 
 
         <UploadModal
+          title={replaceDoc ? "Modifier un document" : "Ajouter un document"}
         	open={openModal}
         	actions={modalButtons}
         	docType={docSelected.name}
