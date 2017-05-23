@@ -1,5 +1,7 @@
 package com.kraken.gcfa.controller;
 
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class CSVController {
 	
 	@PostMapping("/createApprentice")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Apprentice createApprenticeFromCSV(@RequestParam("file") MultipartFile file) throws Exception {
+	public List<Apprentice> createApprenticeFromCSV(@RequestParam("file") MultipartFile file) throws Exception {
 		return readCSVService.createApprenticeFromCSV(file);
 	}
 }

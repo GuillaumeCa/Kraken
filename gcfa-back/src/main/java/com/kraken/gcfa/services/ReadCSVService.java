@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,11 +26,12 @@ import com.kraken.gcfa.repository.ApprenticeRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 import com.kraken.gcfa.repository.RoleRepository;
 import com.kraken.gcfa.repository.TutorRepository;
+import com.kraken.gcfa.repository.UserRepository;
 
 @Service
 public class ReadCSVService {
 
-	private static final String COMMA_DELIMITER = ",";
+	private static final String DELIMITER = ";";
 
 	@Autowired
 	private ApprenticeRepository apprenticeRepository;
@@ -42,19 +44,24 @@ public class ReadCSVService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
-	public Apprentice createApprenticeFromCSV(MultipartFile file) throws Exception {
-		User user = new User();
-		Apprentice apprentice = new Apprentice();
+	public List<Apprentice> createApprenticeFromCSV(MultipartFile file) throws Exception {
+		
+		List<Apprentice> apprentices = new ArrayList<Apprentice>();
 		Role role = roleRepository.findByName(RolesNames.APPRENTICE); 
-		CompanySite companySite;
-		Tutor tutor;
-
 		List<String> lines =  new BufferedReader(new InputStreamReader(file.getInputStream(),StandardCharsets.UTF_8))
-		.lines().collect(Collectors.toList());
+			.lines().collect(Collectors.toList()
+		);
 		lines.remove(0);
 		for(String line : lines) {
-			String[] param = line.split(COMMA_DELIMITER);
+			Apprentice apprentice = new Apprentice();
+			User user = new User();
+			CompanySite companySite;
+			Tutor tutor;
+			String[] param = line.split(DELIMITER);
 			if(param.length >= 0) {
 				user.setFirstName(param[0]);
 				user.setLastName(param[1]);
@@ -63,6 +70,7 @@ public class ReadCSVService {
 				user.setEmail(param[3]);
 				user.setSexe(param[4]);
 				apprentice.setUser(user);
+				userRepository.save(user);
 
 				companySite = companySiteRepository.findByName(param[5]);
 				if(companySite != null) {
@@ -80,14 +88,15 @@ public class ReadCSVService {
 				if(tutor != null) {
 					apprentice.setTutor(tutor);
 				} else {
-					throw new NotFoundException(String.format("The Tutor with email /s don't exist", param[8]));
+					throw new NotFoundException(String.format("The Tutor with email %s don't exist", param[8]));
 				}
-				apprenticeRepository.save(apprentice);
 			}
 			else {
 				throw new NotFoundException(String.format("The CSV doesn't have apprentice"));
 			}
+			apprentices.add(apprentice);
 		}
-		return apprentice;
+		apprenticeRepository.save(apprentices);
+		return apprentices;
 	}
 }
