@@ -25,5 +25,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
             + "WHERE role_id = ?1 "
             + "AND (first_name like %?2% "
             + "OR last_name like %?2%)")
-    List<User> searchUser(Integer roleId, String str);
+    List<User> searchUser(Integer roleId, String search);
 }

@@ -45,16 +45,8 @@ public class UserService {
         return tutor.getApprentices();
     }
     
-    public List<User> searchApprentince(String str) {    	
-    	return userRepository.searchUser(1, str);
-    }
-    
-    public List<User> searchTutor(String str) {    	
-    	return userRepository.searchUser(2, str);
-    }
-    
-    public List<User> searchConsultant(String str) {    	
-    	return userRepository.searchUser(3, str);
+    public List<User> searchUser(Integer roleId, String search) {    	
+    	return userRepository.searchUser(roleId, search);
     }
 
     public Apprentice createApprentice(FormApprenticeDTO form) throws Exception {

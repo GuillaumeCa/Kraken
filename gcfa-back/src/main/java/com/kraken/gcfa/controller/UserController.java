@@ -134,5 +134,23 @@ public class UserController {
 		}
 		throw new NotFoundException("Tutor not found");
 	}
+	
+	@GetMapping("/user/apprentice")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
+	public List<User> searchApprentince(String search) throws NotFoundException {
+		return userService.searchUser(1, search);
+	}
+	
+	@GetMapping("/user/tutor")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
+	public List<User> searchTutor(String search) throws NotFoundException {
+		return userService.searchUser(1, search);
+	}
+	
+	@GetMapping("/user/consultant")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
+	public List<User> searchConsultant(String search) throws NotFoundException {
+		return userService.searchUser(1, search);
+	}
 
 }
