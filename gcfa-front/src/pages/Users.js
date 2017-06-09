@@ -17,7 +17,7 @@ import Download from 'material-ui/svg-icons/file/cloud-download';
 import ApprenticeList from '../components/ApprenticeList';
 
 
-import * as documentationService from '../services/documentationService';
+import * as userManagementService from '../services/userManagementService';
 
 
 const DRAWER_STYLE = {
@@ -83,10 +83,10 @@ class Users extends Component {
 
     const { file, fileType } = this.state;
 
-    documentationService.upload(file, fileType, this.onUploadProgress)
+    userManagementService.createApprenticeFromCSV(file, this.onUploadProgress)
       .then(res => {
         this.closeDocModal();
-        this.updateData();
+        //this.updateData();
       });
 
   }
@@ -106,6 +106,10 @@ class Users extends Component {
 
     isValid = file == null ? false : true;
     this.setState({isValidFile: isValid});
+
+    if(isValid) {
+      this.setState({file: file});
+    }
   }
 
   render() {
