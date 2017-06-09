@@ -91,14 +91,13 @@ class Documentation extends Component {
   onUploadDoc = (type) => {
     this.setState({ uploadProgress: 0, uploadStarted: true });
 
-    if(!this.state.isEdit) {
+    if (!this.state.isEdit) {
       const { file, fileType } = this.state;
-
       documentationService.upload(file, fileType, this.onUploadProgress)
         .then(res => {
           this.closeDocModal();
           this.updateData();
-        });
+      });
     }
 
     else {
@@ -129,8 +128,12 @@ class Documentation extends Component {
     });
   }
 
-  handleEditClose = () => {
+  handleEditDismiss = () => {
     this.setState({ openEdit: false, anchorEl: null, docSelected: null });
+  }
+
+  handleEditClose = () => {
+    this.setState({ openEdit: false, anchorEl: null });
   }
 
   handleDeleteDoc = () => {
@@ -144,7 +147,6 @@ class Documentation extends Component {
   }
 
   handleReplaceDoc = () => {
-
     this.handleEditClose();
     this.setState({ openDocModal: true, isEdit: true });
   }
@@ -168,11 +170,12 @@ class Documentation extends Component {
     });
   }
 
-  checkSelectedFile = (file) => {
-    let isValid = false;
-
-    isValid = file == null ? false : true;
-    this.setState({isValidFile: isValid});
+  onSetFile = (file) => {
+    const isValid = (file == null) ? false : true;
+    if (!isValid) {
+      sendNotification("Ce fichier n'est pas valide")
+    }
+    this.setState({ isValidFile: isValid, file });
   }
 
   onSetFileType = (e, i, value) => {
@@ -192,7 +195,8 @@ class Documentation extends Component {
       uploadStarted,
       file,
       fileType,
-      docSelected
+      docSelected,
+      isEdit,
     } = this.state;
 
     const renderDate = (date) => <span>Ajouté le <Time format="DD/MM/YYYY" date={date} /></span>
@@ -255,13 +259,13 @@ class Documentation extends Component {
                       <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
                           <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
                           <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
                       </div>
@@ -278,13 +282,13 @@ class Documentation extends Component {
                       <div key={doc.id}>
                         <Auth roles={[APPRENTICE]} >
                           <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
 
                         <Auth roles={[SUPER_ADMIN]} >
                           <BarCard actions={<FlatButton primary label="Modifier" labelStyle={BUTTON_STYLE} onTouchTap={(e) => this.editDoc(e, doc)}/>}>
-                            <DocumentationCard title={doc.name} type="PDF" subtitle={renderDate(doc.creation)} />
+                            <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
                         </Auth>
                       </div>
@@ -297,24 +301,27 @@ class Documentation extends Component {
         </Loader>
 
         <UploadModal
-        	title="Ajouter une documentation"
+        	title={isEdit ? "Remplacer une documentation" : "Ajouter une documentation"}
         	open={openDocModal}
         	actions={modalButtons}
           uploadProgress={uploadProgress}
           uploading={uploadStarted}
-          onSelectFile={file => this.checkSelectedFile(file)}
+          onSelectFile={file => this.onSetFile(file)}
           file={docSelected}
           acceptedType='.pdf, .xls, .xlsx, .doc, .docx'
         >
-          <SelectField
-            floatingLabelText="Type de document"
-            value={fileType}
-            onChange={this.onSetFileType}
-          >
-            <MenuItem value={CALENDAR} primaryText="Calendrier" />
-            <MenuItem value={TOOL} primaryText="Outil de l'apprenti" />
-            <MenuItem value={EVALUATION} primaryText="Document d'évaluation" />
-          </SelectField>
+          {
+            !isEdit &&
+            <SelectField
+              floatingLabelText="Type de document"
+              value={fileType}
+              onChange={this.onSetFileType}
+            >
+              <MenuItem value={CALENDAR} primaryText="Calendrier" />
+              <MenuItem value={TOOL} primaryText="Outil de l'apprenti" />
+              <MenuItem value={EVALUATION} primaryText="Document d'évaluation" />
+            </SelectField>
+          }
         </UploadModal>
 
           <Popover
@@ -322,7 +329,7 @@ class Documentation extends Component {
             anchorEl={this.state.anchorEl}
             anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'right', vertical: 'top'}}
-            onRequestClose={this.handleEditClose}
+            onRequestClose={this.handleEditDismiss}
           >
           <Menu>
             <MenuItem primaryText="Modifier" rightIcon={<Edit />} onTouchTap={this.handleReplaceDoc} />
