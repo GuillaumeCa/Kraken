@@ -1,6 +1,7 @@
 package com.kraken.gcfa.repository;
 
 import com.kraken.gcfa.entity.CompanySite;
+
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -9,4 +10,5 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface CompanySiteRepository extends CrudRepository<CompanySite, Long> {
 	CompanySite findByName(String name);
+	void deleteByName(String name);
 }

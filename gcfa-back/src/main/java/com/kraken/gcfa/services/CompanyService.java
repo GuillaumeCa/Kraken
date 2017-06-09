@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.kraken.gcfa.dto.FormCompanySiteDTO;
 import com.kraken.gcfa.entity.Company;
 import com.kraken.gcfa.entity.CompanySite;
+import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.repository.CompanyRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 
@@ -27,6 +28,14 @@ public class CompanyService {
 		return company;
 	}
 	
+	public Company getCompany(String name) throws Exception {
+		return companyRepository.findByName(name);
+	}
+	
+	public void deleteCompany(String name) throws Exception {
+		companyRepository.deleteByName(name);
+    }
+		
 	public CompanySite createCompanySite(FormCompanySiteDTO formCompanySiteDTO) throws Exception {
 		CompanySite companySite = new CompanySite();
 		companySite.setId(formCompanySiteDTO.getIdCompany());
@@ -37,6 +46,14 @@ public class CompanyService {
 		companySiteRepository.save(companySite);
 		return companySite;
 	}
+	
+	public CompanySite getCompanySite(String name) throws Exception {
+		return companySiteRepository.findByName(name);
+	}
+	
+	public void deleteCompanySite(String name) throws Exception {
+		companySiteRepository.deleteByName(name);
+    }
 	
 
 }
