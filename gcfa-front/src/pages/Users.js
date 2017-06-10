@@ -15,6 +15,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import ApprenticeList from '../components/UserList/Apprentice';
+import Tutors from './Tutors.js';
 
 
 import * as userManagementService from '../services/userManagementService';
@@ -181,7 +182,7 @@ class Users extends Component {
 
         <Switch>
           <Route path="/users/apprentices" component={ApprenticeList} />
-          <Route path="/users/tutors" component={() => <div>Consultants</div>} />
+          <Route path="/users/tutors" component={Tutors} />
           <Route path="/users/consultants" component={() => <div>Consultants</div>} />
           <Route component={() => <div>erreur</div>} />
         </Switch>

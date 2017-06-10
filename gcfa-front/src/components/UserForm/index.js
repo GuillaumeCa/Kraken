@@ -37,7 +37,7 @@ class FormModal extends Component {
 
     const userTypeList = ["Apprenti", "Tuteur", "Consultant"]
     const modalTitle = "Ajout d'un " + userTypeList[userType]
-    
+
 
     return (
         <Dialog
@@ -75,29 +75,34 @@ class ApprenticeForm extends Component {
         </div>
     )
   }
-  
+
 }
 
-class TutorForm extends Component {
-
-  render() {
-    return (
-      <div>
-        <TextField
-            hintText="Mail"
-            fullWidth={true}
-          /><br />
-          <TextField
-            hintText="Phone"
-            fullWidth={true}
-          /><br />
-          <TextField
-            hintText="Mobile"
-            fullWidth={true}
-          /><br />
-      </div>
-    )
-  }
+function TutorForm(props) {
+  return (
+    <div>
+      <TextField
+        floatingLabelText="Prénom"
+        fullWidth
+        onChange={(e) => props.update('prenom', e)}
+      />
+      <TextField
+        floatingLabelText="Nom"
+        fullWidth
+        onChange={(e) => props.update('nom', e)}
+      />
+      <TextField
+        floatingLabelText="Email"
+        fullWidth
+        onChange={(e) => props.update('email', e)}
+      />
+      <TextField
+        floatingLabelText="Emploi"
+        fullWidth
+        onChange={(e) => props.update('emploi', e)}
+      />
+    </div>
+  )
 }
 
 

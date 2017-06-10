@@ -26,17 +26,18 @@ class ApprenticeList extends Component {
 
 	componentDidMount() {
 	    if (this.props.tutor==null) {
-		     this.requestAllApprentice();
+		     this.getAllApprentices();
 	    }
 	    else {
 		     this.requestAllApprenticesFromTutor();
 	    }
 	}
 
-	requestAllApprentice = () => {
+	getAllApprentices = () => {
 		this.setState({ loadingApprentices: true });
 
-    	userManagementService.getApprenticesByYear()
+    	userManagementService.getAllApprentices()
+        .then(userManagementService.filterApprenticesByYear)
 	  		.then(list => {
 	  			this.setState({
 	          		apprenticeList: list,
@@ -53,24 +54,14 @@ class ApprenticeList extends Component {
   		this.setState({ loadingApprentices: true });
 
       	userManagementService.getAllApprenticesFromTutor(this.props.tutor)
-      		.then(res => {
-      			var list = new Array();
-
-      			list[0] = res.data.filter(function(element) {
-      				return (element.promotion == DATE.currentYear + 3 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 2 && DATE.currentMonth < 9)
-      			});
-
-      			list[1] = res.data.filter(function(element) {
-      				return (element.promotion == DATE.currentYear + 2 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 1 && DATE.currentMonth < 9)
-      			});
-
-      			list[2] = res.data.filter(function(element) {
-      				return ((element.promotion == DATE.currentYear + 1 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear && DATE.currentMonth <= 10))
-      			});
-
-      			this.setState({apprenticeList: list, loadingApprentices: false});
-        		})
-        		.catch(err => {
+          .then(userManagementService.filterApprenticesByYear)
+      		.then(list => {
+      			this.setState({
+              apprenticeList: list,
+              loadingApprentices: false
+            });
+        	})
+        	.catch(err => {
   		      this.setState({ loadingApprentices: false, errorApprentices: true });
   		    })
       }

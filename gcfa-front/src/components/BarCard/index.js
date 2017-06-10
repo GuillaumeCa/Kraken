@@ -4,21 +4,24 @@ import './BarCard.css';
 
 import colors from '../../colors';
 
-const BAR_STYLE = {
-  display: 'flex',
-  borderRadius: 5,
-  background: colors.GREY_LIGHT,
-  maxWidth: 600,
-  marginBottom: 10,
-}
-const ACTION_STYLE = {
-  display: 'flex',
-  marginLeft: 'auto',
-  alignItems: 'center',
-  marginRight: 10,
-}
-
 export default function BarCard(props) {
+
+  const BAR_STYLE = {
+    display: 'flex',
+    borderRadius: 5,
+    background: colors.GREY_LIGHT,
+    maxWidth: props.extended ? '100%' : 600,
+    marginBottom: 10,
+  }
+
+  const ACTION_STYLE = {
+    display: 'flex',
+    marginLeft: 'auto',
+    alignItems: 'center',
+    marginRight: 10,
+  }
+
+
   return (
     <div style={BAR_STYLE}>
       {props.children}
