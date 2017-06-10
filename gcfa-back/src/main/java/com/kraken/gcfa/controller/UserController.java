@@ -158,4 +158,10 @@ public class UserController {
 		return userService.searchUser(2L, search);
 	}
 
+	@GetMapping("/consultants")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<User> getConsultants() {
+		return userService.getConsultants();
+	}
+
 }

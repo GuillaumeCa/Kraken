@@ -138,4 +138,13 @@ public class UserService {
     public List<Tutor> getTutors() {
         return tutorRepository.findAll();
     }
+
+    public List<User> getConsultants() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long userId) {
+        return userRepository.findOne(userId);
+    }
+
 }

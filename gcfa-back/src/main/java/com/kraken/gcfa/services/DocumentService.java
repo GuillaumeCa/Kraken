@@ -60,10 +60,10 @@ public class DocumentService {
 			}
 
 			String path = storageService.storeFile(file, rootLocation);
-			
+
 			Document document;
 			document = documentRepository.findByApprenticeIdAndTypeId(apprentice.getId(), typeId);
-			
+
 			if (document == null) {
 				document = new Document();
 				DocumentType type = documentTypeRepository.findOne(typeId);
@@ -146,5 +146,10 @@ public class DocumentService {
 	public List<Document> getDocuments(User auth) {
 		Apprentice apprentice = userService.getApprentice(auth);
 		return documentRepository.findByApprentice(apprentice);
+	}
+
+	public List<Document> getDocumentsFromUser(Long userId) {
+		User user = userService.getUserById(userId);
+	 	return getDocuments(user);
 	}
 }

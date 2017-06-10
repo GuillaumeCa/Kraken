@@ -79,6 +79,12 @@ public class DocumentController {
 		return documentService.getDocuments(auth);
 	}
 
+	@GetMapping("/{userId}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<Document> documentsFromApprentice(@PathVariable Long userId) {
+		return documentService.getDocumentsFromUser(userId);
+	}
+
 	@PostMapping("/type")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {

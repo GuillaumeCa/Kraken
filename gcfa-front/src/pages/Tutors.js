@@ -20,9 +20,14 @@ export default class Tutors extends Component {
 
   renderActions = (tutor) => {
     return (
-      <FlatButton primary label="Voir"
-        onTouchTap={() => this.selectTutor(tutor)}
-      />
+      <div>
+        <FlatButton primary label="Voir"
+          onTouchTap={() => this.selectTutor(tutor)}
+        />
+        <FlatButton primary label="Supprimer"
+          onTouchTap={() => this.selectTutor(tutor)}
+        />
+      </div>
     )
   }
 
