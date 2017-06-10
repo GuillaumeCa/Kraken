@@ -1,4 +1,4 @@
-package com.kraken.gcfa.dto;
+package com.kraken.gcfa.dto.form;
 
 import com.kraken.gcfa.entity.ContractType;
 

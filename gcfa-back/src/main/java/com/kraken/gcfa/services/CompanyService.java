@@ -2,12 +2,10 @@ package com.kraken.gcfa.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import com.kraken.gcfa.dto.FormCompanySiteDTO;
+import com.kraken.gcfa.dto.form.FormCompanySiteDTO;
 import com.kraken.gcfa.entity.Company;
 import com.kraken.gcfa.entity.CompanySite;
-import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.repository.CompanyRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 

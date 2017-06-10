@@ -3,7 +3,6 @@ package com.kraken.gcfa.controller;
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.dto.FormCompanySiteDTO;
+import com.kraken.gcfa.dto.form.FormCompanySiteDTO;
 import com.kraken.gcfa.entity.Company;
 import com.kraken.gcfa.entity.CompanySite;
-import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.services.CompanyService;
 
 @RestController

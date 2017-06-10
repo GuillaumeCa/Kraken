@@ -1,7 +1,7 @@
 package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.dto.FormDocumentTypeDTO;
+import com.kraken.gcfa.dto.form.FormDocumentTypeDTO;
 import com.kraken.gcfa.entity.*;
 import com.kraken.gcfa.exceptions.StorageException;
 import com.kraken.gcfa.repository.DocumentRepository;

@@ -1,16 +1,10 @@
 package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.dto.FormApprenticeDTO;
-import com.kraken.gcfa.dto.FormTutorDTO;
-import com.kraken.gcfa.entity.Apprentice;
-import com.kraken.gcfa.entity.CompanySite;
-import com.kraken.gcfa.entity.Tutor;
-import com.kraken.gcfa.entity.User;
-import com.kraken.gcfa.repository.ApprenticeRepository;
-import com.kraken.gcfa.repository.CompanySiteRepository;
-import com.kraken.gcfa.repository.TutorRepository;
-import com.kraken.gcfa.repository.UserRepository;
+import com.kraken.gcfa.dto.form.FormApprenticeDTO;
+import com.kraken.gcfa.dto.form.FormTutorDTO;
+import com.kraken.gcfa.entity.*;
+import com.kraken.gcfa.repository.*;
 
 import java.util.List;
 
@@ -35,6 +29,9 @@ public class UserService {
 
     @Autowired
     private CompanySiteRepository companySiteRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     public Apprentice getApprentice(User user) {
         return apprenticeRepository.findByUser(user);
@@ -98,37 +95,47 @@ public class UserService {
 	}
     
     public Tutor createTutor(FormTutorDTO form) throws Exception {
-    	User user = userRepository.findOne(form.getUserId());
-    	if (user.getRole().getName().equals(RolesNames.TUTOR)) {
-    		Tutor tutor = new Tutor();
-    		updateTutorInformations(tutor, form);
-    		return tutor;
-    	} else {
-            throw new Exception("This user is not a tutor");
-        }
+        Tutor tutor = new Tutor();
+        User user = new User();
+        return updateTutorInformations(tutor, user, form);
     }
     
     public void deleteTutor(User user) throws Exception {
     	tutorRepository.deleteByUser(user);
     }
     
-    public Tutor updateTutor(FormTutorDTO form) throws Exception {
-    	User user = userRepository.findOne(form.getUserId());
+    public Tutor updateTutor(Long userId, FormTutorDTO form) throws Exception {
+    	User user = userRepository.findOne(userId);
     	if (user.getRole().getName().equals(RolesNames.TUTOR)) {
     		Tutor tutor = getTutor(user);
-    		updateTutorInformations(tutor, form);
-    		return tutor;
+    		return updateTutorInformations(tutor, user, form);
     	} else {
-            throw new Exception("This user is not a tutor");
+            throw new Exception("This user is not a Tutor");
         }
     }
     
-    private void updateTutorInformations(Tutor tutor, FormTutorDTO form) throws Exception {
-		tutor.setJob(form.getJob());
-		tutorRepository.save(tutor);
+    private Tutor updateTutorInformations(Tutor tutor, User user, FormTutorDTO form) throws Exception {
+
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        user.setEmail(form.getEmail());
+        user.setActive(false);
+        user.setSexe(form.getSexe());
+
+        Role role = roleRepository.findByName(RolesNames.TUTOR);
+        user.setRole(role);
+        user = userRepository.save(user);
+
+        tutor.setJob(form.getJob());
+		tutor.setUser(user);
+		return tutorRepository.save(tutor);
     }
 
 	public List<Apprentice> getApprentices() {
     	return apprenticeRepository.findAll();
 	}
+
+    public List<Tutor> getTutors() {
+        return tutorRepository.findAll();
+    }
 }

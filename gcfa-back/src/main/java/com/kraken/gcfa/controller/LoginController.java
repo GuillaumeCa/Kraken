@@ -1,14 +1,12 @@
 package com.kraken.gcfa.controller;
 
-import com.kraken.gcfa.dto.FormLoginDTO;
+import com.kraken.gcfa.dto.form.FormLoginDTO;
 import com.kraken.gcfa.dto.LDAPUserDTO;
 import com.kraken.gcfa.services.AuthService;
 import com.kraken.gcfa.services.LDAPService;
 import com.kraken.gcfa.exceptions.LDAPServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 /**
  * Created by Guillaume on 22/03/2017.

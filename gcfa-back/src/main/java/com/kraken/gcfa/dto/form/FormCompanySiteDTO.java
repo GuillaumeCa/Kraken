@@ -1,4 +1,4 @@
-package com.kraken.gcfa.dto;
+package com.kraken.gcfa.dto.form;
 
 public class FormCompanySiteDTO {
 

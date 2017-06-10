@@ -1,7 +1,7 @@
 package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.dto.FormDocumentTypeDTO;
+import com.kraken.gcfa.dto.form.FormDocumentTypeDTO;
 import com.kraken.gcfa.entity.Document;
 import com.kraken.gcfa.entity.DocumentType;
 import com.kraken.gcfa.entity.User;

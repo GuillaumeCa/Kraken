@@ -1,4 +1,4 @@
-package com.kraken.gcfa.dto;
+package com.kraken.gcfa.dto.form;
 
 /**
  * Created by Guillaume on 01/04/2017.

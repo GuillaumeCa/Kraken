@@ -1,15 +1,14 @@
 package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.dto.FormApprenticeDTO;
-import com.kraken.gcfa.dto.FormTutorDTO;
+import com.kraken.gcfa.dto.form.FormApprenticeDTO;
+import com.kraken.gcfa.dto.form.FormTutorDTO;
 import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.Tutor;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.services.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -101,10 +100,10 @@ public class UserController {
 		return userService.createTutor(form);
 	}
 
-	@PutMapping("/tutor")
+	@PutMapping("/tutor/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Tutor updateTutor(FormTutorDTO form) throws Exception {
-		return userService.updateTutor(form);
+	public Tutor updateTutor(@PathVariable Long id, FormTutorDTO form) throws Exception {
+		return userService.updateTutor(id, form);
 	}
 
 	@GetMapping("/tutor")
@@ -117,6 +116,12 @@ public class UserController {
 			default:
 				return false;
 		}
+	}
+
+	@GetMapping("/tutors")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<Tutor> getAllTutor() {
+		return userService.getTutors();
 	}
 
 	@GetMapping("/apprentices")
@@ -135,19 +140,19 @@ public class UserController {
 		throw new NotFoundException("Tutor not found");
 	}
 	
-	@GetMapping("/user/apprentice")
+	@GetMapping("/apprentice/search")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchApprentince(String search) throws NotFoundException {
 		return userService.searchUser(1, search);
 	}
 	
-	@GetMapping("/user/tutor")
+	@GetMapping("/tutor/search")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchTutor(String search) throws NotFoundException {
 		return userService.searchUser(1, search);
 	}
 	
-	@GetMapping("/user/consultant")
+	@GetMapping("/consultant/search")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchConsultant(String search) throws NotFoundException {
 		return userService.searchUser(1, search);

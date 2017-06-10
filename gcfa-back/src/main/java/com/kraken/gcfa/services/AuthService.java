@@ -1,6 +1,6 @@
 package com.kraken.gcfa.services;
 
-import com.kraken.gcfa.dto.FormLoginDTO;
+import com.kraken.gcfa.dto.form.FormLoginDTO;
 import com.kraken.gcfa.dto.LDAPUserDTO;
 import com.kraken.gcfa.entity.User;
 import com.kraken.gcfa.repository.RoleRepository;
@@ -21,9 +21,6 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private LDAPService ldapService;
