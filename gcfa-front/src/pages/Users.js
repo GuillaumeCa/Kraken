@@ -14,7 +14,7 @@ import FormModal from '../components/UserForm';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import ApprenticeList from '../components/ApprenticeList';
+import ApprenticeList from '../components/UserList/Apprentice';
 
 
 import * as userManagementService from '../services/userManagementService';
@@ -84,7 +84,6 @@ class Users extends Component {
     userManagementService.createApprenticeFromCSV(file, this.onUploadProgress)
       .then(res => {
         this.closeDocModal();
-        //this.updateData();
       });
 
   }

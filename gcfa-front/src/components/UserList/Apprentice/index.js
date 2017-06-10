@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
-import BarCard, { UserCard, List } from '../../components/BarCard';
-import Loader from '../../components/Loader';
+import BarCard, { UserCard, List } from '../../BarCard';
+import Loader from '../../Loader';
 
-import * as userManagementService from '../../services/userManagementService';
-
+import * as userManagementService from '../../../services/userManagementService';
 
 
 const BUTTON_STYLE = {
@@ -26,38 +25,28 @@ class ApprenticeList extends Component {
 	}
 
 	componentDidMount() {
-    if (this.props.tutor==null) {
-	     this.requestAllApprentice();
-    }
-    else {
-	     this.requestAllApprenticesFromTutor();
-    }
+	    if (this.props.tutor==null) {
+		     this.requestAllApprentice();
+	    }
+	    else {
+		     this.requestAllApprenticesFromTutor();
+	    }
 	}
 
 	requestAllApprentice = () => {
 		this.setState({ loadingApprentices: true });
 
-    	userManagementService.getAllApprentices()
-    		.then(res => {
-    			var list = new Array();
-
-    			list[0] = res.data.filter(function(element) {
-    				return (element.promotion == DATE.currentYear + 3 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 2 && DATE.currentMonth < 9)
-    			});
-
-    			list[1] = res.data.filter(function(element) {
-    				return (element.promotion == DATE.currentYear + 2 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 1 && DATE.currentMonth < 9)
-    			});
-
-    			list[2] = res.data.filter(function(element) {
-    				return ((element.promotion == DATE.currentYear + 1 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear && DATE.currentMonth <= 10))
-    			});
-
-    			this.setState({apprenticeList: list, loadingApprentices: false});
-      		})
-      		.catch(err => {
+    	userManagementService.getApprenticesByYear()
+	  		.then(list => {
+	  			this.setState({
+	          		apprenticeList: list,
+	        		loadingApprentices: false
+	        	});
+	    	})
+	    	.catch(err => {
 		      this.setState({ loadingApprentices: false, errorApprentices: true });
-		    })
+	    })
+
     }
 
     requestAllApprenticesFromTutor = () => {
@@ -86,10 +75,14 @@ class ApprenticeList extends Component {
   		    })
       }
 
+    viewApprenticeDetails = (user) => {
+    	console.log(user)
+    	this.setState({ selectedApprentice: user });
+    }
 	render() {
 
 		const {apprenticeList, loadingApprentices, errorApprentices} = this.state;
-		console.log(apprenticeList)
+
 		return (
 			<div className="row">
 				<div className="col-4">
@@ -98,11 +91,11 @@ class ApprenticeList extends Component {
 			          <List data={apprenticeList[0]} emptyLabel="Aucun apprenti A1 trouvé">
 			            {
 			              apprenticeList[0].map(data => {
-			              	console.log(data)
+
 			                return (
 			                  <BarCard key={data.id} actions={
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
-			                        onTouchTap={() => alert("ok")}
+			                        onTouchTap={(e) => this.viewApprenticeDetails(data)}
 			                      />
 			                    }>
 
@@ -124,11 +117,11 @@ class ApprenticeList extends Component {
 			          <List data={apprenticeList[1]} emptyLabel="Aucun apprenti A2 trouvé">
 			            {
 			              apprenticeList[1].map(data => {
-			              	console.log(data)
+
 			                return (
 			                  <BarCard key={data.id} actions={
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
-			                        onTouchTap={() => alert("ok")}
+			                        onTouchTap={(e) => this.viewApprenticeDetails(data)}
 			                      />
 			                    }>
 
@@ -150,11 +143,10 @@ class ApprenticeList extends Component {
 			          <List data={apprenticeList[2]} emptyLabel="Aucun apprenti A3 trouvé">
 			            {
 			              apprenticeList[2].map(data => {
-			              	console.log(data)
 			                return (
 			                  <BarCard key={data.id} actions={
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
-			                        onTouchTap={() => alert("ok")}
+			                        onTouchTap={() => (e) => this.viewApprenticeDetails(data)}
 			                      />
 			                    }>
 
