@@ -43,3 +43,7 @@ export function getAllTutor() {
 export function getAllConsultant() {
 	return axios.get('/user/consultants');
 }
+
+export function createTutor(form) {
+  return axios.post('/user/tutor', form);
+}

@@ -94,16 +94,16 @@ public class UserController {
 		}
 	}
 
-	@PostMapping("/tutor")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Tutor createTutor(FormTutorDTO form) throws Exception {
-		return userService.createTutor(form);
-	}
-
 	@PutMapping("/tutor/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public Tutor updateTutor(@PathVariable Long id, FormTutorDTO form) throws Exception {
 		return userService.updateTutor(id, form);
+	}
+
+	@PostMapping("/tutor")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public Tutor createTutor(@RequestBody FormTutorDTO form) throws Exception {
+		return userService.createTutor(form);
 	}
 
 	@GetMapping("/tutor")
@@ -140,22 +140,22 @@ public class UserController {
 		throw new NotFoundException("Tutor not found");
 	}
 	
-	@GetMapping("/apprentice/search")
+	@GetMapping("/apprentice/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
-	public List<User> searchApprentince(String search) throws NotFoundException {
-		return userService.searchUser(1, search);
+	public List<User> searchApprentince(@PathVariable String search) throws NotFoundException {
+		return userService.searchUser(1L, search);
 	}
 	
-	@GetMapping("/tutor/search")
+	@GetMapping("/tutor/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
-	public List<User> searchTutor(String search) throws NotFoundException {
-		return userService.searchUser(1, search);
+	public List<User> searchTutor(@PathVariable String search) throws NotFoundException {
+		return userService.searchUser(3L, search);
 	}
 	
-	@GetMapping("/consultant/search")
+	@GetMapping("/consultant/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
-	public List<User> searchConsultant(String search) throws NotFoundException {
-		return userService.searchUser(1, search);
+	public List<User> searchConsultant(@PathVariable String search) throws NotFoundException {
+		return userService.searchUser(2L, search);
 	}
 
 }

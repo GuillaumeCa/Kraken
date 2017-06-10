@@ -46,6 +46,7 @@ class Users extends Component {
     isValidFile: false,
     openFormModal: false,
     showBar: false,
+    formData: null,
   }
 
   chooseUser = (user) => {
@@ -88,7 +89,26 @@ class Users extends Component {
       .then(res => {
         this.closeDocModal();
       });
+  }
 
+  onCreateActionForm = () => {
+    const { currentTab, formData } = this.state;
+    switch (currentTab) {
+      case 1:
+        userManagementService.createTutor(formData)
+          .then(ok => {
+            this.closeDocModal()
+            this.requestTutors()
+          });
+        break
+      case 2:
+
+    }
+    this.setState({ formData: null });
+  }
+
+  updateFormData = (formData) => {
+    this.setState({ formData });
   }
 
   closeDocModal = () => {
@@ -130,12 +150,12 @@ class Users extends Component {
     const modalButtons = [
       <FlatButton
         label="Annuler"
-        primary={true}
+        primary
         onTouchTap={this.closeDocModal}
       />,
       <FlatButton
         label="Déposer"
-        primary={true}
+        primary
         onTouchTap={this.onUploadDoc}
         disabled={!this.state.isValidFile}
       />,
@@ -144,13 +164,13 @@ class Users extends Component {
     const modalFormButtons = [
       <FlatButton
         label="Annuler"
-        primary={true}
+        primary
         onTouchTap={this.closeDocModal}
       />,
       <FlatButton
         label="Créer"
-        primary={true}
-        onTouchTap={this.closeDocModal}
+        primary
+        onTouchTap={this.onCreateActionForm}
       />,
     ];
 
@@ -165,7 +185,7 @@ class Users extends Component {
         </div>
 
 	    	<Drawer
-	    	  docked={true}
+	    	  docked
 	    	  open={showBar}
           width={200}
 	    	>
@@ -207,6 +227,7 @@ class Users extends Component {
           actions={modalFormButtons}
           openModal={openFormModal}
           userType={currentTab}
+          update={this.updateFormData}
         />
 	    </div>
     )

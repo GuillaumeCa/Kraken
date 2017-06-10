@@ -62,7 +62,6 @@ class Layout extends Component {
               <Route path="/profil" component={Profil} />
 
               <Auth roles={[SUPER_ADMIN]}>
-                <Redirect from="/users" to="/users/apprentices" />
                 <Route path="/users" component={Users} />
               </Auth>
 

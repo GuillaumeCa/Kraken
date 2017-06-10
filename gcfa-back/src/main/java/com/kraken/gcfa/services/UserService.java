@@ -42,7 +42,7 @@ public class UserService {
         return tutor.getApprentices();
     }
     
-    public List<User> searchUser(Integer roleId, String search) {    	
+    public List<User> searchUser(Long roleId, String search) {
     	return userRepository.searchUser(roleId, search);
     }
 

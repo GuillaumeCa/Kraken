@@ -10,10 +10,21 @@ class FormModal extends Component {
   state = {
     open: true,
     userType: null,
+    data: {},
   }
 
   closeModal = () => {
     this.setState({open: false});
+  }
+
+  update = (key, event) => {
+    const value = event.target.value
+    const newState = {
+      ...this.state.data,
+      [key]: value
+    };
+    this.props.update(newState);
+    this.setState({ data: newState });
   }
 
   renderForm(type) {
@@ -21,9 +32,9 @@ class FormModal extends Component {
       case 0:
         return <ApprenticeForm />
       case 1:
-        return <TutorForm />
+        return <TutorForm update={this.update} />
       case 2:
-        return <ConsultantForm />
+        return <ConsultantForm update={this.update} />
     }
   }
 
@@ -84,38 +95,41 @@ function TutorForm(props) {
       <TextField
         floatingLabelText="Prénom"
         fullWidth
-        onChange={(e) => props.update('prenom', e)}
+        onChange={e => props.update('firstName', e)}
       />
       <TextField
         floatingLabelText="Nom"
         fullWidth
-        onChange={(e) => props.update('nom', e)}
+        onChange={e => props.update('lastName', e)}
       />
       <TextField
         floatingLabelText="Email"
         fullWidth
-        onChange={(e) => props.update('email', e)}
+        onChange={e => props.update('email', e)}
       />
       <TextField
         floatingLabelText="Emploi"
         fullWidth
-        onChange={(e) => props.update('emploi', e)}
+        onChange={e => props.update('job', e)}
+      />
+      <TextField
+        floatingLabelText="Sexe"
+        fullWidth
+        onChange={e => props.update('sexe', e)}
       />
     </div>
   )
 }
 
 
-class ConsultantForm extends Component {
-
-  render() {
-    return (
-      <div>
-        <TextField
-            hintText="Mail"
-            fullWidth={true}
-          /><br />
-      </div>
-    )
-  }
+function ConsultantForm(props) {
+  return (
+    <div>
+      <TextField
+        hintText="Mail"
+        fullWidth={true}
+        onChange={e => props.update('email', e)}
+      />
+    </div>
+  )
 }
