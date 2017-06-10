@@ -84,7 +84,6 @@ class Users extends Component {
     userManagementService.createApprenticeFromCSV(file, this.onUploadProgress)
       .then(res => {
         this.closeDocModal();
-        //this.updateData();
       });
 
   }

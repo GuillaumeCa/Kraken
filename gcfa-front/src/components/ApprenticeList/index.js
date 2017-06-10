@@ -12,10 +12,6 @@ const BUTTON_STYLE = {
   fontSize: 15,
 }
 
-const DATE = {
-	currentYear: new Date().getFullYear(),
-	currentMonth: new Date().getMonth()
-} 
 
 class ApprenticeList extends Component {
 
@@ -31,30 +27,18 @@ class ApprenticeList extends Component {
 
 	requestAllApprentice = () => {
 		this.setState({ loadingApprentices: true });
-
-    	userManagementService.getAllApprentices()
-    		.then(res => {
-    			var list = new Array();
-
-    			list[0] = res.data.filter(function(element) {
-    				return (element.promotion == DATE.currentYear + 3 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 2 && DATE.currentMonth < 9)
-    			});
-
-    			list[1] = res.data.filter(function(element) {
-    				return (element.promotion == DATE.currentYear + 2 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 1 && DATE.currentMonth < 9)
-    			});
-
-    			list[2] = res.data.filter(function(element) {
-    				return ((element.promotion == DATE.currentYear + 1 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear && DATE.currentMonth <= 10))
-    			});
-
-    			this.setState({apprenticeList: list, loadingApprentices: false});
-      		})
-      		.catch(err => {
-		      this.setState({ loadingApprentices: false, errorApprentices: true });
-		    })
+  	userManagementService.getApprenticesByYear()
+  		.then(list => {
+  			this.setState({
+          apprenticeList: list,
+          loadingApprentices: false
+        });
+    	})
+    	.catch(err => {
+	      this.setState({ loadingApprentices: false, errorApprentices: true });
+	    })
     }
-	
+
 	render() {
 
 		const {apprenticeList, loadingApprentices, errorApprentices} = this.state;
