@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 
+import ApprenticeList from '../../components/ApprenticeList';
+
+import * as userService from '../../services/userService';
 
 class TutorHome extends Component {
 
+	state = {
+		profil: null,
+	}
+
+	componentDidMount() {
+		userService.getUserProfile().then(res => {
+			console.log(res);
+			this.setState({ profil: res.data });
+		})
+	}
+
 	render() {
+		const {profil} = this.state;
 		return (
-			<div>Tutor Home</div>
+			<div>
+			{
+				profil &&
+				<ApprenticeList tutor={profil.id}
+				/>
+			}
+			</div>
 		)
 	}
 }

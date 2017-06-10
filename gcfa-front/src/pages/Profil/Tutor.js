@@ -4,6 +4,8 @@ import Avatar from 'material-ui/Avatar';
 
 import * as userService from '../../services/userService';
 
+import BarCard, { DocumentCard, DocumentationCard, List } from '../../components/BarCard';
+
 const CONTENT_STYLE = {
 	margin: '0 auto',
 	marginTop: 60,

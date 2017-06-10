@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function getAllApprentices() {
-  
+
   return axios.get('/user/apprentices');
 }
 
@@ -11,10 +11,14 @@ export function createApprenticeFromCSV(file, onUploadProgress) {
   return axios.post(`/importcsv/createApprentice`, data, { onUploadProgress });
 }
 
+export function getAllApprenticesFromTutor(idTutor) {
+  return axios.get(`/user/tutor/apprentices/${idTutor}`);
+}
+
 export function getAllTutor() {
-  
+
 }
 
 export function getAllConsultant() {
-  
+
 }

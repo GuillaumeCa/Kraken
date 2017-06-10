@@ -40,7 +40,7 @@ public class UserService {
         return apprenticeRepository.findByUser(user);
     }
     
-    public List<Apprentice> getApprenticeFromTutor(User user) {
+    public List<Apprentice> getApprenticesFromTutor(User user) {
     	Tutor tutor = tutorRepository.findByUser(user);    	
         return tutor.getApprentices();
     }
