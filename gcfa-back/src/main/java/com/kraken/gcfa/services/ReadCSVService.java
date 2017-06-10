@@ -78,9 +78,9 @@ public class ReadCSVService {
 				}
 				apprentice.setCompanySite(companySite);
 				apprentice.setPromotion(Integer.parseInt((param[5])));
-				if(param[6] == "3 ans") {
+				if(param[6].equals("3 ans")) {
 					apprentice.setContractType(ContractType.THREE_YEARS);
-				} else if(param[7] == "2 ans") {
+				} else if(param[6].equals("2 ans")) {
 					apprentice.setContractType(ContractType.TWO_YEARS);
 				}
 				tutor = tutorRepository.findTutorByEmail(param[7]);
