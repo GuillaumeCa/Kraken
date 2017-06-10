@@ -7,6 +7,11 @@ import Loader from '../../Loader';
 
 import * as userManagementService from '../../../services/userManagementService';
 
+const CONTENT_STYLE = {
+	margin: '0 auto',
+	marginTop: 60,
+	fontWeight: 'normal',
+}
 
 const BUTTON_STYLE = {
   fontSize: 15,
@@ -70,14 +75,15 @@ class ApprenticeList extends Component {
     viewApprenticeDetails = (user) => {
     	this.setState({ selectedApprentice: user });
     }
+
 	render() {
 
 		const {apprenticeList, loadingApprentices, errorApprentices} = this.state;
 
 		return (
-			<div className="row">
+			<div className="row" style={CONTENT_STYLE}>
 				<div className="col-4">
-					<p>A1</p>
+					<p className="sub-title">A1</p>
 					<Loader loading={loadingApprentices} error={errorApprentices}>
 			          <List data={apprenticeList[0]} emptyLabel="Aucun apprenti A1 trouvé">
 			            {
@@ -85,9 +91,15 @@ class ApprenticeList extends Component {
 
 			                return (
 			                  <BarCard key={data.id} actions={
+			                      <Link to={{
+			                  		pathname: '/users/apprentices/detail',
+			                  		state: {data: data}
+			                  	
+			                  	}}>
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
 			                        onTouchTap={(e) => this.viewApprenticeDetails(data)}
 			                      />
+			                      </Link>
 			                    }>
 
 			                    <UserCard title= {
@@ -103,7 +115,7 @@ class ApprenticeList extends Component {
 
 				</div>
 				<div className="col-4">
-					<p>A2</p>
+					<p className="sub-title">A2</p>
 					<Loader loading={loadingApprentices} error={errorApprentices}>
 			          <List data={apprenticeList[1]} emptyLabel="Aucun apprenti A2 trouvé">
 			            {
@@ -135,16 +147,22 @@ class ApprenticeList extends Component {
 
 				</div>
 				<div className="col-4">
-					<p>A3</p>
+					<p className="sub-title">A3</p>
 					<Loader loading={loadingApprentices} error={errorApprentices}>
 			          <List data={apprenticeList[2]} emptyLabel="Aucun apprenti A3 trouvé">
 			            {
 			              apprenticeList[2].map(data => {
 			                return (
 			                  <BarCard key={data.id} actions={
+			                      <Link to={{
+			                  		pathname: '/users/apprentices/detail',
+			                  		state: {data: data}
+			                  	
+			                  	}}>
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
-			                        onTouchTap={() => (e) => this.viewApprenticeDetails(data)}
+			                        onTouchTap={(e) => this.viewApprenticeDetails(data)}
 			                      />
+			                      </Link>
 			                    }>
 
 			                    <UserCard title= {

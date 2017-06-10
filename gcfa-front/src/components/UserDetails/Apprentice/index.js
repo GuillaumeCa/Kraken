@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
-import BarCard, { UserCard, List } from '../../BarCard';
+import BarCard, { DocumentCard, List } from '../../BarCard';
 import Loader from '../../Loader';
+import TextField from 'material-ui/TextField';
+import Time, { DueTime } from '../../Time';
 
 
 import * as userManagementService from '../../../services/userManagementService';
+import * as userService from '../../../services/userService';
+
 
 const CONTENT_STYLE = {
 	margin: '0 auto',
@@ -16,6 +20,9 @@ const CONTENT_STYLE = {
 	fontWeight: 'normal',
 }
 
+const TD_STYLE = {
+	width: 180,
+}
 
 const BUTTON_STYLE = {
   fontSize: 15,
@@ -25,17 +32,29 @@ const BUTTON_STYLE = {
 class ApprenticeDetail extends Component {
 
 	state = {
-		data: null,
+		loadingSent: false,
+		errorSent: false,
+		sentDocs: [],
 	}
 
 	componentDidMount() {
 		
 		console.log(this.props.location.state.data)
+		this.requestSentDocsFromApprentice(this.props.location.state.data.id);
+	}
+
+	requestSentDocsFromApprentice = (userId) => {
+
 	}
 
 	render() {
 
-		const { data } = this.props.location.state
+		const { data } = this.props.location.state;
+		const {
+			loadingSent,
+			errorSent,
+			sentDocs,
+		} = this.state;
 
 		let contractDuration = 0;
 		let debutContract = 0;
@@ -54,7 +73,6 @@ class ApprenticeDetail extends Component {
 		return (
 			<div className="row">
 				<div className="col-5">
-					<div>
 					{
 						data &&
 						<div style={CONTENT_STYLE}>
@@ -63,23 +81,49 @@ class ApprenticeDetail extends Component {
 								<tbody>
 									<tr>
 										<th>Mail</th>
-										<td>{data.user.email}</td>
+										<td><TextField
+									      id="mail"
+									      style={TD_STYLE}
+									      disabled={true}
+									      defaultValue={data.user.email}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Promotion</th>
-										<td>{data.promotion}</td>
+										<td><TextField
+									      id="promotion"
+									      style={TD_STYLE}
+									      type="number"
+									      defaultValue={data.promotion}
+									    	/>
+									    </td>
 									</tr>
 									<tr>
 										<th>Début du contrat</th>
-										<td>{debutContract}</td>
+										<td><TextField
+									      id="startContract"
+									      type="number"
+									      style={TD_STYLE}
+									      defaultValue={debutContract}
+									    /></td>
 									</tr>
 									<tr>
-										<th>Contrat</th>
-										<td>{contractDuration} ans</td>
+										<th>Durée du contrat</th>
+										<td><TextField
+									      id="contractType"
+									      style={TD_STYLE}
+									      type="number"
+									      defaultValue={contractDuration}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Document rendu</th>
-										<td>12/18</td>
+										<td><TextField
+									      id="dueDocNb"
+									      style={TD_STYLE}
+									      disabled={true}
+									      defaultValue="12/18"
+									    /></td>
 									</tr>
 								</tbody>
 							</table>
@@ -88,16 +132,36 @@ class ApprenticeDetail extends Component {
 							<table className="detail-list" style={{ margin: '0 auto' }}>
 								<tbody>
 									<tr>
-										<th>Prénom Nom</th>
-										<td>{data.tutor.user.firstName} {data.tutor.user.lastName}</td>
+										<th>Nom</th>
+										<td><TextField
+									      id="tutorLastName"
+									      style={TD_STYLE}
+									      defaultValue={data.tutor.user.lastName}
+									    /></td>
+									</tr>
+									<tr>
+										<th>Prénom</th>
+										<td><TextField
+									      id="tutorFirstName"
+									      style={TD_STYLE}
+									      defaultValue={data.tutor.user.firstName}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Mail</th>
-										<td>{data.tutor.user.email}</td>
+										<td><TextField
+									      id="tutorMail"
+									      style={TD_STYLE}
+									      defaultValue={data.tutor.user.email}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Emploi</th>
-										<td>{data.tutor.job}</td>
+										<td><TextField
+									      id="tutorFirstName"
+									      style={TD_STYLE}
+									      defaultValue={data.tutor.job}
+									    /></td>
 									</tr>
 								</tbody>
 							</table>
@@ -107,29 +171,67 @@ class ApprenticeDetail extends Component {
 								<tbody>
 									<tr>
 										<th>Entreprise</th>
-										<td>{data.companySite.company.name}</td>
+										<td><TextField
+									      id="companyName"
+									      style={TD_STYLE}
+									      defaultValue={data.companySite.company.name}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Adresse</th>
-										<td>{data.companySite.address}</td>
+										<td><TextField
+									      id="companyAddress"
+									      style={TD_STYLE}
+									      defaultValue={data.companySite.address}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Code Postal</th>
-										<td>{data.companySite.codePostal}</td>
+										<td><TextField
+									      id="companyName"
+									      style={TD_STYLE}
+									      defaultValue={data.companySite.codePostal}
+									    /></td>
 									</tr>
 									<tr>
 										<th>Ville</th>
-										<td>{data.companySite.city}</td>
+										<td><TextField
+									      id="companyName"
+									      style={TD_STYLE}
+									      defaultValue={data.companySite.city}
+									    /></td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
 					}
-	  				</div>
 				</div>
 
 				<div className="col-7">
-					
+					<div style={CONTENT_STYLE}>
+						<section>
+				          <h2 className="main-title">Documents</h2>
+				          <Loader loading={loadingSent} error={errorSent}>
+				            <List data={sentDocs} emptyLabel="Aucun documents uploadé">
+				              {
+				                 sentDocs.map(data => {
+				                    return (
+				                      <BarCard key={data.id} actions={
+				                        <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
+				                          onTouchTap={(e) => this.editDoc(e, data)}
+				                        />
+				                      }>
+				                        <DocumentCard title={data.type.name} subtitle={
+				                          <span>rendu le <Time format="DD MMMM YYYY" date={data.creation} /></span>
+				                        } />
+				                      </BarCard>
+				                    )
+				                  })
+				              }
+				            </List>
+				          </Loader>
+				        </section>
+				    </div>
 				</div>
 			</div>
 
