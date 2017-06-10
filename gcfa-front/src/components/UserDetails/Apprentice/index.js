@@ -178,9 +178,17 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
+										<th>Site</th>
+										<td><TextField
+									      id="companySiteName"
+									      style={TD_STYLE}
+									      defaultValue={data.companySite.name}
+									    /></td>
+									</tr>
+									<tr>
 										<th>Adresse</th>
 										<td><TextField
-									      id="companyAddress"
+									      id="companySiteAddress"
 									      style={TD_STYLE}
 									      defaultValue={data.companySite.address}
 									    /></td>
@@ -188,7 +196,7 @@ class ApprenticeDetail extends Component {
 									<tr>
 										<th>Code Postal</th>
 										<td><TextField
-									      id="companyName"
+									      id="companySiteCP"
 									      style={TD_STYLE}
 									      defaultValue={data.companySite.codePostal}
 									    /></td>
@@ -196,7 +204,7 @@ class ApprenticeDetail extends Component {
 									<tr>
 										<th>Ville</th>
 										<td><TextField
-									      id="companyName"
+									      id="companSiteCity"
 									      style={TD_STYLE}
 									      defaultValue={data.companySite.city}
 									    /></td>
