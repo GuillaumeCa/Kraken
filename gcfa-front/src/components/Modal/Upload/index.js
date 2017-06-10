@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import Dialog from 'material-ui/Dialog';
 import LinearProgress from 'material-ui/LinearProgress';
 
-import colors from '../../colors';
+import colors from '../../../colors';
 import './UploadModal.css';
 
 const MODAL_TITLE_STYLE = {

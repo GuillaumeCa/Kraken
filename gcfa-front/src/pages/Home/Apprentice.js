@@ -10,7 +10,7 @@ import Delete from 'material-ui/svg-icons/content/remove-circle';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import BarCard, { DocumentCard, List } from '../../components/BarCard';
-import UploadModal from '../../components/UploadModal';
+import UploadModal from '../../components/Modal/Upload';
 import { sendNotification } from '../../components/Notification';
 import Loader from '../../components/Loader';
 import Time, { DueTime } from '../../components/Time';

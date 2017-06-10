@@ -12,7 +12,7 @@ import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import BarCard, { DocumentCard, DocumentationCard, List } from '../components/BarCard';
 import Loader from '../components/Loader';
-import UploadModal from '../components/UploadModal';
+import UploadModal from '../components/Modal/Upload';
 import Time from '../components/Time';
 
 

@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
-import UploadModal from '../components/UploadModal';
+import UploadModal from '../components/Modal/Upload';
 import FormModal from '../components/UserForm';
 
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
