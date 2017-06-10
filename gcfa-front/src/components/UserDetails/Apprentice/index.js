@@ -15,18 +15,21 @@ const BUTTON_STYLE = {
 class ApprenticeDetail extends Component {
 
 	state = {
-		user: null,
+		data: null,
 	}
 
 	componentDidMount() {
-		console.log(this.state)
+		
+		console.log(this.props.location.state.data)
 	}
 
 	render() {
+
+		const { data } = this.props.location.state
 		return (
 			<div className="row">
 				<div className="col-6">
-					
+					<p>{data.user.firstName}</p>
 				</div>
 				<div className="col-6">
 					

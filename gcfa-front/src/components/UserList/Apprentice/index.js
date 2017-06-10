@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 import BarCard, { UserCard, List } from '../../BarCard';
@@ -67,7 +68,6 @@ class ApprenticeList extends Component {
       }
 
     viewApprenticeDetails = (user) => {
-    	console.log(user)
     	this.setState({ selectedApprentice: user });
     }
 	render() {
@@ -111,9 +111,15 @@ class ApprenticeList extends Component {
 
 			                return (
 			                  <BarCard key={data.id} actions={
+			                      <Link to={{
+			                  		pathname: '/users/apprentices/detail',
+			                  		state: {data: data}
+			                  	
+			                  	}}>
 			                      <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
 			                        onTouchTap={(e) => this.viewApprenticeDetails(data)}
 			                      />
+			                      </Link>
 			                    }>
 
 			                    <UserCard title= {

@@ -17,6 +17,8 @@ import Download from 'material-ui/svg-icons/file/cloud-download';
 import ApprenticeList from '../components/UserList/Apprentice';
 import Tutors from './Tutors.js';
 
+import ApprenticeDetail from '../components/UserDetails/Apprentice';
+
 
 import * as userManagementService from '../services/userManagementService';
 
@@ -181,9 +183,12 @@ class Users extends Component {
 	    	</Drawer>
 
         <Switch>
-          <Route path="/users/apprentices" component={ApprenticeList} />
-          <Route path="/users/tutors" component={Tutors} />
-          <Route path="/users/consultants" component={() => <div>Consultants</div>} />
+          <Route exact path="/users/apprentices" component={ApprenticeList} />
+          <Route exact path="/users/tutors" component={Tutors} />
+          <Route exact path="/users/consultants" component={() => <div>Consultants</div>} />
+          <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
+          <Route path="/users/tutors/detail" component={() => <div>Tutor Detail</div>} />
+          <Route path="/users/consultants/detail" component={() => <div>Consultants Detail</div>} />
           <Route component={() => <div>erreur</div>} />
         </Switch>
 
