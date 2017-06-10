@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-export function getAllApprentice() {
+export function getAllApprentices() {
   
+  return axios.get('/user/apprentices');
 }
 
 export function createApprenticeFromCSV(file, onUploadProgress) {
