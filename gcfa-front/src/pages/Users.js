@@ -42,18 +42,12 @@ class Users extends Component {
     docSelected: null,
     isValidFile: false,
     openFormModal: false,
+    showBar: false,
   }
 
-  requestAllApprentice = () => {
-    this.setState({currentTab: 0});
-  }
-
-  requestAllTutor = () => {
-  	this.setState({currentTab: 1});
-  }
-
-  requestAllConsultant = () => {
-  	this.setState({ currentTab: 2 });
+  chooseUser = (user) => {
+    const users = { apprentice: 0, tutor: 1, consultant: 2 };
+    this.setState({ currentTab: users[user], showBar: false });
   }
 
   addUser = (event) => {
@@ -64,6 +58,10 @@ class Users extends Component {
     else {
       this.handleOpenForm()
     }
+  }
+
+  toggleBar = () => {
+    this.setState({ showBar: !this.state.showBar });
   }
 
   handleOpenForm = () => {
@@ -124,6 +122,7 @@ class Users extends Component {
       uploadProgress,
       docSelected,
       openFormModal,
+      showBar,
     } = this.state;
 
     const modalButtons = [
@@ -158,19 +157,26 @@ class Users extends Component {
         <div style={HEAD_STYLE}>
           <h1 className="main-title">{allTabs[currentTab]}</h1>
           <div style={{ marginLeft: 'auto' }}>
+            <FlatButton primary label="Autres utilisateurs" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleBar} style={{ marginRight: 10 }} />
             <FlatButton primary label="Ajouter" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.addUser} />
           </div>
         </div>
 
 	    	<Drawer
 	    	  docked={true}
-	    	  open={true}
+	    	  open={showBar}
           width={200}
 	    	>
 	    	  <div style={DRAWER_STYLE}>
-		    	  <Link to="/users/apprentices"><MenuItem key={1} onTouchTap={this.requestAllApprentice}>Apprentis</MenuItem></Link>
-            <Link to="/users/tutors"><MenuItem key={2} onTouchTap={this.requestAllTutor}>Tuteurs</MenuItem></Link>
-            <Link to="/users/consultants"><MenuItem key={3} onTouchTap={this.requestAllConsultant}>Consultants</MenuItem></Link>
+		    	  <Link to="/users/apprentices">
+              <MenuItem key={1} onTouchTap={() => this.chooseUser('apprentice')}>Apprentis</MenuItem>
+            </Link>
+            <Link to="/users/tutors">
+              <MenuItem key={2} onTouchTap={() => this.chooseUser('tutor')}>Tuteurs</MenuItem>
+            </Link>
+            <Link to="/users/consultants">
+              <MenuItem key={3} onTouchTap={() => this.chooseUser('consultant')}>Consultants</MenuItem>
+            </Link>
 		     </div>
 	    	</Drawer>
 
