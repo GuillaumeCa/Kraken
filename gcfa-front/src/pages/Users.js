@@ -16,6 +16,8 @@ import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import Apprentices from '../components/UserList/Apprentice';
 import Tutors from './Tutors';
+import Consultants from './Consultants';
+
 import ApprenticeDetail from '../components/UserDetails/Apprentice';
 
 
@@ -211,7 +213,7 @@ class Users extends Component {
             <Redirect exact from="/users" to="/users/apprentices" />
             <Route exact path="/users/apprentices" component={Apprentices} />
             <Route exact path="/users/tutors" component={Tutors} />
-            <Route exact path="/users/consultants" component={() => <div>Consultants</div>} />
+            <Route exact path="/users/consultants" component={Consultants} />
             <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
             <Route path="/users/tutors/detail" component={() => <div>Tutor Detail</div>} />
             <Route path="/users/consultants/detail" component={() => <div>Consultants Detail</div>} />
