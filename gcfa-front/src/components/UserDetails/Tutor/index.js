@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
@@ -17,7 +18,7 @@ const TITLE_STYLE = {
 
 const LABEL_STYLE = {
 	width:100
-} 
+}
 
 const TD_STYLE = {
 	width: 180,
@@ -99,7 +100,7 @@ class TutorDetail extends Component {
 									        <Link to={{
 									          pathname: '/users/apprentices/detail',
 									          state: {data: apprentice}
-									        
+
 									        }}>
 									          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
 									        </Link>

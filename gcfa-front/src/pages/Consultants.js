@@ -27,14 +27,9 @@ export default class Consultants extends Component {
   renderActions = (consultant) => {
     return (
       <div>
-        <Link to={{
-          pathname: '/users/consultants/detail',
-          state: {data: consultant}
-        
-        }}>
-          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
+        <Link to={`/users/consultants/${consultant.id}/detail`}>
+          <FlatButton primary label="Voir"/>
         </Link>
-
         <FlatButton primary label="Supprimer"
           onTouchTap={() => this.selectConsultant(consultant)}
         />
