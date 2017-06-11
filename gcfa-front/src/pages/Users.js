@@ -14,13 +14,18 @@ import FormModal from '../components/UserForm';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import ApprenticeList from '../components/UserList/Apprentice';
+import Apprentices from '../components/UserList/Apprentice';
 import Tutors from './Tutors';
 import ApprenticeDetail from '../components/UserDetails/Apprentice';
 
 
 import * as userManagementService from '../services/userManagementService';
 
+const CONTENT_STYLE = {
+  margin: '0 auto',
+  marginTop: 60,
+  fontWeight: 'normal',
+}
 
 const DRAWER_STYLE = {
   marginTop: 80,
@@ -201,16 +206,18 @@ class Users extends Component {
 		     </div>
 	    	</Drawer>
 
-        <Switch>
-          <Redirect exact from="/users" to="/users/apprentices" />
-          <Route exact path="/users/apprentices" component={ApprenticeList} />
-          <Route exact path="/users/tutors" component={Tutors} />
-          <Route exact path="/users/consultants" component={() => <div>Consultants</div>} />
-          <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
-          <Route path="/users/tutors/detail" component={() => <div>Tutor Detail</div>} />
-          <Route path="/users/consultants/detail" component={() => <div>Consultants Detail</div>} />
-          <Route component={() => <div>erreur</div>} />
-        </Switch>
+        <div style={CONTENT_STYLE}>
+          <Switch>
+            <Redirect exact from="/users" to="/users/apprentices" />
+            <Route exact path="/users/apprentices" component={Apprentices} />
+            <Route exact path="/users/tutors" component={Tutors} />
+            <Route exact path="/users/consultants" component={() => <div>Consultants</div>} />
+            <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
+            <Route path="/users/tutors/detail" component={() => <div>Tutor Detail</div>} />
+            <Route path="/users/consultants/detail" component={() => <div>Consultants Detail</div>} />
+            <Route component={() => <div>erreur</div>} />
+          </Switch>
+        </div>
 
         <UploadModal
           title="Import CSV"
