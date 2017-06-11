@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 import Loader from '../../Loader';
@@ -70,6 +71,9 @@ export default class TutorDetail extends Component {
     const { tutor } = this.state;
     return (
       <div>
+        <Link to="/users/tutors">
+          <FlatButton primary label="Retour" />
+        </Link>
         <Loader loading={tutor === null}>
           {
             tutor &&

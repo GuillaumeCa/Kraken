@@ -74,7 +74,7 @@ public class UserController {
 
 	@PutMapping("/apprentice")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Apprentice updateApprentice(FormApprenticeDTO form) throws Exception {
+	public Apprentice updateApprentice(@RequestBody FormApprenticeDTO form) throws Exception {
 		return userService.updateApprentice(form);
 	}
 
@@ -97,7 +97,7 @@ public class UserController {
 
 	@PutMapping("/tutor/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Tutor updateTutor(@PathVariable Long id, FormTutorDTO form) throws Exception {
+	public Tutor updateTutor(@PathVariable Long id, @RequestBody FormTutorDTO form) throws Exception {
 		return userService.updateTutor(id, form);
 	}
 
