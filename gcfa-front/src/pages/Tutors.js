@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 
@@ -7,6 +8,10 @@ import BarCard, { List, UserCard } from '../components/BarCard';
 import UsersList from '../components/UserList';
 
 import * as userManagementService from '../services/userManagementService';
+
+const BUTTON_STYLE = {
+  fontSize: 15,
+}
 
 export default class Tutors extends Component {
 
@@ -21,9 +26,14 @@ export default class Tutors extends Component {
   renderActions = (tutor) => {
     return (
       <div>
-        <FlatButton primary label="Voir"
-          onTouchTap={() => this.selectTutor(tutor)}
-        />
+        <Link to={{
+          pathname: '/users/tutors/detail',
+          state: {data: tutor}
+        
+        }}>
+          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
+        </Link>
+
         <FlatButton primary label="Supprimer"
           onTouchTap={() => this.selectTutor(tutor)}
         />
