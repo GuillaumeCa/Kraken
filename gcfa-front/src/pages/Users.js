@@ -14,7 +14,7 @@ import FormModal from '../components/UserForm';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
 
-import Apprentices from '../components/UserList/Apprentice';
+import Apprentices from './Apprentices';
 import Tutors from './Tutors';
 import Consultants from './Consultants';
 

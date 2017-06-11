@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import Loader from '../components/Loader';
 import BarCard, { List, UserCard } from '../components/BarCard';
-import UsersList from '../components/UserList/User';
+import UsersList from '../components/UserList';
 
 import * as userManagementService from '../services/userManagementService';
 

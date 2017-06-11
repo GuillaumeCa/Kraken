@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-import ApprenticeList from '../../components/UserList/Apprentice';
+import ApprenticeList from '../Apprentices';
 
 class Admin extends Component {
 

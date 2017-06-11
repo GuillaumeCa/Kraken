@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
 
-import Loader from '../../Loader';
-import BarCard, { List, UserCard } from '../../BarCard';
+import Loader from '../Loader';
+import BarCard, { List, UserCard } from '../BarCard';
 
 
 export default class UsersList extends Component {
