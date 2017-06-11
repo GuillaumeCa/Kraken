@@ -2,6 +2,7 @@ package com.kraken.gcfa.controller;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.form.FormApprenticeDTO;
+import com.kraken.gcfa.dto.form.FormConsultantDTO;
 import com.kraken.gcfa.dto.form.FormTutorDTO;
 import com.kraken.gcfa.entity.Apprentice;
 import com.kraken.gcfa.entity.Tutor;
@@ -65,16 +66,10 @@ public class UserController {
 		return userService.createApprentice(form);
 	}
 
-	@DeleteMapping("/apprentice")
+	@DeleteMapping("/apprentice/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public boolean deleteApprentice(@AuthenticationPrincipal User user) throws Exception {
-		switch (user.getRole().getName()) {
-			case RolesNames.APPRENTICE:
-				userService.deleteApprentice(user);
-				return true;
-			default:
-				return false;
-		}
+	public void deleteApprentice(@PathVariable Long id) throws Exception {
+		userService.deleteApprentice(id);
 	}
 
 	@PutMapping("/apprentice")
@@ -106,16 +101,10 @@ public class UserController {
 		return userService.createTutor(form);
 	}
 
-	@GetMapping("/tutor")
+	@DeleteMapping("/tutor/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public boolean deleteTutor(@AuthenticationPrincipal User user) throws Exception {
-		switch (user.getRole().getName()) {
-			case RolesNames.TUTOR:
-				userService.deleteTutor(user);
-				return true;
-			default:
-				return false;
-		}
+	public void deleteTutor(@PathVariable Long id) throws Exception {
+		userService.deleteTutor(id);
 	}
 
 	@GetMapping("/tutors")
@@ -149,19 +138,31 @@ public class UserController {
 	@GetMapping("/tutor/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchTutor(@PathVariable String search) throws NotFoundException {
-		return userService.searchUser(3L, search);
+		return userService.searchUser(2L, search);
 	}
 	
 	@GetMapping("/consultant/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchConsultant(@PathVariable String search) throws NotFoundException {
-		return userService.searchUser(2L, search);
+		return userService.searchUser(3L, search);
 	}
 
 	@GetMapping("/consultants")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public List<User> getConsultants() {
 		return userService.getConsultants();
+	}
+
+	@PutMapping("/consultant/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public User updateConsultant(@PathVariable Long id, @RequestBody FormConsultantDTO form) {
+		return userService.updateConsultant(id, form);
+	}
+
+	@DeleteMapping("/consultant/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public void deleteConsultant(@PathVariable Long id) {
+		userService.deleteConsultant(id);
 	}
 
 }

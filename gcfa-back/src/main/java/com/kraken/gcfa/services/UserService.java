@@ -2,6 +2,7 @@ package com.kraken.gcfa.services;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.form.FormApprenticeDTO;
+import com.kraken.gcfa.dto.form.FormConsultantDTO;
 import com.kraken.gcfa.dto.form.FormTutorDTO;
 import com.kraken.gcfa.entity.*;
 import com.kraken.gcfa.repository.*;
@@ -33,6 +34,7 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+
     public Apprentice getApprentice(User user) {
         return apprenticeRepository.findByUser(user);
     }
@@ -58,8 +60,8 @@ public class UserService {
         }
     }
     
-    public void deleteApprentice(User user) throws Exception {
-    	apprenticeRepository.deleteByUser(user);
+    public void deleteApprentice(Long id) {
+    	apprenticeRepository.delete(id);
     }
 
     public Apprentice updateApprentice(FormApprenticeDTO form) throws Exception {
@@ -100,8 +102,18 @@ public class UserService {
         return updateTutorInformations(tutor, user, form);
     }
     
-    public void deleteTutor(User user) throws Exception {
-    	tutorRepository.deleteByUser(user);
+    public void deleteTutor(Long id) throws Exception {
+        Tutor tutor = tutorRepository.findOne(id);
+        User user = tutor.getUser();
+    	tutorRepository.delete(id);
+    	userRepository.delete(user);
+    }
+
+    public void assignApprenticeToTutor(Long tutorId, Long apprenticeId) {
+        Apprentice apprentice = apprenticeRepository.findOne(apprenticeId);
+        Tutor tutor = tutorRepository.findOne(tutorId);
+        apprentice.setTutor(tutor);
+        apprenticeRepository.save(apprentice);
     }
     
     public Tutor updateTutor(Long userId, FormTutorDTO form) throws Exception {
@@ -140,11 +152,23 @@ public class UserService {
     }
 
     public List<User> getConsultants() {
-        return userRepository.findAll();
+        return userRepository.findConsultants();
     }
 
     public User getUserById(Long userId) {
         return userRepository.findOne(userId);
     }
 
+    public User updateConsultant(Long id, FormConsultantDTO form) {
+        User user = userRepository.findOne(id);
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        user.setEmail(form.getEmail());
+        user.setSexe(form.getSexe());
+        return userRepository.save(user);
+    }
+
+    public void deleteConsultant(Long id) {
+        userRepository.delete(id);
+    }
 }

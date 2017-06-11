@@ -19,7 +19,5 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
 	@Query("FROM Tutor as t JOIN t.user as u WHERE u.email=?1")
 	Tutor findTutorByEmail(String email);
 
-	void deleteByUser(User user);
-
 	List<Tutor> findAll();
 }

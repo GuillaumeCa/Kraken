@@ -1,5 +1,6 @@
 package com.kraken.gcfa.repository;
 
+import com.kraken.gcfa.entity.Role;
 import com.kraken.gcfa.entity.User;
 
 import java.util.List;
@@ -27,5 +28,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
             + "OR last_name like %?2%)")
     List<User> searchUser(Long roleId, String search);
 
-    List<User> findAll();
+    @Query("FROM User WHERE role_id = 3")
+    List<User> findConsultants();
 }

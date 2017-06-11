@@ -12,6 +12,5 @@ import java.util.List;
  */
 public interface ApprenticeRepository extends CrudRepository<Apprentice, Long> {
     Apprentice findByUser(User user);
-    void deleteByUser(User user);
     List<Apprentice> findAll();
 }
