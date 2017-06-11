@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Loader from '../../Loader';
 import FormField from '../../UserForm/FormField';
 import TextField from 'material-ui/TextField';
@@ -11,8 +12,8 @@ import * as userManagementService from '../../../services/userManagementService'
 
 import { sendNotification } from '../../Notification';
 
-const BUTTON_STYLE = {
-  fontSize: 15,
+const SMALL_MARGIN = {
+  marginBottom: 20,
 }
 
 export default class TutorDetail extends Component {
@@ -72,12 +73,12 @@ export default class TutorDetail extends Component {
     return (
       <div>
         <Link to="/users/tutors">
-          <FlatButton primary label="Retour" />
+          <RaisedButton primary label="Retour" style={SMALL_MARGIN} />
         </Link>
         <Loader loading={tutor === null}>
           {
             tutor &&
-            <div className="row">
+            <div className="row" style={SMALL_MARGIN}>
               <h2 className="sub-title">Informations</h2>
               <table className="detail-list col-6">
                 <tbody>
@@ -115,7 +116,7 @@ export default class TutorDetail extends Component {
               </table>
             </div>
           }
-          <FlatButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} />
+          <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
         </Loader>
       </div>
     )

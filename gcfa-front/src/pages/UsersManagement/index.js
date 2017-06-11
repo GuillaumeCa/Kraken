@@ -8,8 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
-import UploadModal from '../components/Modal/Upload';
-import FormModal from '../components/UserForm';
+import UploadModal from '../../components/Modal/Upload';
+import FormModal from '../../components/UserForm';
 
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import Download from 'material-ui/svg-icons/file/cloud-download';
@@ -18,11 +18,11 @@ import Apprentices from './Apprentices';
 import Tutors from './Tutors';
 import Consultants from './Consultants';
 
-import ApprenticeDetail from '../components/UserDetails/Apprentice';
-import TutorDetail from '../components/UserDetails/Tutor';
-import ConsultantDetail from '../components/UserDetails/Consultant';
+import ApprenticeDetail from '../../components/UserDetails/Apprentice';
+import TutorDetail from '../../components/UserDetails/Tutor';
+import ConsultantDetail from '../../components/UserDetails/Consultant';
 
-import * as userManagementService from '../services/userManagementService';
+import * as userManagementService from '../../services/userManagementService';
 
 const CONTENT_STYLE = {
   margin: '0 auto',

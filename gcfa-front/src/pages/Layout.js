@@ -13,7 +13,7 @@ import Auth from '../components/Auth';
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
-import Users from './Users';
+import Users from './UsersManagement';
 
 
 import {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ApprenticeList from '../Apprentices';
+import ApprenticeList from '../UsersManagement/Apprentices';
 
 import * as userService from '../../services/userService';
 
