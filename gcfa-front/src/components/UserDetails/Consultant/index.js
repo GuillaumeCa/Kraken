@@ -22,6 +22,8 @@ export default class ConsultantDetail extends Component {
   state = {
     consultant: null,
     consultantForm: {},
+
+    update: false,
   }
 
   componentDidMount() {
@@ -50,6 +52,7 @@ export default class ConsultantDetail extends Component {
       .then(res => {
         sendNotification("Profil du consultant mis à jour");
         this.requestConsultantInfos();
+        this.setState({ update: false });
       })
       .catch(err => {
         sendNotification("Le profil n'a pu être mis à jour")
@@ -58,6 +61,7 @@ export default class ConsultantDetail extends Component {
 
   onChangeField = (key, value) => {
     this.setState({
+      update: true,
       consultantForm: {
         ...this.state.consultantForm,
         [key]: value,
@@ -68,6 +72,8 @@ export default class ConsultantDetail extends Component {
   render() {
     const {
       consultant,
+
+      update,
     } = this.state;
     return (
       <div>
@@ -110,7 +116,7 @@ export default class ConsultantDetail extends Component {
                     />
                   </tbody>
                 </table>
-                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
+                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} disabled={!update}/>
               </div>
             </div>
           }

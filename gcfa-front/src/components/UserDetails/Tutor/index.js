@@ -22,6 +22,7 @@ export default class TutorDetail extends Component {
   state = {
     tutor: null,
     tutorForm: {},
+    update: false,
 
     apprenticeList: [],
     errorApprentices: false,
@@ -64,6 +65,7 @@ export default class TutorDetail extends Component {
       .then(res => {
         sendNotification("Profil du tuteur mis à jour");
         this.requestTutorInfos();
+        this.setState({ update: false });
       })
       .catch(err => {
         sendNotification("Le profil n'a pu être mis à jour")
@@ -71,10 +73,8 @@ export default class TutorDetail extends Component {
   }
 
   onChangeField = (key, value) => {
-    if (key === 'sexe') {
-      value = (value == 'Mr' ? 'Male' : 'Female');
-    }
     this.setState({
+      update: true,
       tutorForm: {
         ...this.state.tutorForm,
         [key]: value,
@@ -89,9 +89,12 @@ export default class TutorDetail extends Component {
   render() {
     const {
       tutor,
+
       apprenticeList,
       errorApprentices,
       loadingApprentices,
+
+      update,
 
     } = this.state;
     return (
@@ -141,7 +144,7 @@ export default class TutorDetail extends Component {
                     />
                   </tbody>
                 </table>
-                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
+                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} disabled={!update} />
               </div>
               <div className="col-6">
                 <h2 className="sub-title">Apprentis</h2>

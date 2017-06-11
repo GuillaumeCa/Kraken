@@ -16,9 +16,12 @@ import * as userManagementService from '../../services/userManagementService';
 export default class Tutors extends Component {
 
   state = {
+    usersList: [],
+    loading: false,
+    error: false,
+
     openForm: false,
     formData: {},
-    usersList: [],
   }
 
   componentDidMount() {
@@ -81,6 +84,7 @@ export default class Tutors extends Component {
   }
 
   render() {
+    const { error, loading } = this.state;
     const modalFormButtons = [
       <FlatButton
         label="Annuler"
@@ -96,12 +100,14 @@ export default class Tutors extends Component {
     return (
       <div>
         <RaisedButton primary label="Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
-        <UsersList
-          usersList={this.state.usersList}
-          renderActions={this.renderActions}
-          title={this.renderTitle}
-          subtitle={this.renderSubtitle}
-        />
+        <Loader error={error} loading={loading}>
+          <UsersList
+            usersList={this.state.usersList}
+            renderActions={this.renderActions}
+            title={this.renderTitle}
+            subtitle={this.renderSubtitle}
+          />
+        </Loader>
         <FormModal
           actions={modalFormButtons}
           openModal={this.state.openForm}

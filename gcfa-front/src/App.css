@@ -31,6 +31,7 @@ section {
   text-align: right;
   font-style: italic;
   padding-right: 10px;
+  font-weight: normal;
 }
 
 .detail-list td {
