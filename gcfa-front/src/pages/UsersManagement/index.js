@@ -196,10 +196,10 @@ class Users extends Component {
               <MenuItem key={1} onTouchTap={() => this.chooseUser('apprentice')}>Apprentis</MenuItem>
             </Link>
             <Link to="/users/tutors">
-              <MenuItem key={2} onTouchTap={() => this.chooseUser('tutors')}>Tuteurs</MenuItem>
+              <MenuItem key={2} onTouchTap={() => this.chooseUser('tutor')}>Tuteurs</MenuItem>
             </Link>
             <Link to="/users/consultants">
-              <MenuItem key={3} onTouchTap={() => this.chooseUser('consultants')}>Consultants</MenuItem>
+              <MenuItem key={3} onTouchTap={() => this.chooseUser('consultant')}>Consultants</MenuItem>
             </Link>
 		     </div>
 	    	</Drawer>
