@@ -33,3 +33,8 @@ export function editDocument(id, file, onUploadProgress) {
 export function deleteDocument(id) {
   return axios.delete(`/document/${id}`);
 }
+
+
+export function getSentDocumentsFromApprentice(userId) {
+  return axios.get(`/document/${userId}`);
+}

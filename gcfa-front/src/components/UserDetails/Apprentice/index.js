@@ -9,16 +9,16 @@ import Time, { DueTime } from '../../Time';
 
 import * as userManagementService from '../../../services/userManagementService';
 import * as userService from '../../../services/userService';
+import * as documentService from '../../../services/documentService';
 
 
-const CONTENT_STYLE = {
-	margin: '0 auto',
-	marginTop: 60,
+const TITLE_STYLE = {
     textAlign: 'center',
-    fontSize: 25,
-	maxWidth: 500,
-	fontWeight: 'normal',
 }
+
+const LABEL_STYLE = {
+	width:100
+} 
 
 const TD_STYLE = {
 	width: 180,
@@ -38,13 +38,13 @@ class ApprenticeDetail extends Component {
 	}
 
 	componentDidMount() {
-		
-		console.log(this.props.location.state.data)
 		this.requestSentDocsFromApprentice(this.props.location.state.data.id);
 	}
 
 	requestSentDocsFromApprentice = (userId) => {
-
+		documentService.getSentDocumentsFromApprentice(userId).then(res => {
+			this.setState({sentDocs: res.data});
+		});
 	}
 
 	render() {
@@ -75,12 +75,12 @@ class ApprenticeDetail extends Component {
 				<div className="col-5">
 					{
 						data &&
-						<div style={CONTENT_STYLE}>
-							<h2 className="main-title">{data.user.firstName} {data.user.lastName}</h2>
+						<div>
+							<h2 className="main-title"  style={TITLE_STYLE}>{data.user.firstName} {data.user.lastName}</h2>
 							<table className="detail-list" style={{ margin: '20px auto' }}>
 								<tbody>
 									<tr>
-										<th>Mail</th>
+										<th style={LABEL_STYLE}>Mail</th>
 										<td><TextField
 									      id="mail"
 									      style={TD_STYLE}
@@ -89,7 +89,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Promotion</th>
+										<th style={LABEL_STYLE}>Promotion</th>
 										<td><TextField
 									      id="promotion"
 									      style={TD_STYLE}
@@ -99,7 +99,7 @@ class ApprenticeDetail extends Component {
 									    </td>
 									</tr>
 									<tr>
-										<th>Début du contrat</th>
+										<th style={LABEL_STYLE}>Début du contrat</th>
 										<td><TextField
 									      id="startContract"
 									      type="number"
@@ -108,7 +108,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Durée du contrat</th>
+										<th style={LABEL_STYLE}>Durée du contrat</th>
 										<td><TextField
 									      id="contractType"
 									      style={TD_STYLE}
@@ -117,7 +117,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Document rendu</th>
+										<th style={LABEL_STYLE}>Document rendu</th>
 										<td><TextField
 									      id="dueDocNb"
 									      style={TD_STYLE}
@@ -128,11 +128,11 @@ class ApprenticeDetail extends Component {
 								</tbody>
 							</table>
 							
-							<h2 className="sub-title">Tuteur</h2>
+							<h2 className="sub-title" style={TITLE_STYLE}>Tuteur</h2>
 							<table className="detail-list" style={{ margin: '0 auto' }}>
 								<tbody>
 									<tr>
-										<th>Nom</th>
+										<th style={LABEL_STYLE}>Nom</th>
 										<td><TextField
 									      id="tutorLastName"
 									      style={TD_STYLE}
@@ -140,7 +140,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Prénom</th>
+										<th style={LABEL_STYLE}>Prénom</th>
 										<td><TextField
 									      id="tutorFirstName"
 									      style={TD_STYLE}
@@ -148,7 +148,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Mail</th>
+										<th style={LABEL_STYLE}>Mail</th>
 										<td><TextField
 									      id="tutorMail"
 									      style={TD_STYLE}
@@ -156,7 +156,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Emploi</th>
+										<th style={LABEL_STYLE}>Emploi</th>
 										<td><TextField
 									      id="tutorFirstName"
 									      style={TD_STYLE}
@@ -166,11 +166,11 @@ class ApprenticeDetail extends Component {
 								</tbody>
 							</table>
 							<br />
-							<h2 className="sub-title">Entreprise</h2>
+							<h2 className="sub-title" style={TITLE_STYLE}>Entreprise</h2>
 							<table className="detail-list" style={{ margin: '0 auto' }}>
 								<tbody>
 									<tr>
-										<th>Entreprise</th>
+										<th style={LABEL_STYLE}>Entreprise</th>
 										<td><TextField
 									      id="companyName"
 									      style={TD_STYLE}
@@ -178,7 +178,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Site</th>
+										<th style={LABEL_STYLE}>Site</th>
 										<td><TextField
 									      id="companySiteName"
 									      style={TD_STYLE}
@@ -186,7 +186,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Adresse</th>
+										<th style={LABEL_STYLE}>Adresse</th>
 										<td><TextField
 									      id="companySiteAddress"
 									      style={TD_STYLE}
@@ -194,7 +194,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Code Postal</th>
+										<th style={LABEL_STYLE}>Code Postal</th>
 										<td><TextField
 									      id="companySiteCP"
 									      style={TD_STYLE}
@@ -202,7 +202,7 @@ class ApprenticeDetail extends Component {
 									    /></td>
 									</tr>
 									<tr>
-										<th>Ville</th>
+										<th style={LABEL_STYLE}>Ville</th>
 										<td><TextField
 									      id="companSiteCity"
 									      style={TD_STYLE}
@@ -215,8 +215,9 @@ class ApprenticeDetail extends Component {
 					}
 				</div>
 
-				<div className="col-7">
-					<div style={CONTENT_STYLE}>
+				<div className="col-1"></div>
+				<div className="col-6">
+					<div>
 						<section>
 				          <h2 className="main-title">Documents</h2>
 				          <Loader loading={loadingSent} error={errorSent}>
