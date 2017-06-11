@@ -54,3 +54,19 @@ export function getTutor(id) {
 export function updateTutor(id, data) {
   return axios.put(`/user/tutor/${id}`, data);
 }
+export function deleteTutor(id) {
+  return axios.delete(`/user/tutor/${id}`);
+}
+
+export function createConsultant(form) {
+  return axios.post('/user/consultant', form);
+}
+export function getConsultant(id) {
+  return axios.get(`/user/consultant/${id}`);
+}
+export function updateConsultant(id, data) {
+  return axios.put(`/user/consultant/${id}`, data);
+}
+export function deleteConsultant(id) {
+  return axios.delete(`/user/consultant/${id}`);
+}

@@ -9,6 +9,7 @@ import com.kraken.gcfa.repository.*;
 
 import java.util.List;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -170,5 +171,14 @@ public class UserService {
 
     public void deleteConsultant(Long id) {
         userRepository.delete(id);
+    }
+
+    public User getConsultant(Long id) throws NotFoundException {
+        User user = userRepository.findOne(id);
+        if (user.getRole().getName().equals(RolesNames.CONSULTANT)) {
+            return user;
+        } else {
+          throw new NotFoundException("This user is not a consultant");
+        }
     }
 }

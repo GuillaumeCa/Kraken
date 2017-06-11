@@ -61,7 +61,6 @@ export default class Apprentices extends Component {
 
   render() {
     const { loading, users, error } = this.state;
-    console.log(users);
     return (
       <Loader loading={loading} error={error} >
         <div className="row">

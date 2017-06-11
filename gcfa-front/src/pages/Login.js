@@ -56,7 +56,6 @@ class Login extends Component {
       this.props.history.push('/');
     }).catch(err => {
       this.setState({ error: true, loading: false })
-      console.log(err.message);
     })
   }
 

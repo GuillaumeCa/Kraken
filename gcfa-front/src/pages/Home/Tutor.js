@@ -12,7 +12,6 @@ class TutorHome extends Component {
 
 	componentDidMount() {
 		userService.getUserProfile().then(res => {
-			console.log(res);
 			this.setState({ profil: res.data });
 		})
 	}

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import { TitleSelect } from './FormField';
 
 
 class FormModal extends Component {
@@ -91,32 +92,42 @@ class ApprenticeForm extends Component {
 
 function TutorForm(props) {
   return (
-    <div>
-      <TextField
-        floatingLabelText="Prénom"
-        fullWidth
-        onChange={e => props.update('firstName', e)}
-      />
-      <TextField
-        floatingLabelText="Nom"
-        fullWidth
-        onChange={e => props.update('lastName', e)}
-      />
-      <TextField
-        floatingLabelText="Email"
-        fullWidth
-        onChange={e => props.update('email', e)}
-      />
-      <TextField
-        floatingLabelText="Emploi"
-        fullWidth
-        onChange={e => props.update('job', e)}
-      />
-      <TextField
-        floatingLabelText="Sexe"
-        fullWidth
-        onChange={e => props.update('sexe', e)}
-      />
+    <div className="row">
+      <div className="col-3">
+        <TitleSelect
+          title="Titre"
+          fullWidth
+          onChange={e => props.update('sexe', e)}
+        />
+      </div>
+      <div className="col-4">
+        <TextField
+          floatingLabelText="Prénom"
+          fullWidth
+          onChange={e => props.update('firstName', e)}
+        />
+      </div>
+      <div className="col-5">
+        <TextField
+          floatingLabelText="Nom"
+          fullWidth
+          onChange={e => props.update('lastName', e)}
+        />
+      </div>
+      <div className="col-12">
+        <TextField
+          floatingLabelText="Email"
+          fullWidth
+          onChange={e => props.update('email', e)}
+        />
+      </div>
+      <div className="col-12">
+        <TextField
+          floatingLabelText="Emploi"
+          fullWidth
+          onChange={e => props.update('job', e)}
+        />
+      </div>
     </div>
   )
 }

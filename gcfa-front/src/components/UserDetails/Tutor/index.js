@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Loader from '../../Loader';
-import FormField from '../../UserForm/FormField';
+import BarCard, { List, UserCard } from '../../BarCard';
+import FormField, { TitleSelect } from '../../UserForm/FormField';
 import TextField from 'material-ui/TextField';
 
 import * as userManagementService from '../../../services/userManagementService';
@@ -21,16 +22,29 @@ export default class TutorDetail extends Component {
   state = {
     tutor: null,
     tutorForm: {},
+
+    apprenticeList: [],
+    errorApprentices: false,
+    loadingApprentices: false,
   }
 
   componentDidMount() {
     this.requestTutorInfos();
+    this.requestApprentices();
   }
 
   requestTutorInfos() {
     userManagementService.getTutor(this.props.match.params.id)
       .then(res => {
         this.setState({ tutor: res.data, tutorForm: this.buildForm(res.data) });
+      })
+  }
+
+  requestApprentices() {
+    this.setState({ loadingApprentices: true });
+    userManagementService.getAllApprenticesFromTutor(this.props.match.params.id)
+      .then(res => {
+        this.setState({ apprenticeList: res.data, loadingApprentices: false });
       })
   }
 
@@ -68,8 +82,18 @@ export default class TutorDetail extends Component {
     });
   }
 
+  removeApprentice = (e, apprentice) => {
+
+  }
+
   render() {
-    const { tutor } = this.state;
+    const {
+      tutor,
+      apprenticeList,
+      errorApprentices,
+      loadingApprentices,
+
+    } = this.state;
     return (
       <div>
         <Link to="/users/tutors">
@@ -78,45 +102,75 @@ export default class TutorDetail extends Component {
         <Loader loading={tutor === null}>
           {
             tutor &&
-            <div className="row" style={SMALL_MARGIN}>
-              <h2 className="sub-title">Informations</h2>
-              <table className="detail-list col-6">
-                <tbody>
-                  <FormField
-                    title="Titre"
-                    fname="sexe"
-                    defaultValue={tutor.user.sexe == 'Male' ? 'M.' : 'Mme.'}
-                    onChange={this.onChangeField}
-                  />
-                  <FormField
-                    title="Prénom"
-                    fname="firstName"
-                    defaultValue={tutor.user.firstName}
-                    onChange={this.onChangeField}
-                  />
-                  <FormField
-                    title="Nom"
-                    fname="lastName"
-                    defaultValue={tutor.user.lastName}
-                    onChange={this.onChangeField}
-                  />
-                  <FormField
-                    title="Mail"
-                    fname="email"
-                    defaultValue={tutor.user.email}
-                    onChange={this.onChangeField}
-                  />
-                  <FormField
-                    title="Emploi"
-                    fname="job"
-                    defaultValue={tutor.job}
-                    onChange={this.onChangeField}
-                  />
-                </tbody>
-              </table>
+            <div className="row" >
+              <div className="col-6">
+                <h2 className="sub-title">Informations</h2>
+                <table className="detail-list" style={SMALL_MARGIN}>
+                  <tbody>
+                    <FormField
+                      title="Titre"
+                    >
+                      <TitleSelect
+                        default={tutor.user.sexe}
+                        onChange={(e, i, v) => this.onChangeField('sexe', v)}
+                      />
+                    </FormField>
+                    <FormField
+                      title="Prénom"
+                      fname="firstName"
+                      defaultValue={tutor.user.firstName}
+                      onChange={this.onChangeField}
+                    />
+                    <FormField
+                      title="Nom"
+                      fname="lastName"
+                      defaultValue={tutor.user.lastName}
+                      onChange={this.onChangeField}
+                    />
+                    <FormField
+                      title="Mail"
+                      fname="email"
+                      defaultValue={tutor.user.email}
+                      onChange={this.onChangeField}
+                    />
+                    <FormField
+                      title="Emploi"
+                      fname="job"
+                      defaultValue={tutor.job}
+                      onChange={this.onChangeField}
+                    />
+                  </tbody>
+                </table>
+                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
+              </div>
+              <div className="col-6">
+                <h2 className="sub-title">Apprentis</h2>
+                <Loader loading={loadingApprentices} error={errorApprentices}>
+                  <List data={apprenticeList} emptyLabel="Aucun apprenti assigné">
+                    {
+                       apprenticeList.map(data => {
+                          return (
+                            <BarCard key={data.id} actions={
+                              <FlatButton
+                                secondary
+                                label="Retirer"
+                                onTouchTap={(e) => this.removeApprentice(e, data)}
+                              />
+                            }>
+                              <UserCard
+                                title={data.user.firstName + ' ' + data.user.lastName}
+                                subtitle={data.user.email}
+                              />
+                            </BarCard>
+                          )
+                        })
+                    }
+                  </List>
+                </Loader>
+                <RaisedButton primary label="Ajouter" />
+              </div>
             </div>
           }
-          <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
         </Loader>
       </div>
     )

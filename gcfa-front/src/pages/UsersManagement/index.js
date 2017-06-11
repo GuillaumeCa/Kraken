@@ -56,9 +56,24 @@ class Users extends Component {
     formData: null,
   }
 
-  chooseUser = (user) => {
-    const users = { apprentice: 0, tutor: 1, consultant: 2 };
-    this.setState({ currentTab: users[user], showBar: false });
+  componentDidMount() {
+    this.chooseUser()
+  }
+
+  chooseUser = () => {
+    console.log(window.location.pathname.split('/')[2]);
+    switch (window.location.pathname.split('/')[2]) {
+      case 'apprentices':
+        this.setState({ currentTab: 0, showBar: false });
+        return
+      case 'tutors':
+        this.setState({ currentTab: 1, showBar: false });
+        return
+      case 'consultants':
+        this.setState({ currentTab: 2, showBar: false });
+        return
+    }
+    // const users = { apprentice: 0, tutor: 1, consultant: 2 };
   }
 
   addUser = (event) => {
@@ -198,13 +213,13 @@ class Users extends Component {
 	    	>
 	    	  <div style={DRAWER_STYLE}>
 		    	  <Link to="/users/apprentices">
-              <MenuItem key={1} onTouchTap={() => this.chooseUser('apprentice')}>Apprentis</MenuItem>
+              <MenuItem key={1} onTouchTap={this.chooseUser}>Apprentis</MenuItem>
             </Link>
             <Link to="/users/tutors">
-              <MenuItem key={2} onTouchTap={() => this.chooseUser('tutor')}>Tuteurs</MenuItem>
+              <MenuItem key={2} onTouchTap={this.chooseUser}>Tuteurs</MenuItem>
             </Link>
             <Link to="/users/consultants">
-              <MenuItem key={3} onTouchTap={() => this.chooseUser('consultant')}>Consultants</MenuItem>
+              <MenuItem key={3} onTouchTap={this.chooseUser}>Consultants</MenuItem>
             </Link>
 		     </div>
 	    	</Drawer>

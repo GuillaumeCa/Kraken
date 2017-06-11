@@ -159,6 +159,11 @@ public class UserController {
 		return userService.getConsultants();
 	}
 
+	@GetMapping("/consultant/{id}")
+	public User getConsultant(@PathVariable Long id) throws NotFoundException {
+		return userService.getConsultant(id);
+	}
+
 	@PutMapping("/consultant/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public User updateConsultant(@PathVariable Long id, @RequestBody FormConsultantDTO form) {

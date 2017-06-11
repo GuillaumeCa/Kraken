@@ -3,61 +3,119 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
-import BarCard, { UserCard, List } from '../../BarCard';
+import RaisedButton from 'material-ui/RaisedButton';
 import Loader from '../../Loader';
+import BarCard, { List, UserCard } from '../../BarCard';
+import FormField, { TitleSelect } from '../../UserForm/FormField';
 import TextField from 'material-ui/TextField';
-import Time, { DueTime } from '../../Time';
-
 
 import * as userManagementService from '../../../services/userManagementService';
 
+import { sendNotification } from '../../Notification';
 
-const TITLE_STYLE = {
-    textAlign: 'center',
+const SMALL_MARGIN = {
+  marginBottom: 20,
 }
 
-const LABEL_STYLE = {
-	width:100
+export default class ConsultantDetail extends Component {
+
+  state = {
+    consultant: null,
+    consultantForm: {},
+  }
+
+  componentDidMount() {
+    this.requestConsultantInfos();
+  }
+
+  requestConsultantInfos() {
+    userManagementService.getConsultant(this.props.match.params.id)
+      .then(res => {
+        this.setState({ consultant: res.data, consultantForm: this.buildForm(res.data) });
+      })
+  }
+
+  buildForm(consultant) {
+    return {
+      sexe: consultant.sexe,
+      firstName: consultant.firstName,
+      lastName: consultant.lastName,
+      email: consultant.email,
+    }
+  }
+
+  onUpdate = () => {
+    const { consultant, consultantForm } = this.state;
+    userManagementService.updateConsultant(consultant.id, consultantForm)
+      .then(res => {
+        sendNotification("Profil du consultant mis à jour");
+        this.requestConsultantInfos();
+      })
+      .catch(err => {
+        sendNotification("Le profil n'a pu être mis à jour")
+      })
+  }
+
+  onChangeField = (key, value) => {
+    this.setState({
+      consultantForm: {
+        ...this.state.consultantForm,
+        [key]: value,
+      }
+    });
+  }
+
+  render() {
+    const {
+      consultant,
+    } = this.state;
+    return (
+      <div>
+        <Link to="/users/consultants">
+          <RaisedButton primary label="Retour" style={SMALL_MARGIN} />
+        </Link>
+        <Loader loading={consultant === null}>
+          {
+            consultant &&
+            <div className="row" >
+              <div className="col-6">
+                <h2 className="sub-title">Informations</h2>
+                <table className="detail-list" style={SMALL_MARGIN}>
+                  <tbody>
+                    <FormField
+                      title="Titre"
+                    >
+                      <TitleSelect
+                        default={consultant.sexe}
+                        onChange={(e, i, v) => this.onChangeField('sexe', v)}
+                      />
+                    </FormField>
+                    <FormField
+                      title="Prénom"
+                      fname="firstName"
+                      defaultValue={consultant.firstName}
+                      onChange={this.onChangeField}
+                    />
+                    <FormField
+                      title="Nom"
+                      fname="lastName"
+                      defaultValue={consultant.lastName}
+                      onChange={this.onChangeField}
+                    />
+                    <FormField
+                      title="Mail"
+                      fname="email"
+                      defaultValue={consultant.email}
+                      onChange={this.onChangeField}
+                    />
+                  </tbody>
+                </table>
+                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} />
+              </div>
+            </div>
+          }
+        </Loader>
+      </div>
+    )
+  }
 }
-
-const TD_STYLE = {
-	width: 180,
-}
-
-
-class ConsultantDetail extends Component {s
-
-	render() {
-		console.log(this.props.location.state.data)
-		const { data } = this.props.location.state;
-
-		return (
-			<div className="row">
-				<div className="col-12">
-					{
-						data &&
-						<div>
-							<h2 className="main-title"  style={TITLE_STYLE}>{data.firstName} {data.lastName}</h2>
-							<table className="detail-list" style={{ margin: '20px auto' }}>
-								<tbody>
-									<tr>
-										<th style={LABEL_STYLE}>Mail</th>
-										<td><TextField
-									      id="mail"
-									      style={TD_STYLE}
-									      disabled={true}
-									      defaultValue={data.email}
-									    /></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					}
-				</div>
-			</div>
-
-		)
-	}
-}
-
-export default ConsultantDetail;

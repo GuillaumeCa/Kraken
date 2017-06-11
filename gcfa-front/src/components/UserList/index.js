@@ -11,7 +11,6 @@ export default class UsersList extends Component {
   render() {
 
     const { usersList, noUserLabel } = this.props;
-    console.log(usersList);
     return (
       <div>
         <List data={usersList} emptyLabel={noUserLabel}>

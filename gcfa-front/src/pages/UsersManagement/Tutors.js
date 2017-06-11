@@ -9,12 +9,9 @@ import Loader from '../../components/Loader';
 import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
+import { sendNotification } from '../../components/Notification';
 
 import * as userManagementService from '../../services/userManagementService';
-
-const BUTTON_STYLE = {
-  fontSize: 15,
-}
 
 export default class Tutors extends Component {
 
@@ -35,18 +32,12 @@ export default class Tutors extends Component {
       });
   }
 
-  renderActions = (tutor) => {
-    return (
-      <div>
-        <Link to={`/users/tutors/${tutor.id}/detail`}>
-          <FlatButton primary label="Voir"/>
-        </Link>
-        <FlatButton secondary label="Supprimer"/>
-      </div>
-    )
+  showCreateForm = () => {
+    this.setState({ openForm: true });
   }
 
-  onCreateActionForm = (formData) => {
+  onCreateActionForm = () => {
+    const { formData } = this.state;
     userManagementService.createTutor(formData)
       .then(ok => {
         this.closeDocModal();
@@ -62,6 +53,13 @@ export default class Tutors extends Component {
     this.setState({ openForm: false });
   }
 
+  deleteTutor = (id) => {
+    userManagementService.deleteTutor(id)
+      .then(ok => {
+        sendNotification("Tuteur supprimé")
+        this.requestAllTutor();
+      })
+  }
 
   renderTitle = (tutor) => {
     return `${tutor.user.firstName} ${tutor.user.lastName}`;
@@ -69,6 +67,17 @@ export default class Tutors extends Component {
 
   renderSubtitle = (tutor) => {
     return `${tutor.user.email} - ${tutor.job}`;
+  }
+
+  renderActions = (tutor) => {
+    return (
+      <div>
+        <Link to={`/users/tutors/${tutor.id}/detail`}>
+          <FlatButton primary label="Voir"/>
+        </Link>
+        <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteTutor(tutor.id)}/>
+      </div>
+    )
   }
 
   render() {
@@ -86,7 +95,7 @@ export default class Tutors extends Component {
     ];
     return (
       <div>
-        <RaisedButton primary label="Ajouter" style={{ marginBottom: 20 }} />
+        <RaisedButton primary label="Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
         <UsersList
           usersList={this.state.usersList}
           renderActions={this.renderActions}
@@ -96,6 +105,7 @@ export default class Tutors extends Component {
         <FormModal
           actions={modalFormButtons}
           openModal={this.state.openForm}
+          update={this.onUpdateForm}
           userType={1}
         />
       </div>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 export default function FormField(props) {
 
@@ -12,10 +14,11 @@ export default function FormField(props) {
   	width: 180,
   }
 
-  return (
-    <tr>
-      <th style={props.titleStyle || LABEL_STYLE}>{props.title}</th>
-      <td>
+  const renderField = () => {
+    if (props.children) {
+      return props.children;
+    } else {
+      return (
         <TextField
           id={props.fname}
           style={props.tfStyle || TD_STYLE}
@@ -23,7 +26,48 @@ export default function FormField(props) {
           onChange={(e) => props.onChange(props.fname, e.target.value)}
           disabled={props.disabled || false}
         />
+      )
+    }
+  }
+
+  return (
+    <tr>
+      <th style={props.titleStyle || LABEL_STYLE}>{props.title}</th>
+      <td>
+        {renderField()}
       </td>
     </tr>
   )
+}
+
+
+export class TitleSelect extends Component {
+  state = {
+    choice: 'Male',
+  }
+
+  handleChange = (e, index, value) => {
+    this.setState({ choice: value });
+    this.props.onChange(e, index, value)
+  }
+
+  componentDidMount() {
+    if (this.props.default) {
+      this.setState({ choice: this.props.default });
+    }
+  }
+
+  render() {
+    return (
+      <SelectField
+        floatingLabelText={this.props.title}
+        fullWidth={this.props.fullWidth}
+        value={this.state.choice}
+        onChange={this.handleChange}
+      >
+        <MenuItem value="Male" primaryText="Mr" />
+        <MenuItem value="Female" primaryText="Mme" />
+      </SelectField>
+    )
+  }
 }
