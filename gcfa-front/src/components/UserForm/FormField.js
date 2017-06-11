@@ -71,3 +71,20 @@ export class TitleSelect extends Component {
     )
   }
 }
+
+export function SelectForm(props) {
+  return (
+    <SelectField
+      floatingLabelText={props.title}
+      fullWidth={props.fullWidth}
+      value={props.selectValue}
+      onChange={props.handleChange}
+    >
+      {
+        props.itemList.map((e, i) => {
+          return <MenuItem key={i} value={e._value} primaryText={e._text} />
+        })
+      }
+    </SelectField>
+  )
+}

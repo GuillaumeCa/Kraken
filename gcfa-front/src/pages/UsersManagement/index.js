@@ -53,15 +53,9 @@ class Users extends Component {
     isValidFile: false,
     openFormModal: false,
     showBar: false,
-    formData: null,
   }
 
   componentDidMount() {
-    this.chooseUser()
-  }
-
-  chooseUser = () => {
-    console.log(window.location.pathname.split('/')[2]);
     switch (window.location.pathname.split('/')[2]) {
       case 'apprentices':
         this.setState({ currentTab: 0, showBar: false });
@@ -73,8 +67,13 @@ class Users extends Component {
         this.setState({ currentTab: 2, showBar: false });
         return
     }
-    // const users = { apprentice: 0, tutor: 1, consultant: 2 };
   }
+
+  chooseUser = (tab) => {
+    const users = { apprentice: 0, tutor: 1, consultant: 2 };
+    this.setState({ currentTab: users[tab], showBar: false });
+  }
+
 
   addUser = (event) => {
     if(this.state.currentTab == 0) {
@@ -113,25 +112,6 @@ class Users extends Component {
       });
   }
 
-  onCreateActionForm = () => {
-    const { currentTab, formData } = this.state;
-    switch (currentTab) {
-      case 1:
-        userManagementService.createTutor(formData)
-          .then(ok => {
-            this.closeDocModal()
-            this.requestTutors()
-          });
-        break
-      case 2:
-
-    }
-    this.setState({ formData: null });
-  }
-
-  updateFormData = (formData) => {
-    this.setState({ formData });
-  }
 
   closeDocModal = () => {
     this.setState({
@@ -213,13 +193,13 @@ class Users extends Component {
 	    	>
 	    	  <div style={DRAWER_STYLE}>
 		    	  <Link to="/users/apprentices">
-              <MenuItem key={1} onTouchTap={this.chooseUser}>Apprentis</MenuItem>
+              <MenuItem key={1} onTouchTap={() => this.chooseUser('apprentice')}>Apprentis</MenuItem>
             </Link>
             <Link to="/users/tutors">
-              <MenuItem key={2} onTouchTap={this.chooseUser}>Tuteurs</MenuItem>
+              <MenuItem key={2} onTouchTap={() => this.chooseUser('tutors')}>Tuteurs</MenuItem>
             </Link>
             <Link to="/users/consultants">
-              <MenuItem key={3} onTouchTap={this.chooseUser}>Consultants</MenuItem>
+              <MenuItem key={3} onTouchTap={() => this.chooseUser('consultants')}>Consultants</MenuItem>
             </Link>
 		     </div>
 	    	</Drawer>
@@ -248,12 +228,6 @@ class Users extends Component {
           acceptedType='.csv'
         />
 
-        <FormModal
-          actions={modalFormButtons}
-          openModal={openFormModal}
-          userType={currentTab}
-          update={this.updateFormData}
-        />
 	    </div>
     )
   }

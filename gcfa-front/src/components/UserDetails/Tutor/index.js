@@ -100,7 +100,7 @@ export default class TutorDetail extends Component {
     return (
       <div>
         <Link to="/users/tutors">
-          <RaisedButton primary label="Retour" style={SMALL_MARGIN} />
+          <RaisedButton primary label="Tuteurs" style={SMALL_MARGIN} />
         </Link>
         <Loader loading={tutor === null}>
           {
@@ -154,15 +154,16 @@ export default class TutorDetail extends Component {
                        apprenticeList.map(data => {
                           return (
                             <BarCard key={data.id} actions={
-                              <FlatButton
-                                secondary
-                                label="Retirer"
-                                onTouchTap={(e) => this.removeApprentice(e, data)}
-                              />
+                              <Link to={`/users/apprentices/${data.id}/detail`}>
+                                <FlatButton
+                                  primary
+                                  label="Voir"
+                                />
+                              </Link>
                             }>
                               <UserCard
                                 title={data.user.firstName + ' ' + data.user.lastName}
-                                subtitle={data.user.email}
+                                subtitle={`Promo ${data.promotion} - Contrat ${data.contractType === 'TWO_YEARS' ? '2 ans' : '3 ans'}`}
                               />
                             </BarCard>
                           )

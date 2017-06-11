@@ -78,7 +78,7 @@ export default class ConsultantDetail extends Component {
     return (
       <div>
         <Link to="/users/consultants">
-          <RaisedButton primary label="Retour" style={SMALL_MARGIN} />
+          <RaisedButton primary label="Consultants" style={SMALL_MARGIN} />
         </Link>
         <Loader loading={consultant === null}>
           {
