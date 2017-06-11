@@ -20,6 +20,7 @@ import Consultants from './Consultants';
 
 import ApprenticeDetail from '../components/UserDetails/Apprentice';
 import TutorDetail from '../components/UserDetails/Tutor';
+import ConsultantDetail from '../components/UserDetails/Consultant';
 
 import * as userManagementService from '../services/userManagementService';
 
@@ -216,7 +217,7 @@ class Users extends Component {
             <Route exact path="/users/consultants" component={Consultants} />
             <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
             <Route path="/users/tutors/detail" component={TutorDetail} />
-            <Route path="/users/consultants/detail" component={() => <div>Consultants Detail</div>} />
+            <Route path="/users/consultants/detail" component={ConsultantDetail} />
             <Route component={() => <div>erreur</div>} />
           </Switch>
         </div>

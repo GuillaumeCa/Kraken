@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 
@@ -7,6 +8,11 @@ import BarCard, { List, UserCard } from '../components/BarCard';
 import UsersList from '../components/UserList';
 
 import * as userManagementService from '../services/userManagementService';
+
+
+const BUTTON_STYLE = {
+  fontSize: 15,
+}
 
 export default class Consultants extends Component {
 
@@ -21,9 +27,14 @@ export default class Consultants extends Component {
   renderActions = (consultant) => {
     return (
       <div>
-        <FlatButton primary label="Voir"
-          onTouchTap={() => this.selectConsultant(consultant)}
-        />
+        <Link to={{
+          pathname: '/users/consultants/detail',
+          state: {data: consultant}
+        
+        }}>
+          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
+        </Link>
+
         <FlatButton primary label="Supprimer"
           onTouchTap={() => this.selectConsultant(consultant)}
         />
