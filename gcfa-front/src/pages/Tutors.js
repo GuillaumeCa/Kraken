@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
+
 import FlatButton from 'material-ui/FlatButton';
 
 import Loader from '../components/Loader';
@@ -19,21 +21,12 @@ export default class Tutors extends Component {
     return userManagementService.getAllTutor();
   }
 
-  selectTutor = (tutor) => {
-    alert('tutor selected !')
-  }
-
   renderActions = (tutor) => {
     return (
       <div>
-        <Link to={{
-          pathname: '/users/tutors/detail',
-          state: {data: tutor}
-        
-        }}>
-          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
+        <Link to={`/users/tutors/${tutor.id}/detail`}>
+          <FlatButton primary label="Voir"/>
         </Link>
-
         <FlatButton primary label="Supprimer"
           onTouchTap={() => this.selectTutor(tutor)}
         />
