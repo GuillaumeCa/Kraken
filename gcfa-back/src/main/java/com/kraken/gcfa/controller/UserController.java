@@ -176,4 +176,9 @@ public class UserController {
 		userService.deleteConsultant(id);
 	}
 
+	@PostMapping("/consultant")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public User createConsultant(@RequestBody FormConsultantDTO form) throws Exception {
+		return userService.createConsultant(form);
+	}
 }

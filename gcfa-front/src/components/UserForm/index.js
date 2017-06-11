@@ -135,12 +135,35 @@ function TutorForm(props) {
 
 function ConsultantForm(props) {
   return (
-    <div>
-      <TextField
-        hintText="Mail"
-        fullWidth={true}
-        onChange={e => props.update('email', e)}
-      />
+    <div className="row">
+      <div className="col-3">
+        <TitleSelect
+          title="Titre"
+          fullWidth
+          onChange={e => props.update('sexe', e)}
+        />
+      </div>
+      <div className="col-4">
+        <TextField
+          floatingLabelText="Prénom"
+          fullWidth
+          onChange={e => props.update('firstName', e)}
+        />
+      </div>
+      <div className="col-5">
+        <TextField
+          floatingLabelText="Nom"
+          fullWidth
+          onChange={e => props.update('lastName', e)}
+        />
+      </div>
+      <div className="col-12">
+        <TextField
+          floatingLabelText="Email"
+          fullWidth
+          onChange={e => props.update('email', e)}
+        />
+      </div>
     </div>
   )
 }

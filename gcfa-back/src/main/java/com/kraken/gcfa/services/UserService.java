@@ -6,12 +6,11 @@ import com.kraken.gcfa.dto.form.FormConsultantDTO;
 import com.kraken.gcfa.dto.form.FormTutorDTO;
 import com.kraken.gcfa.entity.*;
 import com.kraken.gcfa.repository.*;
-
-import java.util.List;
-
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Guillaume on 01/04/2017.
@@ -162,11 +161,15 @@ public class UserService {
 
     public User updateConsultant(Long id, FormConsultantDTO form) {
         User user = userRepository.findOne(id);
+        dtoToConsultant(user, form);
+        return userRepository.save(user);
+    }
+
+    public void dtoToConsultant(User user, FormConsultantDTO form) {
         user.setFirstName(form.getFirstName());
         user.setLastName(form.getLastName());
         user.setEmail(form.getEmail());
         user.setSexe(form.getSexe());
-        return userRepository.save(user);
     }
 
     public void deleteConsultant(Long id) {
@@ -180,5 +183,14 @@ public class UserService {
         } else {
           throw new NotFoundException("This user is not a consultant");
         }
+    }
+
+    public User createConsultant(FormConsultantDTO form) {
+        User user = new User();
+        dtoToConsultant(user, form);
+        Role role = roleRepository.findByName(RolesNames.CONSULTANT);
+        user.setRole(role);
+        user.setActive(false);
+        return userRepository.save(user);
     }
 }

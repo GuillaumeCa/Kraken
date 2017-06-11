@@ -8,6 +8,7 @@ import Loader from '../../components/Loader';
 import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
+import { sendNotification } from '../../components/Notification';
 
 import * as userManagementService from '../../services/userManagementService';
 
@@ -56,13 +57,21 @@ export default class Consultants extends Component {
     this.setState({ openForm: false });
   }
 
+  deleteConsultant = (id) => {
+    userManagementService.deleteConsultant(id)
+      .then(ok => {
+        sendNotification("Consultant supprimé")
+        this.requestConsultants();
+      })
+  }
+
   renderActions = (consultant) => {
     return (
       <div>
         <Link to={`/users/consultants/${consultant.id}/detail`}>
           <FlatButton primary label="Voir"/>
         </Link>
-        <FlatButton secondary label="Supprimer"/>
+        <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteConsultant(consultant.id)}/>
       </div>
     )
   }
