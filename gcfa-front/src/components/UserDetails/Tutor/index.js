@@ -1,129 +1,121 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
-import BarCard, { UserCard, List } from '../../BarCard';
 import Loader from '../../Loader';
+import FormField from '../../UserForm/FormField';
 import TextField from 'material-ui/TextField';
-import Time, { DueTime } from '../../Time';
-
 
 import * as userManagementService from '../../../services/userManagementService';
 
-
-const TITLE_STYLE = {
-    textAlign: 'center',
-}
-
-const LABEL_STYLE = {
-	width:100
-}
-
-const TD_STYLE = {
-	width: 180,
-}
+import { sendNotification } from '../../Notification';
 
 const BUTTON_STYLE = {
   fontSize: 15,
 }
 
+export default class TutorDetail extends Component {
 
-class TutorDetail extends Component {
+  state = {
+    tutor: null,
+    tutorForm: {},
+  }
 
-	state = {
-		loadingApprentice: false,
-		errorApprentice: false,
-		apprenticeList: [],
-	}
+  componentDidMount() {
+    this.requestTutorInfos();
+  }
 
-	componentDidMount() {
-		this.requestApprenticeFromTutor(this.props.location.state.data.id);
-	}
+  requestTutorInfos() {
+    userManagementService.getTutor(this.props.match.params.id)
+      .then(res => {
+        this.setState({ tutor: res.data, tutorForm: this.buildForm(res.data) });
+      })
+  }
 
-	requestApprenticeFromTutor = (tutorId) => {
-		userManagementService.getAllApprenticesFromTutor(tutorId).then(res => {
-			console.log(res)
-			this.setState({apprenticeList: res.data});
-		});
-	}
+  buildForm(tutor) {
+    return {
+      sexe: tutor.user.sexe,
+      firstName: tutor.user.firstName,
+      lastName: tutor.user.lastName,
+      email: tutor.user.email,
+      job: tutor.job
+    }
+  }
 
-	selectApprentice = () => {
-		alert("apprenti selected");
-	}
+  onUpdate = () => {
+    const { tutor, tutorForm } = this.state;
+    userManagementService.updateTutor(tutor.user.id, tutorForm)
+      .then(res => {
+        sendNotification("Profil du tuteur mis à jour");
+        this.requestTutorInfos();
+      })
+      .catch(err => {
+        sendNotification("Le profil n'a pu être mis à jour")
+      })
+  }
 
-	render() {
+  onChangeField = (key, value) => {
+    if (key === 'sexe') {
+      value = (value == 'Mr' ? 'Male' : 'Female');
+    }
+    this.setState({
+      tutorForm: {
+        ...this.state.tutorForm,
+        [key]: value,
+      }
+    });
+  }
 
-		const { data } = this.props.location.state;
-		const {
-			loadingApprentice,
-			errorApprentice,
-			apprenticeList,
-		} = this.state;
-
-		return (
-			<div className="row">
-				<div className="col-5">
-					{
-						data &&
-						<div>
-							<h2 className="main-title"  style={TITLE_STYLE}>{data.user.firstName} {data.user.lastName}</h2>
-							<table className="detail-list" style={{ margin: '20px auto' }}>
-								<tbody>
-									<tr>
-										<th style={LABEL_STYLE}>Mail</th>
-										<td><TextField
-									      id="mail"
-									      style={TD_STYLE}
-									      disabled={true}
-									      defaultValue={data.user.email}
-									    /></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					}
-				</div>
-
-				<div className="col-1"></div>
-				<div className="col-6">
-					<div>
-						<section>
-				          <h2 className="main-title">Apprentis</h2>
-				          <Loader loading={loadingApprentice} error={errorApprentice}>
-				            <List data={apprenticeList} emptyLabel="Aucun apprenti trouvé">
-				              {
-				                 apprenticeList.map(apprentice => {
-				                    return (
-				                      <BarCard key={apprentice.id} actions={
-				                        <div>
-									        <Link to={{
-									          pathname: '/users/apprentices/detail',
-									          state: {data: apprentice}
-
-									        }}>
-									          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
-									        </Link>
-
-									        <FlatButton primary label="Supprimer"
-									          onTouchTap={() => this.selectApprentice(apprentice)}
-									        />
-									    </div>
-				                      }>
-				                      	<UserCard title={`${apprentice.user.firstName} ${apprentice.user.lastName}`} />
-				                      </BarCard>
-				                    )
-				                  })
-				              }
-				            </List>
-				          </Loader>
-				        </section>
-				    </div>
-				</div>
-			</div>
-
-		)
-	}
+  render() {
+    const { tutor } = this.state;
+    return (
+      <div>
+        <Loader loading={tutor === null}>
+          {
+            tutor &&
+            <div className="row">
+              <h2 className="sub-title">Informations</h2>
+              <table className="detail-list col-6">
+                <tbody>
+                  <FormField
+                    title="Titre"
+                    fname="sexe"
+                    defaultValue={tutor.user.sexe == 'Male' ? 'M.' : 'Mme.'}
+                    onChange={this.onChangeField}
+                  />
+                  <FormField
+                    title="Prénom"
+                    fname="firstName"
+                    defaultValue={tutor.user.firstName}
+                    onChange={this.onChangeField}
+                  />
+                  <FormField
+                    title="Nom"
+                    fname="lastName"
+                    defaultValue={tutor.user.lastName}
+                    onChange={this.onChangeField}
+                  />
+                  <FormField
+                    title="Mail"
+                    fname="email"
+                    defaultValue={tutor.user.email}
+                    onChange={this.onChangeField}
+                  />
+                  <FormField
+                    title="Emploi"
+                    fname="job"
+                    defaultValue={tutor.job}
+                    onChange={this.onChangeField}
+                  />
+                </tbody>
+              </table>
+            </div>
+          }
+          <FlatButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} />
+        </Loader>
+      </div>
+    )
+  }
 }
 
 export default TutorDetail;

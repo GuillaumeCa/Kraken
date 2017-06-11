@@ -47,3 +47,10 @@ export function getAllConsultant() {
 export function createTutor(form) {
   return axios.post('/user/tutor', form);
 }
+
+export function getTutor(id) {
+  return axios.get(`/user/tutor/${id}`);
+}
+export function updateTutor(id, data) {
+  return axios.put(`/user/tutor/${id}`, data);
+}

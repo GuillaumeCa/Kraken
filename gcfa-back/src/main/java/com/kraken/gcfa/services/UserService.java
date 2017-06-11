@@ -136,7 +136,7 @@ public class UserService {
 
         Role role = roleRepository.findByName(RolesNames.TUTOR);
         user.setRole(role);
-        user = userRepository.save(user);
+        userRepository.save(user);
 
         tutor.setJob(form.getJob());
 		tutor.setUser(user);

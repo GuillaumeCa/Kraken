@@ -89,6 +89,12 @@ public class UserController {
 		}
 	}
 
+	@GetMapping("/tutor/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public Tutor getTutor(@PathVariable Long id) {
+		return userService.getTutor(id);
+	}
+
 	@PutMapping("/tutor/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public Tutor updateTutor(@PathVariable Long id, FormTutorDTO form) throws Exception {
