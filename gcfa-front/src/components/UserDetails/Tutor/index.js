@@ -117,5 +117,3 @@ export default class TutorDetail extends Component {
     )
   }
 }
-
-export default TutorDetail;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 
