@@ -84,6 +84,7 @@ public class AuthService {
     public User updateTokenExpiration(User user) {
         Date exp = new Date(new Date().getTime() + EXPIRATION_TOKEN_DURATION);
         user.setTokenExpiration(exp);
+        userRepository.save(user);
         return user;
     }
 

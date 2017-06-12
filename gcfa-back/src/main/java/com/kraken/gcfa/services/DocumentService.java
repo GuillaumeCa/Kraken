@@ -83,19 +83,25 @@ public class DocumentService {
 		return storageService.getFile(doc.getPath());
 	}
 
+	public boolean hasRole(User user, String role) {
+		return user.getRole().getName().equals(role);
+	}
+
 	public Document getDocument(Long documentId, User auth) throws StorageException {
-		if (auth.getRole().getName().equals(RolesNames.APPRENTICE)) {
+		if (hasRole(auth, RolesNames.APPRENTICE)) {
 			Apprentice apprentice = userService.getApprentice(auth);
 			Document doc = documentRepository.findByApprenticeIdAndId(apprentice.getId(), documentId);
 			if (doc != null) {
 				return doc;
 			}
-		} else if (auth.getRole().getName().equals(RolesNames.TUTOR)) {
+		} else if (hasRole(auth, RolesNames.TUTOR)) {
 			Document doc = documentRepository.findOne(documentId);
 			Tutor tutor = tutorRepository.findByUser(auth);
 			if (tutor.getApprentices().contains(doc.getApprentice())) {
 				return doc;
 			}
+		} else if (hasRole(auth, RolesNames.SUPER_ADMIN) || hasRole(auth, RolesNames.CONSULTANT)) {
+			return documentRepository.findOne(documentId);
 		}
 		throw new StorageException(String.format("You can't access this document : %d", documentId));
 	}

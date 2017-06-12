@@ -10,7 +10,7 @@ import BarCard, { DocumentCard, List } from '../../BarCard';
 import Loader from '../../Loader';
 import FormField, { SelectForm } from '../../UserForm/FormField';
 import Time, { DueTime } from '../../Time';
-
+import { sendNotification } from '../../Notification';
 
 import * as userManagementService from '../../../services/userManagementService';
 import * as userService from '../../../services/userService';
@@ -57,35 +57,37 @@ class ApprenticeDetail extends Component {
 	}
 
 	componentDidMount() {
-    this.apprenticeId = this.props.location.state.data.id;
-		this.requestSentDocsFromApprentice(this.apprenticeId);
-    this.requestTutorList();
-    this.requestCompanyList();
+    this.apprenticeId = this.props.match.params.id;
+    this.requestApprentice().then(data => {
+      this.requestTutorList();
+      this.requestCompanyList();
+      this.requestCompanySiteList(data.companySite.company.id);
 
-    const { data } = this.props.location.state;
-    console.log(data);
-    this.setState({ data });
-    this.requestCompanySiteList(data.companySite.company.id);
+      this.setState({
+        selectTutor: data.tutor,
+        selectCompany: data.companySite.company,
+        selectCompanySite: data.companySite,
+      });
 
-
-    this.setState({
-      formData: {
-        userId: data.user.id,
-        tutorId: data.tutor.id,
-        contractType: data.contractType,
-        companyId: data.companySite.id,
-        promotion: data.promotion,
-      },
-      selectTutor: data.tutor,
-      selectCompany: data.companySite.company,
-      selectCompanySite: data.companySite,
     });
+		this.requestSentDocsFromApprentice(this.apprenticeId);
+
 	}
 
   requestApprentice() {
-    userManagementService.getApprentice(this.apprenticeId)
+    return userManagementService.getApprentice(this.apprenticeId)
       .then(res => {
-        this.setState({ data: res.data });
+        this.setState({
+          data: res.data,
+          formData: {
+            userId: res.data.user.id,
+            tutorId: res.data.tutor.id,
+            contractType: res.data.contractType,
+            companyId: res.data.companySite.id,
+            promotion: res.data.promotion,
+          }
+        });
+        return res.data
       })
   }
 
@@ -170,9 +172,14 @@ class ApprenticeDetail extends Component {
     const { formData } = this.state;
     userManagementService.updateApprentice(formData)
       .then(res => {
+        sendNotification("Profil mis à jour")
         this.requestApprentice();
         this.setState({ updateProfile: false });
       })
+  }
+
+  openDoc = (docId) => {
+    documentService.getDocument(docId);
   }
 
 	render() {
@@ -346,7 +353,7 @@ class ApprenticeDetail extends Component {
                         <td>{selectCompanySite.city}</td>
                       </tr>
                     </tbody>
-                    </table>
+                  </table>
                 }
                 <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile} disabled={!updateProfile}/>
   						</div>
@@ -364,7 +371,7 @@ class ApprenticeDetail extends Component {
   				                    return (
   				                      <BarCard key={data.id} actions={
   				                        <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
-  				                          onTouchTap={(e) => this.editDoc(e, data)}
+  				                          onTouchTap={() => this.openDoc(data.id)}
   				                        />
   				                      }>
   				                        <DocumentCard title={data.type.name} subtitle={

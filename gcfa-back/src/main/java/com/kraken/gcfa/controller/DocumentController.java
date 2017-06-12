@@ -51,7 +51,7 @@ public class DocumentController {
 		Document doc = documentService.getDocument(documentId, auth);
 		File file = documentService.getFile(doc);
 		response.addHeader("Access-Control-Expose-Headers", "x-filename");
-		response.addHeader("x-filename", doc.getName() + doc.getFileType());
+		response.addHeader("x-filename", doc.getType().getName() + " - " + doc.getApprentice().getFullName() + doc.getFileType());
 		return new FileSystemResource(file);
 	}
 
@@ -79,7 +79,7 @@ public class DocumentController {
 		return documentService.getDocuments(auth);
 	}
 
-	@GetMapping("/{userId}")
+	@GetMapping("/apprentice/{userId}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public List<Document> documentsFromApprentice(@PathVariable Long userId) {
 		return documentService.getDocumentsFromUser(userId);

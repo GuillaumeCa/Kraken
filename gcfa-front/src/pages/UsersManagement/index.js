@@ -117,7 +117,7 @@ class Users extends Component {
             <Route exact path="/users/apprentices" component={Apprentices} />
             <Route exact path="/users/tutors" component={Tutors} />
             <Route exact path="/users/consultants" component={Consultants} />
-            <Route path="/users/apprentices/detail" component={ApprenticeDetail} />
+            <Route path="/users/apprentices/:id/detail" component={ApprenticeDetail} />
             <Route path="/users/tutors/:id/detail" component={TutorDetail} />
             <Route path="/users/consultants/:id/detail" component={ConsultantDetail} />
             <Route component={() => <div>erreur</div>} />

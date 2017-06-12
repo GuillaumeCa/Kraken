@@ -14,6 +14,7 @@ import * as userManagementService from '../../services/userManagementService';
 
 const BUTTON_STYLE = {
   fontSize: 15,
+  padding: '0 10px'
 }
 
 export default class Apprentices extends Component {
@@ -96,15 +97,9 @@ export default class Apprentices extends Component {
   renderActions = (apprentice) => {
     return (
       <div>
-        <Link to={{
-          pathname: '/users/apprentices/detail',
-          state: {data: apprentice}
-
-        }}>
-          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}/>
+        <Link to={`/users/apprentices/${apprentice.id}/detail`}>
+          <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} style={{ minWidth: 0 }} />
         </Link>
-
-        <FlatButton primary label="Supprimer"/>
       </div>
     )
   }

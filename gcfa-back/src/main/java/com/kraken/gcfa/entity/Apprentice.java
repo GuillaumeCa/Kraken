@@ -35,6 +35,10 @@ public class Apprentice {
     @ManyToOne
     private CompanySite companySite;
 
+    public String getFullName() {
+        return this.user.getFirstName() + " " + this.user.getLastName();
+    }
+
     public Long getId() {
         return id;
     }
