@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ErrorHandler {
 
-	private final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
+	private final Logger LOG = LoggerFactory.getLogger(ErrorHandler.class);
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity handleException(NullPointerException e) {
-    	logger.error(e.toString());
+    	LOG.error(e.getCause().getMessage());
         return new ResponseEntity<>(new ErrorMessage("The request is not correct"), HttpStatus.BAD_REQUEST);
     }
 
