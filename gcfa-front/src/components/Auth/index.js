@@ -6,7 +6,7 @@ class Auth extends Component {
   render() {
     const { children, roles } = this.props;
     if (authService.hasRole(roles)) {
-      return <div>{children}</div>;
+      return <span>{children}</span>;
     }
     return null;
   }
