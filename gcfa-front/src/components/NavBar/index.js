@@ -80,7 +80,6 @@ class NavBar extends Component {
         <nav className="navigation">
           <div className="link">
             <Auth roles={[SUPER_ADMIN]}>
-                <Link to="/users/apprentices">Utilisateurs</Link>
                 <Link to="/documentation">Documentation</Link>
                 <Link to="/stats">Statistiques</Link>
             </Auth>

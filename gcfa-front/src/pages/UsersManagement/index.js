@@ -48,7 +48,7 @@ class Users extends Component {
     showBar: false,
   }
 
-  componentDidMount() {
+  componentWillReceiveProps() {
     switch (window.location.pathname.split('/')[2]) {
       case 'apprentices':
         this.setState({ currentTab: 0, showBar: false });
@@ -60,6 +60,8 @@ class Users extends Component {
         this.setState({ currentTab: 2, showBar: false });
         return
     }
+
+    
   }
 
   chooseUser = (tab) => {
