@@ -9,6 +9,8 @@ import com.kraken.gcfa.entity.CompanySite;
 import com.kraken.gcfa.repository.CompanyRepository;
 import com.kraken.gcfa.repository.CompanySiteRepository;
 
+import java.util.List;
+
 
 @Service
 public class CompanyService {
@@ -26,8 +28,8 @@ public class CompanyService {
 		return company;
 	}
 	
-	public Company getCompany(String name) throws Exception {
-		return companyRepository.findByName(name);
+	public Company getCompany(Long id) throws Exception {
+		return companyRepository.findOne(id);
 	}
 	
 	public void deleteCompany(String name) throws Exception {
@@ -44,14 +46,18 @@ public class CompanyService {
 		companySiteRepository.save(companySite);
 		return companySite;
 	}
-	
-	public CompanySite getCompanySite(String name) throws Exception {
-		return companySiteRepository.findByName(name);
-	}
-	
+
 	public void deleteCompanySite(String name) throws Exception {
 		companySiteRepository.deleteByName(name);
     }
-	
 
+
+    public List<CompanySite> getCompanySites(Long id) {
+		Company company = companyRepository.findOne(id);
+        return companySiteRepository.findCompanySitesByCompany(company);
+	}
+
+	public List<Company> getCompanies() {
+		return companyRepository.findAll();
+	}
 }

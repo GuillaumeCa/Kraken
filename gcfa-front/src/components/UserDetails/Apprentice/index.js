@@ -15,6 +15,7 @@ import Time, { DueTime } from '../../Time';
 import * as userManagementService from '../../../services/userManagementService';
 import * as userService from '../../../services/userService';
 import * as documentService from '../../../services/documentService';
+import * as companyService from '../../../services/companyService';
 
 
 const TITLE_STYLE = {
@@ -43,13 +44,27 @@ class ApprenticeDetail extends Component {
 
     tutorList: [],
     selectTutor: null,
+
+    companyList: [],
+    selectCompany: null,
+
+    companySiteList: [],
+    selectCompanySite: null,
 	}
 
 	componentDidMount() {
 		this.requestSentDocsFromApprentice(this.props.location.state.data.id);
     this.requestTutorList();
+    this.requestCompanyList();
+
     const { data } = this.props.location.state;
-    this.setState({ selectTutor: data.tutor });
+    this.requestCompanySiteList(data.companySite.company.id);
+    console.log(data);
+    this.setState({
+      selectTutor: data.tutor,
+      selectCompany: data.companySite.company,
+      selectCompanySite: data.companySite,
+    });
 	}
 
 	requestSentDocsFromApprentice = (userId) => {
@@ -72,9 +87,47 @@ class ApprenticeDetail extends Component {
       })
   }
 
+  requestCompanyList() {
+    companyService.getAllCompany()
+      .then(res => res.data.map(co => {
+        return {
+          ...co,
+          _value: co.id,
+          _text: co.name
+        }
+      }))
+      .then(companyList => {
+        this.setState({ companyList });
+      })
+  }
+  requestCompanySiteList(id) {
+    companyService.getCompanySite(id)
+      .then(res => res.data.map(co => {
+        return {
+          ...co,
+          _value: co.id,
+          _text: co.name
+        }
+      }))
+      .then(companySiteList => {
+        this.setState({ companySiteList });
+      })
+  }
+
   changeTutor = (e, index, value) => {
-    const tutor = this.state.tutorList.find(t => t.id === value);
-    this.setState({ selectTutor: tutor });
+    const selectTutor = this.state.tutorList.find(t => t.id === value);
+    this.setState({ selectTutor });
+  }
+
+  changeCompany = (e, index, value) => {
+    const selectCompany = this.state.companyList.find(c => c.id === value);
+    this.setState({ selectCompany });
+    this.requestCompanySiteList(value);
+  }
+
+  changeCompanySite = (e, index, value) => {
+    const selectCompanySite = this.state.companySiteList.find(c => c.id === value);
+    this.setState({ selectCompanySite });
   }
 
 	render() {
@@ -87,6 +140,13 @@ class ApprenticeDetail extends Component {
 
       tutorList,
       selectTutor,
+
+      companyList,
+      selectCompany,
+
+      companySiteList,
+      selectCompanySite,
+
 		} = this.state;
 
 		let contractDuration = 0;
@@ -206,46 +266,45 @@ class ApprenticeDetail extends Component {
                 }
   							<br />
   							<h2 className="sub-title" style={TITLE_STYLE}>Entreprise</h2>
-  							<table className="detail-list">
-  								<tbody>
-  									<tr>
-  										<th style={LABEL_STYLE}>Entreprise</th>
-  										<td></td>
-  									</tr>
-  									<tr>
-  										<th style={LABEL_STYLE}>Site</th>
-  										<td><TextField
-  									      id="companySiteName"
-  									      style={TD_STYLE}
-  									      defaultValue={data.companySite.name}
-  									    /></td>
-  									</tr>
-  									<tr>
-  										<th style={LABEL_STYLE}>Adresse</th>
-  										<td><TextField
-  									      id="companySiteAddress"
-  									      style={TD_STYLE}
-  									      defaultValue={data.companySite.address}
-  									    /></td>
-  									</tr>
-  									<tr>
-  										<th style={LABEL_STYLE}>Code Postal</th>
-  										<td><TextField
-  									      id="companySiteCP"
-  									      style={TD_STYLE}
-  									      defaultValue={data.companySite.codePostal}
-  									    /></td>
-  									</tr>
-  									<tr>
-  										<th style={LABEL_STYLE}>Ville</th>
-  										<td><TextField
-  									      id="companSiteCity"
-  									      style={TD_STYLE}
-  									      defaultValue={data.companySite.city}
-  									    /></td>
-  									</tr>
-  								</tbody>
-  							</table>
+                {
+                  selectCompany &&
+                  <table className="detail-list">
+                    <tbody>
+                      <tr>
+                        <th>Entreprise</th>
+                        <td>
+                          <SelectForm
+                            selectValue={selectCompany.id}
+                            handleChange={this.changeCompany}
+                            itemList={companyList}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th style={LABEL_STYLE}>Site</th>
+                        <td>
+                          <SelectForm
+                            selectValue={selectCompanySite.id}
+                            handleChange={this.changeCompanySite}
+                            itemList={companySiteList}
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th style={LABEL_STYLE}>Adresse</th>
+                        <td>{selectCompanySite.address}</td>
+                      </tr>
+                      <tr>
+                        <th style={LABEL_STYLE}>Code Postal</th>
+                        <td>{selectCompanySite.codePostal}</td>
+                      </tr>
+                      <tr>
+                        <th style={LABEL_STYLE}>Ville</th>
+                        <td>{selectCompanySite.city}</td>
+                      </tr>
+                    </tbody>
+                    </table>
+                }
                 <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile}/>
   						</div>
   					}

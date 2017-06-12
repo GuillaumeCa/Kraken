@@ -3,18 +3,15 @@ package com.kraken.gcfa.controller;
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.dto.form.FormCompanySiteDTO;
 import com.kraken.gcfa.entity.Company;
 import com.kraken.gcfa.entity.CompanySite;
 import com.kraken.gcfa.services.CompanyService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/company")
@@ -29,9 +26,15 @@ public class CompanyController {
 		return companyService.createCompany(name);
 	}
 	
-	@GetMapping("/get")
-	public Company geCompany(String name) throws Exception {
-		return companyService.getCompany(name);
+	@GetMapping("/{id}")
+	public Company geCompany(@PathVariable Long id) throws Exception {
+		return companyService.getCompany(id);
+	}
+
+	@GetMapping
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<Company> geCompanies() throws Exception {
+		return companyService.getCompanies();
 	}
 	
 	@DeleteMapping("/delete")
@@ -46,9 +49,10 @@ public class CompanyController {
 		return companyService.createCompanySite(form);
 	}
 	
-	@GetMapping("/get/site")
-	public CompanySite geCompanySite(String name) throws Exception {
-		return companyService.getCompanySite(name);
+	@GetMapping("/{id}/sites")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<CompanySite> geCompanySites(@PathVariable Long id) throws Exception {
+		return companyService.getCompanySites(id);
 	}
 	
 	@DeleteMapping("/delete/site")
