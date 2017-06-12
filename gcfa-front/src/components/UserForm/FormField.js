@@ -63,6 +63,7 @@ export class TitleSelect extends Component {
       <SelectField
         floatingLabelText={this.props.title}
         fullWidth={this.props.fullWidth}
+        disabled={this.props.disabled}
         value={this.state.choice}
         onChange={this.handleChange}
       >
@@ -80,6 +81,7 @@ export function SelectForm(props) {
       fullWidth={props.fullWidth}
       value={props.selectValue}
       onChange={props.handleChange}
+      disabled={props.disabled}
     >
       {
         props.itemList.map((e, i) => {

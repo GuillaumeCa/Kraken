@@ -6,18 +6,20 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import BarCard, { DocumentCard, List } from '../../BarCard';
-import Loader from '../../Loader';
-import FormField, { SelectForm } from '../../UserForm/FormField';
-import Time, { DueTime } from '../../Time';
-import { sendNotification } from '../../Notification';
+import BarCard, { DocumentCard, List } from '../../../components/BarCard';
+import Loader from '../../../components/Loader';
+import FormField, { SelectForm } from '../../../components/UserForm/FormField';
+import Time, { DueTime } from '../../../components/Time';
+import { sendNotification } from '../../../components/Notification';
 
 import * as userManagementService from '../../../services/userManagementService';
 import * as userService from '../../../services/userService';
 import * as documentService from '../../../services/documentService';
 import * as companyService from '../../../services/companyService';
+import * as authService from '../../../services/authService';
 
-import Auth from '../../Auth';
+
+import Auth from '../../../components/Auth';
 import * as Roles from '../../../constants';
 
 const TITLE_STYLE = {
@@ -56,6 +58,8 @@ class ApprenticeDetail extends Component {
 
     updateProfile: false,
     formData: {},
+
+    isEnableToEdit: false,
 	}
 
 	componentDidMount() {
@@ -73,6 +77,9 @@ class ApprenticeDetail extends Component {
 
     });
 		this.requestSentDocsFromApprentice(this.apprenticeId);
+
+    var isEnable = authService.hasRole(Roles.SUPER_ADMIN)
+    this.setState({isEnableToEdit: isEnable});
 
 	}
 
@@ -241,6 +248,7 @@ class ApprenticeDetail extends Component {
                       title="Promotion"
                       fname="promotion"
                       type="number"
+                      disabled={!this.state.isEnableToEdit}
                       defaultValue={data.promotion}
                       onChange={this.changeForm}
                     />
@@ -261,6 +269,7 @@ class ApprenticeDetail extends Component {
                         <SelectForm
                           selectValue={formData.contractType}
                           handleChange={(e, i, v) => this.changeForm('contractType', v)}
+                          disabled={!this.state.isEnableToEdit}
                           fullWidth
                           itemList={[
                             { _value: 'TWO_YEARS', _text: '2 ans' },
@@ -277,6 +286,7 @@ class ApprenticeDetail extends Component {
   									      style={TD_STYLE}
   									      disabled={true}
   									      defaultValue="12/18"
+                          disabled={!this.state.isEnableToEdit}
   									    />
                       </td>
   									</tr>
@@ -290,6 +300,7 @@ class ApprenticeDetail extends Component {
                     <SelectForm
                       title="Tuteur sélectionné"
                       selectValue={formData.tutorId}
+                      disabled={!this.state.isEnableToEdit}
                       handleChange={this.changeTutor}
                       itemList={tutorList}
                       fullWidth
@@ -330,6 +341,7 @@ class ApprenticeDetail extends Component {
                         <td>
                           <SelectForm
                             selectValue={selectCompany.id}
+                            disabled={!this.state.isEnableToEdit}
                             handleChange={this.changeCompany}
                             itemList={companyList}
                           />
@@ -342,6 +354,7 @@ class ApprenticeDetail extends Component {
                             selectValue={selectCompanySite.id}
                             handleChange={this.changeCompanySite}
                             itemList={companySiteList}
+                            disabled={!this.state.isEnableToEdit}
                           />
                         </td>
                       </tr>
@@ -360,7 +373,9 @@ class ApprenticeDetail extends Component {
                     </tbody>
                   </table>
                 }
-                <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile} disabled={!updateProfile}/>
+                <Auth roles={[Roles.SUPER_ADMIN]}>
+                  <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile} disabled={!updateProfile}/>
+                </Auth>
   						</div>
   					}
   				</div>

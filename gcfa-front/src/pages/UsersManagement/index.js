@@ -18,9 +18,9 @@ import Apprentices from './Apprentices';
 import Tutors from './Tutors';
 import Consultants from './Consultants';
 
-import ApprenticeDetail from '../../components/UserDetails/Apprentice';
-import TutorDetail from '../../components/UserDetails/Tutor';
-import ConsultantDetail from '../../components/UserDetails/Consultant';
+import ApprenticeDetail from '../UserDetails/Apprentice';
+import TutorDetail from '../UserDetails/Tutor';
+import ConsultantDetail from '../UserDetails/Consultant';
 
 import * as userManagementService from '../../services/userManagementService';
 

@@ -6,13 +6,17 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
-import Loader from '../../Loader';
-import BarCard, { List, UserCard } from '../../BarCard';
-import FormField, { TitleSelect, SelectForm } from '../../UserForm/FormField';
+import Loader from '../../../components/Loader';
+import BarCard, { List, UserCard } from '../../../components/BarCard';
+import FormField, { TitleSelect, SelectForm } from '../../../components/UserForm/FormField';
 
 import * as userManagementService from '../../../services/userManagementService';
+import * as authService from '../../../services/authService';
 
-import { sendNotification } from '../../Notification';
+import Auth from '../../../components/Auth';
+import * as Roles from '../../../constants';
+
+import { sendNotification } from '../../../components/Notification';
 
 const SMALL_MARGIN = {
   marginBottom: 20,
@@ -29,12 +33,16 @@ export default class TutorDetail extends Component {
     errorApprentices: false,
     loadingApprentices: false,
 
+    isEnableToEdit: false,
   }
 
   componentDidMount() {
     this.tutorId = this.props.match.params.id;
     this.requestTutorInfos();
     this.requestApprentices();
+
+    var isEnable = authService.hasRole(Roles.SUPER_ADMIN)
+    this.setState({isEnableToEdit: isEnable});
   }
 
   requestTutorInfos() {
@@ -112,10 +120,12 @@ export default class TutorDetail extends Component {
                   <tbody>
                     <FormField
                       title="Titre"
+                      disabled={!this.state.isEnableToEdit}
                     >
                       <TitleSelect
                         default={tutor.user.sexe}
                         onChange={(e, i, v) => this.onChangeField('sexe', v)}
+                        disabled={!this.state.isEnableToEdit}
                       />
                     </FormField>
                     <FormField
@@ -123,28 +133,34 @@ export default class TutorDetail extends Component {
                       fname="firstName"
                       defaultValue={tutor.user.firstName}
                       onChange={this.onChangeField}
+                      disabled={!this.state.isEnableToEdit}
                     />
                     <FormField
                       title="Nom"
                       fname="lastName"
                       defaultValue={tutor.user.lastName}
                       onChange={this.onChangeField}
+                      disabled={!this.state.isEnableToEdit}
                     />
                     <FormField
                       title="Mail"
                       fname="email"
                       defaultValue={tutor.user.email}
                       onChange={this.onChangeField}
+                      disabled={!this.state.isEnableToEdit}
                     />
                     <FormField
                       title="Emploi"
                       fname="job"
                       defaultValue={tutor.job}
                       onChange={this.onChangeField}
+                      disabled={!this.state.isEnableToEdit}
                     />
                   </tbody>
                 </table>
-                <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} disabled={!update} />
+                <Auth roles={[Roles.SUPER_ADMIN]}>
+                  <RaisedButton primary label="Enregistrer les modifications" onTouchTap={this.onUpdate} style={SMALL_MARGIN} disabled={!update} />
+                </Auth>
               </div>
               <div className="col-6">
                 <h2 className="sub-title">Apprentis</h2>
