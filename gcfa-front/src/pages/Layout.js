@@ -40,12 +40,16 @@ const COPYRIGHT_STYLE = {
 
 class Layout extends Component {
 
+  state = {
+    redirect: false,
+  }
+
   constructor(props) {
     super(props);
 
     authService.handle403Errors(() => {
       authService.logout();
-      this.props.history.push('/');
+      this.setState({ redirect: true });
     })
   }
 
@@ -53,6 +57,10 @@ class Layout extends Component {
     const year = (new Date()).getFullYear();
     return (
       <div>
+        {
+          this.state.redirect &&
+          <Redirect to={{ pathname: '/login', state: { expired: true } }} />
+        }
         <NavBar history={this.props.history} />
         <div style={CONTAINER_STYLE}>
           <Banner>

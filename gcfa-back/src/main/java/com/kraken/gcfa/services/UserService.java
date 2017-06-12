@@ -38,6 +38,10 @@ public class UserService {
     public Apprentice getApprentice(User user) {
         return apprenticeRepository.findByUser(user);
     }
+
+    public Apprentice getApprentice(Long id) {
+        return apprenticeRepository.findOne(id);
+    }
     
     public List<Apprentice> getApprenticesFromTutor(User user) {
     	Tutor tutor = tutorRepository.findByUser(user);    	

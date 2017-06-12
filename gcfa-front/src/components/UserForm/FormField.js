@@ -25,6 +25,7 @@ export default function FormField(props) {
           defaultValue={props.defaultValue}
           onChange={(e) => props.onChange(props.fname, e.target.value)}
           disabled={props.disabled || false}
+          type={props.type || 'text'}
         />
       )
     }

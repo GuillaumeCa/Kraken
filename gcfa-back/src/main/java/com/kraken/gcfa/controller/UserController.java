@@ -140,6 +140,12 @@ public class UserController {
 	public List<User> searchApprentince(@PathVariable String search) throws NotFoundException {
 		return userService.searchUser(1L, search);
 	}
+
+	@GetMapping("/apprentice/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public Apprentice getApprentice(@PathVariable Long id) {
+		return userService.getApprentice(id);
+	}
 	
 	@GetMapping("/tutor/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})

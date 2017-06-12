@@ -32,6 +32,13 @@ export function createApprenticeFromCSV(file, onUploadProgress) {
   return axios.post(`/importcsv/createApprentice`, data, { onUploadProgress });
 }
 
+export function updateApprentice(form) {
+  return axios.put('/user/apprentice', form);
+}
+export function getApprentice(id) {
+  return axios.get(`/user/apprentice/${id}`);
+}
+
 export function getAllApprenticesFromTutor(idTutor) {
   return axios.get(`/user/tutor/apprentices/${idTutor}`);
 }

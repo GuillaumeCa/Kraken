@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 
 import BarCard, { DocumentCard, List } from '../../BarCard';
 import Loader from '../../Loader';
-import { SelectForm } from '../../UserForm/FormField';
+import FormField, { SelectForm } from '../../UserForm/FormField';
 import Time, { DueTime } from '../../Time';
 
 
@@ -41,6 +41,7 @@ class ApprenticeDetail extends Component {
 		loadingSent: false,
 		errorSent: false,
 		sentDocs: [],
+    data: null,
 
     tutorList: [],
     selectTutor: null,
@@ -50,22 +51,43 @@ class ApprenticeDetail extends Component {
 
     companySiteList: [],
     selectCompanySite: null,
+
+    updateProfile: false,
+    formData: {},
 	}
 
 	componentDidMount() {
-		this.requestSentDocsFromApprentice(this.props.location.state.data.id);
+    this.apprenticeId = this.props.location.state.data.id;
+		this.requestSentDocsFromApprentice(this.apprenticeId);
     this.requestTutorList();
     this.requestCompanyList();
 
     const { data } = this.props.location.state;
-    this.requestCompanySiteList(data.companySite.company.id);
     console.log(data);
+    this.setState({ data });
+    this.requestCompanySiteList(data.companySite.company.id);
+
+
     this.setState({
+      formData: {
+        userId: data.user.id,
+        tutorId: data.tutor.id,
+        contractType: data.contractType,
+        companyId: data.companySite.id,
+        promotion: data.promotion,
+      },
       selectTutor: data.tutor,
       selectCompany: data.companySite.company,
       selectCompanySite: data.companySite,
     });
 	}
+
+  requestApprentice() {
+    userManagementService.getApprentice(this.apprenticeId)
+      .then(res => {
+        this.setState({ data: res.data });
+      })
+  }
 
 	requestSentDocsFromApprentice = (userId) => {
 		documentService.getSentDocumentsFromApprentice(userId).then(res => {
@@ -116,27 +138,50 @@ class ApprenticeDetail extends Component {
 
   changeTutor = (e, index, value) => {
     const selectTutor = this.state.tutorList.find(t => t.id === value);
-    this.setState({ selectTutor });
+    this.setState({ selectTutor, updateProfile: true });
+    this.changeForm('tutorId', selectTutor.id);
   }
 
   changeCompany = (e, index, value) => {
     const selectCompany = this.state.companyList.find(c => c.id === value);
-    this.setState({ selectCompany });
+    this.setState({ selectCompany, updateProfile: true });
     this.requestCompanySiteList(value);
   }
 
   changeCompanySite = (e, index, value) => {
     const selectCompanySite = this.state.companySiteList.find(c => c.id === value);
-    this.setState({ selectCompanySite });
+    this.setState({ selectCompanySite, updateProfile: true });
+    this.changeForm('companyId', selectCompanySite.id);
+  }
+
+  changeForm = (key, value) => {
+    this.setState({
+      formData: { ...this.state.formData, [key]: value },
+      updateProfile: true
+    });
+  }
+
+  contractToYear(contract) {
+    const conv = { TWO_YEARS: 2, THREE_YEARS: 3 };
+    return conv[contract];
+  }
+
+  updateProfile = () => {
+    const { formData } = this.state;
+    userManagementService.updateApprentice(formData)
+      .then(res => {
+        this.requestApprentice();
+        this.setState({ updateProfile: false });
+      })
   }
 
 	render() {
 
-		const { data } = this.props.location.state;
 		const {
 			loadingSent,
 			errorSent,
 			sentDocs,
+      data,
 
       tutorList,
       selectTutor,
@@ -147,21 +192,11 @@ class ApprenticeDetail extends Component {
       companySiteList,
       selectCompanySite,
 
+      updateProfile,
+      formData,
+
 		} = this.state;
 
-		let contractDuration = 0;
-		let debutContract = 0;
-		if (data) {
-			switch (data.contractType) {
-				case 'TWO_YEARS':
-					contractDuration = 2;
-					break;
-				case 'THREE_YEARS':
-					contractDuration = 3;
-					break;
-			}
-			debutContract = data.promotion - contractDuration;
-		}
 
 		return (
       <div>
@@ -182,49 +217,56 @@ class ApprenticeDetail extends Component {
   									</tr>
   									<tr>
   										<th style={LABEL_STYLE}>Mail</th>
-  										<td><TextField
+  										<td>
+                        <TextField
   									      id="mail"
   									      style={TD_STYLE}
-  									      disabled={true}
+  									      disabled
   									      defaultValue={data.user.email}
   									    /></td>
   									</tr>
-  									<tr>
-  										<th style={LABEL_STYLE}>Promotion</th>
-  										<td><TextField
-  									      id="promotion"
-  									      style={TD_STYLE}
-  									      type="number"
-  									      defaultValue={data.promotion}
-  									    	/>
-  									    </td>
-  									</tr>
+                    <FormField
+                      title="Promotion"
+                      fname="promotion"
+                      type="number"
+                      defaultValue={data.promotion}
+                      onChange={this.changeForm}
+                    />
   									<tr>
   										<th style={LABEL_STYLE}>Début du contrat</th>
-  										<td><TextField
+  										<td>
+                        <TextField
   									      id="startContract"
-  									      type="number"
+                          disabled
   									      style={TD_STYLE}
-  									      defaultValue={debutContract}
-  									    /></td>
+  									      value={formData.promotion - this.contractToYear(formData.contractType)}
+  									    />
+                      </td>
   									</tr>
   									<tr>
   										<th style={LABEL_STYLE}>Durée du contrat</th>
-  										<td><TextField
-  									      id="contractType"
-  									      style={TD_STYLE}
-  									      type="number"
-  									      defaultValue={contractDuration}
-  									    /></td>
+  										<td style={TD_STYLE}>
+                        <SelectForm
+                          selectValue={formData.contractType}
+                          handleChange={(e, i, v) => this.changeForm('contractType', v)}
+                          fullWidth
+                          itemList={[
+                            { _value: 'TWO_YEARS', _text: '2 ans' },
+                            { _value: 'THREE_YEARS', _text: '3 ans' }
+                          ]}
+                        />
+                      </td>
   									</tr>
   									<tr>
   										<th style={LABEL_STYLE}>Document rendu</th>
-  										<td><TextField
+  										<td>
+                        <TextField
   									      id="dueDocNb"
   									      style={TD_STYLE}
   									      disabled={true}
   									      defaultValue="12/18"
-  									    /></td>
+  									    />
+                      </td>
   									</tr>
   								</tbody>
   							</table>
@@ -235,9 +277,10 @@ class ApprenticeDetail extends Component {
                   <div>
                     <SelectForm
                       title="Tuteur sélectionné"
-                      selectValue={selectTutor.id}
+                      selectValue={formData.tutorId}
                       handleChange={this.changeTutor}
                       itemList={tutorList}
+                      fullWidth
                     />
                     <table className="detail-list">
                       <tbody>
@@ -305,7 +348,7 @@ class ApprenticeDetail extends Component {
                     </tbody>
                     </table>
                 }
-                <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile}/>
+                <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateProfile} disabled={!updateProfile}/>
   						</div>
   					}
   				</div>

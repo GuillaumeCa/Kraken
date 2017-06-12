@@ -64,6 +64,7 @@ class Login extends Component {
       loading,
       error,
     } = this.state;
+    const urlState = this.props.location.state;
     return (
       <div>
         <Banner>
@@ -89,6 +90,10 @@ class Login extends Component {
                         {
                           error &&
                           <ErrorMessage message="Erreur de login" />
+                        }
+                        {
+                          urlState && urlState.expired &&
+                          <ErrorMessage message="La session a expiré, veuillez vous reconnectez." />
                         }
                       </Loader>
 
