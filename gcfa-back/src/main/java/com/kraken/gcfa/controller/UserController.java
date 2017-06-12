@@ -114,13 +114,13 @@ public class UserController {
 	}
 
 	@GetMapping("/tutors")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<Tutor> getAllTutor() {
 		return userService.getTutors();
 	}
 
 	@GetMapping("/apprentices")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<Apprentice> getListApprentice() {
 		return userService.getApprentices();
 	}

@@ -113,6 +113,7 @@ class Users extends Component {
         <div style={CONTENT_STYLE}>
           <Switch>
             <Redirect exact from="/users" to="/users/apprentices" />
+              <Redirect exact from="/" to="/users/apprentices" />
             <Route exact path="/users/apprentices" component={Apprentices} />
             <Route exact path="/users/tutors" component={Tutors} />
             <Route exact path="/users/consultants" component={Consultants} />

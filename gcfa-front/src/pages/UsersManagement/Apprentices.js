@@ -32,12 +32,26 @@ export default class Apprentices extends Component {
   }
 
   componentDidMount() {
-    this.requestApprentices();
+    if (this.props.tutor==null) {
+      this.requestApprentices();
+    }
+    else {
+      this.requestApprenticesFromTutor();
+    }
   }
 
   requestApprentices() {
     this.setState({ loading: true });
     userManagementService.getAllApprentices()
+      .then(userManagementService.filterApprenticesByYear)
+      .then(users => {
+        this.setState({users: users, loading: false});
+      });
+  }
+
+  requestApprenticesFromTutor() {
+    this.setState({ loading: true });
+    userManagementService.getAllApprenticesFromTutor(this.props.tutor)
       .then(userManagementService.filterApprenticesByYear)
       .then(users => {
         this.setState({users: users, loading: false});
@@ -116,6 +130,7 @@ export default class Apprentices extends Component {
       docSelected,
     } = this.state;
 
+    const {tutor} = this.props;
     const modalDocButtons = [
       <FlatButton
         label="Annuler"
@@ -132,7 +147,10 @@ export default class Apprentices extends Component {
 
     return (
       <Loader loading={loading} error={error} >
-        <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
+      {
+        !tutor &&
+          <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
+      }
         <div className="row">
           <div className="col-4">
             <p className="sub-title">A1</p>

@@ -19,6 +19,7 @@ import Auth from '../../components/Auth';
 import {
   SUPER_ADMIN,
   APPRENTICE,
+  TUTOR
 } from '../../constants';
 
 
@@ -82,7 +83,7 @@ class NavBar extends Component {
                 <Link to="/documentation">Documentation</Link>
                 <Link to="/stats">Statistiques</Link>
             </Auth>
-            <Auth roles={[APPRENTICE]}>
+            <Auth roles={[APPRENTICE],[TUTOR]}>
                 <Link to="/documentation">Documentation</Link>
             </Auth>
           </div>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ApprenticeList from '../UsersManagement/Apprentices';
+import Apprentices from '../UsersManagement/Apprentices';
 
 import * as userService from '../../services/userService';
 
@@ -22,8 +22,7 @@ class TutorHome extends Component {
 			<div>
 			{
 				profil &&
-				<ApprenticeList tutor={profil.id}
-				/>
+					<Apprentices tutor={profil.id}/>
 			}
 			</div>
 		)
