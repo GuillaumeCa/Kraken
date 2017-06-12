@@ -11,6 +11,8 @@ import UploadModal from '../../components/Modal/Upload';
 
 import * as userManagementService from '../../services/userManagementService';
 
+import Auth from '../../components/Auth';
+import * as Roles from '../../constants';
 
 const BUTTON_STYLE = {
   fontSize: 15,
@@ -33,7 +35,7 @@ export default class Apprentices extends Component {
   }
 
   componentDidMount() {
-    if (this.props.tutor==null) {
+    if (this.props.tutorId==null) {
       this.requestApprentices();
     }
     else {
@@ -52,7 +54,7 @@ export default class Apprentices extends Component {
 
   requestApprenticesFromTutor() {
     this.setState({ loading: true });
-    userManagementService.getAllApprenticesFromTutor(this.props.tutor)
+    userManagementService.getAllApprenticesFromTutor(this.props.tutorId)
       .then(userManagementService.filterApprenticesByYear)
       .then(users => {
         this.setState({users: users, loading: false});
@@ -125,7 +127,7 @@ export default class Apprentices extends Component {
       docSelected,
     } = this.state;
 
-    const {tutor} = this.props;
+    const {tutorId} = this.props;
     const modalDocButtons = [
       <FlatButton
         label="Annuler"
@@ -142,10 +144,9 @@ export default class Apprentices extends Component {
 
     return (
       <Loader loading={loading} error={error} >
-      {
-        !tutor &&
-          <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
-      }
+          <Auth roles={[Roles.SUPER_ADMIN]}>
+            <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
+          </Auth>
         <div className="row">
           <div className="col-4">
             <p className="sub-title">A1</p>

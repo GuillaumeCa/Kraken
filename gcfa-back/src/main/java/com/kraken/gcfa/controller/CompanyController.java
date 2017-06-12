@@ -32,7 +32,7 @@ public class CompanyController {
 	}
 
 	@GetMapping
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN,RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<Company> geCompanies() throws Exception {
 		return companyService.getCompanies();
 	}
@@ -50,7 +50,7 @@ public class CompanyController {
 	}
 	
 	@GetMapping("/{id}/sites")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN,RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<CompanySite> geCompanySites(@PathVariable Long id) throws Exception {
 		return companyService.getCompanySites(id);
 	}

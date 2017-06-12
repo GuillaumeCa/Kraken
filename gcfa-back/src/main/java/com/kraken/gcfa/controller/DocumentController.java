@@ -80,8 +80,9 @@ public class DocumentController {
 	}
 
 	@GetMapping("/apprentice/{userId}")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<Document> documentsFromApprentice(@PathVariable Long userId) {
+		System.out.println("documents from apprentices");
 		return documentService.getDocumentsFromUser(userId);
 	}
 

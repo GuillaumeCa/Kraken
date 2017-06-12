@@ -90,7 +90,7 @@ public class UserController {
 	}
 
 	@GetMapping("/tutor/{id}")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN,RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public Tutor getTutor(@PathVariable Long id) {
 		return userService.getTutor(id);
 	}
@@ -114,7 +114,7 @@ public class UserController {
 	}
 
 	@GetMapping("/tutors")
-	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<Tutor> getAllTutor() {
 		return userService.getTutors();
 	}
@@ -122,6 +122,7 @@ public class UserController {
 	@GetMapping("/apprentices")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<Apprentice> getListApprentice() {
+		System.out.println("Apprenties");
 		return userService.getApprentices();
 	}
 
@@ -136,13 +137,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/apprentice/search/{search}")
-	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<User> searchApprentince(@PathVariable String search) throws NotFoundException {
 		return userService.searchUser(1L, search);
 	}
 
 	@GetMapping("/apprentice/{id}")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public Apprentice getApprentice(@PathVariable Long id) {
 		return userService.getApprentice(id);
 	}
@@ -160,7 +161,7 @@ public class UserController {
 	}
 
 	@GetMapping("/consultants")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN,RolesNames.CONSULTANT})
 	public List<User> getConsultants() {
 		return userService.getConsultants();
 	}

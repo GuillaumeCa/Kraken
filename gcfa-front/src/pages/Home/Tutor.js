@@ -22,7 +22,7 @@ class TutorHome extends Component {
 			<div>
 			{
 				profil &&
-					<Apprentices tutor={profil.id}/>
+					<Apprentices tutorId={profil.id}/>
 			}
 			</div>
 		)

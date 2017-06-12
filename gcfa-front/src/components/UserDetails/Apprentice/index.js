@@ -17,6 +17,8 @@ import * as userService from '../../../services/userService';
 import * as documentService from '../../../services/documentService';
 import * as companyService from '../../../services/companyService';
 
+import Auth from '../../Auth';
+import * as Roles from '../../../constants';
 
 const TITLE_STYLE = {
   marginTop: 20,
@@ -208,7 +210,10 @@ class ApprenticeDetail extends Component {
 		return (
       <div>
         <Link to="/users/apprentices">
+
+          <Auth roles={[Roles.SUPER_ADMIN]}>
           <RaisedButton primary label="Apprentis" style={{marginBottom: 20}} />
+          </Auth>
         </Link>
         <div className="row">
   				<div className="col-5">
