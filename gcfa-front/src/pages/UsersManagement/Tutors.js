@@ -99,7 +99,7 @@ export default class Tutors extends Component {
     ];
     return (
       <div>
-        <RaisedButton primary label="Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
         <Loader error={error} loading={loading}>
           <UsersList
             usersList={this.state.usersList}

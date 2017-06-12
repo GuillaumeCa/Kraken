@@ -100,7 +100,7 @@ export default class Consultants extends Component {
     ];
     return (
       <div>
-        <RaisedButton primary label="Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
         <Loader loading={loading} error={error}>
           <UsersList
             usersList={consultants}

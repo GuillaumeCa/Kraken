@@ -78,6 +78,7 @@ class Login extends Component {
                           hintText="Nom d'utilisateur"
                           onChange={(e) => this.setState({ username: e.target.value })}
                           fullWidth
+                          autoFocus
                           />
                         <TextField
                           type="password"

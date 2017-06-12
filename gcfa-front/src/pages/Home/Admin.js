@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 
-import ApprenticeList from '../UsersManagement/Apprentices';
+import Users from '../UsersManagement';
 
 class Admin extends Component {
 
 	render() {
 		return (
 			<div>
-			<ApprenticeList/>
+				<Users />
 			</div>
 		)
 	}

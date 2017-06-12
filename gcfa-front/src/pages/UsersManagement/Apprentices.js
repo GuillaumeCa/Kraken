@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Loader from '../../components/Loader';
 import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
+import UploadModal from '../../components/Modal/Upload';
 
 import * as userManagementService from '../../services/userManagementService';
 
@@ -20,6 +22,13 @@ export default class Apprentices extends Component {
     users: [[], [], []],
     loading: false,
     error: false,
+
+    openDocModal: false,
+    file: null,
+    uploadStarted: false,
+    uploadProgress: 0,
+    docSelected: null,
+    isValidFile: false,
   }
 
   componentDidMount() {
@@ -33,6 +42,41 @@ export default class Apprentices extends Component {
       .then(users => {
         this.setState({users: users, loading: false});
       });
+  }
+
+  importApprentice = () => {
+    this.setState({ openDocModal: true });
+  }
+
+  onUploadDoc = (type) => {
+    this.setState({ uploadProgress: 0, uploadStarted: true });
+
+    const { file, fileType } = this.state;
+
+    userManagementService.createApprenticeFromCSV(file, this.onUploadProgress)
+      .then(res => {
+        this.closeDocModal();
+      });
+  }
+
+  closeDocModal = () => {
+    this.setState({
+      uploadProgress: 0,
+      uploadStarted: false,
+      openDocModal: false,
+      docSelected: null,
+    });
+  }
+
+  checkSelectedFile = (file) => {
+    let isValid = false;
+
+    isValid = file == null ? false : true;
+    this.setState({isValidFile: isValid});
+
+    if(isValid) {
+      this.setState({file: file});
+    }
   }
 
   renderActions = (apprentice) => {
@@ -60,9 +104,35 @@ export default class Apprentices extends Component {
   }
 
   render() {
-    const { loading, users, error } = this.state;
+    const {
+      loading,
+      users,
+      error,
+
+      openDocModal,
+      file,
+      uploadStarted,
+      uploadProgress,
+      docSelected,
+    } = this.state;
+
+    const modalDocButtons = [
+      <FlatButton
+        label="Annuler"
+        primary
+        onTouchTap={this.closeDocModal}
+      />,
+      <FlatButton
+        label="Déposer"
+        primary
+        onTouchTap={this.onUploadDoc}
+        disabled={!this.state.isValidFile}
+      />,
+    ];
+
     return (
       <Loader loading={loading} error={error} >
+        <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
         <div className="row">
           <div className="col-4">
             <p className="sub-title">A1</p>
@@ -95,6 +165,16 @@ export default class Apprentices extends Component {
             />
           </div>
         </div>
+        <UploadModal
+          title="Import CSV"
+          open={openDocModal}
+          actions={modalDocButtons}
+          uploadProgress={uploadProgress}
+          uploading={uploadStarted}
+          onSelectFile={file => this.checkSelectedFile(file)}
+          file={docSelected}
+          acceptedType='.csv'
+        />
       </Loader>
     )
   }

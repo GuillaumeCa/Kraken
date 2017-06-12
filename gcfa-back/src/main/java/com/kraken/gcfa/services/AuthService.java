@@ -48,10 +48,10 @@ public class AuthService {
 	        }
 
             ldapUser = new LDAPUserDTO();
-	        ldapUser.setPrenom("Jean");
-	        ldapUser.setNomFamille("Dupont");
-	        ldapUser.setMail("jean.dupont@isep.fr");
-	        ldapUser.setEmployeeNumber("1234");
+//	        ldapUser.setPrenom("Jean");
+//	        ldapUser.setNomFamille("Dupont");
+//	        ldapUser.setMail("jean.dupont@isep.fr");
+//	        ldapUser.setEmployeeNumber("1234");
     	}
 
         user = userRepository.findByLdapId(ldapUser.getEmployeeNumber());
