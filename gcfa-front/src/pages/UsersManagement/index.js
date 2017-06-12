@@ -120,7 +120,7 @@ class Users extends Component {
             <Route path="/users/apprentices/:id/detail" component={ApprenticeDetail} />
             <Route path="/users/tutors/:id/detail" component={TutorDetail} />
             <Route path="/users/consultants/:id/detail" component={ConsultantDetail} />
-            <Route component={() => <div>erreur</div>} />
+            <Redirect to="/error" />
           </Switch>
         </div>
 

@@ -70,6 +70,7 @@ class Layout extends Component {
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
               <Route path="/users" component={Users} />
+              <Route path="/error" component={ErrorComponent} />
               <Route component={ErrorComponent} />
             </Switch>
           </Banner>
