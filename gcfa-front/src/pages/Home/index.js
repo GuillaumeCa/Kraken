@@ -13,7 +13,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <Auth roles={[Roles.SUPER_ADMIN]}>
+        <Auth roles={[Roles.SUPER_ADMIN, Roles.CONSULTANT]}>
             <Admin />
         </Auth>
         <Auth roles={[Roles.APPRENTICE]}>

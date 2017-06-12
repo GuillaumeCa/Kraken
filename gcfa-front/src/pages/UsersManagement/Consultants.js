@@ -10,6 +10,9 @@ import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
 
+import Auth from '../../components/Auth';
+import * as Roles from '../../constants';
+
 import * as userManagementService from '../../services/userManagementService';
 
 
@@ -71,7 +74,9 @@ export default class Consultants extends Component {
         <Link to={`/users/consultants/${consultant.id}/detail`}>
           <FlatButton primary label="Voir"/>
         </Link>
-        <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteConsultant(consultant.id)}/>
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteConsultant(consultant.id)}/>
+        </Auth>
       </div>
     )
   }
@@ -100,7 +105,9 @@ export default class Consultants extends Component {
     ];
     return (
       <div>
-        <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        </Auth>
         <Loader loading={loading} error={error}>
           <UsersList
             usersList={consultants}

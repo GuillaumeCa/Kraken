@@ -79,7 +79,7 @@ class NavBar extends Component {
         </div>
         <nav className="navigation">
           <div className="link">
-            <Auth roles={[SUPER_ADMIN]}>
+            <Auth roles={[SUPER_ADMIN, CONSULTANT]}>
                 <Link to="/documentation">Documentation</Link>
                 <Link to="/stats">Statistiques</Link>
             </Auth>
@@ -87,10 +87,6 @@ class NavBar extends Component {
                 <Link to="/documentation">Documentation</Link>
             </Auth>
             <Auth roles={[TUTOR]}>
-                <Link to="/users/apprentices">Utilisateurs</Link>
-                <Link to="/documentation">Documentation</Link>
-            </Auth>
-            <Auth roles={[CONSULTANT]}>
                 <Link to="/users/apprentices">Utilisateurs</Link>
                 <Link to="/documentation">Documentation</Link>
             </Auth>

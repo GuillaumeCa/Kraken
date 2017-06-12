@@ -11,6 +11,9 @@ import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
 
+import Auth from '../../components/Auth';
+import * as Roles from '../../constants';
+
 import * as userManagementService from '../../services/userManagementService';
 
 export default class Tutors extends Component {
@@ -78,7 +81,9 @@ export default class Tutors extends Component {
         <Link to={`/users/tutors/${tutor.id}/detail`}>
           <FlatButton primary label="Voir"/>
         </Link>
-        <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteTutor(tutor.id)}/>
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteTutor(tutor.id)}/>
+        </Auth>
       </div>
     )
   }
@@ -99,7 +104,9 @@ export default class Tutors extends Component {
     ];
     return (
       <div>
-        <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
+        </Auth>
         <Loader error={error} loading={loading}>
           <UsersList
             usersList={this.state.usersList}
