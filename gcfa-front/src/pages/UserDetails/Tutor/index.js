@@ -6,6 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+
 import Loader from '../../../components/Loader';
 import BarCard, { List, UserCard } from '../../../components/BarCard';
 import FormField, { TitleSelect, SelectForm } from '../../../components/UserForm/FormField';
@@ -108,7 +110,7 @@ export default class TutorDetail extends Component {
     return (
       <div>
         <Link to="/users/tutors">
-          <RaisedButton primary label="Tuteurs" style={SMALL_MARGIN} />
+          <RaisedButton primary label="Tuteurs" style={SMALL_MARGIN} icon={<ArrowBack />} />
         </Link>
         <Loader loading={tutor === null}>
           {

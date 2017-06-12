@@ -6,6 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+
 import BarCard, { DocumentCard, List } from '../../../components/BarCard';
 import Loader from '../../../components/Loader';
 import FormField, { SelectForm } from '../../../components/UserForm/FormField';
@@ -219,7 +221,12 @@ class ApprenticeDetail extends Component {
         <Link to="/users/apprentices">
 
           <Auth roles={[Roles.SUPER_ADMIN]}>
-          <RaisedButton primary label="Apprentis" style={{marginBottom: 20}} />
+            <RaisedButton
+              primary
+              label="Apprentis"
+              style={{marginBottom: 20}}
+              icon={<ArrowBack />}
+            />
           </Auth>
         </Link>
         <div className="row">

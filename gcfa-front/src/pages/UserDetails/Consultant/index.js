@@ -9,6 +9,8 @@ import BarCard, { List, UserCard } from '../../../components/BarCard';
 import FormField, { TitleSelect } from '../../../components/UserForm/FormField';
 import TextField from 'material-ui/TextField';
 
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
+
 import * as userManagementService from '../../../services/userManagementService';
 import * as authService from '../../../services/authService';
 
@@ -86,7 +88,7 @@ export default class ConsultantDetail extends Component {
     return (
       <div>
         <Link to="/users/consultants">
-          <RaisedButton primary label="Consultants" style={SMALL_MARGIN} />
+          <RaisedButton primary label="Consultants" style={SMALL_MARGIN} icon={<ArrowBack />} />
         </Link>
         <Loader loading={consultant === null}>
           {
