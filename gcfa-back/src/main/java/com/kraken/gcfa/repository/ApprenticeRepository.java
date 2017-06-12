@@ -1,6 +1,7 @@
 package com.kraken.gcfa.repository;
 
 import com.kraken.gcfa.entity.Apprentice;
+import com.kraken.gcfa.entity.Tutor;
 import com.kraken.gcfa.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,4 +14,5 @@ import java.util.List;
 public interface ApprenticeRepository extends CrudRepository<Apprentice, Long> {
     Apprentice findByUser(User user);
     List<Apprentice> findAll();
+    List<Apprentice> findAllByTutor(Tutor tutor);
 }

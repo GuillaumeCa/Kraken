@@ -131,7 +131,7 @@ public class UserController {
 	public List<Apprentice> getApprenticesFromTutor(@PathVariable Long tutorId) throws NotFoundException {
 		Tutor tutor = userService.getTutor(tutorId);
 		if (tutor != null) {
-			return userService.getApprenticesFromTutor(tutor.getUser());
+			return userService.getApprenticesFromTutor(tutor);
 		}
 		throw new NotFoundException("Tutor not found");
 	}

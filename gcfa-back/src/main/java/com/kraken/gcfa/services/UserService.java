@@ -43,9 +43,8 @@ public class UserService {
         return apprenticeRepository.findOne(id);
     }
     
-    public List<Apprentice> getApprenticesFromTutor(User user) {
-    	Tutor tutor = tutorRepository.findByUser(user);    	
-        return tutor.getApprentices();
+    public List<Apprentice> getApprenticesFromTutor(Tutor tutor) {
+        return apprenticeRepository.findAllByTutor(tutor);
     }
     
     public List<User> searchUser(Long roleId, String search) {

@@ -14,6 +14,7 @@ import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
 import Users from './UsersManagement';
+import ErrorComponent from './Error';
 
 
 import {
@@ -68,12 +69,8 @@ class Layout extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
-
-              <Auth roles={[SUPER_ADMIN]}>
-                <Route path="/users" component={Users} />
-              </Auth>
-
-              <Route component={() => <div>erreur</div>} />
+              <Route path="/users" component={Users} />
+              <Route component={ErrorComponent} />
             </Switch>
           </Banner>
         </div>
