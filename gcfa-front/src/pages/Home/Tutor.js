@@ -4,6 +4,18 @@ import Apprentices from '../UsersManagement/Apprentices';
 
 import * as userService from '../../services/userService';
 
+const CONTENT_STYLE = {
+  margin: '0 auto',
+  marginTop: 30,
+  fontWeight: 'normal',
+}
+
+
+const HEAD_STYLE = {
+  display: 'flex',
+  alignItems: 'center',
+}
+
 class TutorHome extends Component {
 
 	state = {
@@ -20,10 +32,15 @@ class TutorHome extends Component {
 		const {profil} = this.state;
 		return (
 			<div>
-			{
-				profil &&
-					<Apprentices tutorId={profil.id}/>
-			}
+				<div style={HEAD_STYLE}>
+	          		<h1 className="main-title">Mes apprentis</h1>
+	          	</div>
+	          	<div style={CONTENT_STYLE}>
+				{
+					profil &&
+						<Apprentices tutorId={profil.id}/>
+				}
+				</div>
 			</div>
 		)
 	}

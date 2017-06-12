@@ -24,6 +24,7 @@ class TutorProfil extends Component {
 	componentDidMount() {
 		userService.getUserProfile().then(res => {
 			this.setState({ profil: res.data });
+			console.log(res.data)
 		})
 	}
 
@@ -38,6 +39,10 @@ class TutorProfil extends Component {
 						<h2 className="main-title">{profil.user.firstName} {profil.user.lastName}</h2>
 						<table className="detail-list" style={{ margin: '0 auto' }}>
 							<tbody>
+								<tr>
+									<th>Mail</th>
+									<td>{profil.user.email}</td>
+								</tr>
 								<tr>
 									<th>Job</th>
 									<td>{profil.job}</td>
