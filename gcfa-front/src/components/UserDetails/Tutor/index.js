@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
 import Loader from '../../Loader';
 import BarCard, { List, UserCard } from '../../BarCard';
-import FormField, { TitleSelect } from '../../UserForm/FormField';
-import TextField from 'material-ui/TextField';
+import FormField, { TitleSelect, SelectForm } from '../../UserForm/FormField';
 
 import * as userManagementService from '../../../services/userManagementService';
 
@@ -27,15 +28,17 @@ export default class TutorDetail extends Component {
     apprenticeList: [],
     errorApprentices: false,
     loadingApprentices: false,
+
   }
 
   componentDidMount() {
+    this.tutorId = this.props.match.params.id;
     this.requestTutorInfos();
     this.requestApprentices();
   }
 
   requestTutorInfos() {
-    userManagementService.getTutor(this.props.match.params.id)
+    userManagementService.getTutor(this.tutorId)
       .then(res => {
         this.setState({ tutor: res.data, tutorForm: this.buildForm(res.data) });
       })
@@ -43,11 +46,12 @@ export default class TutorDetail extends Component {
 
   requestApprentices() {
     this.setState({ loadingApprentices: true });
-    userManagementService.getAllApprenticesFromTutor(this.props.match.params.id)
+    userManagementService.getAllApprenticesFromTutor(this.tutorId)
       .then(res => {
         this.setState({ apprenticeList: res.data, loadingApprentices: false });
       })
   }
+
 
   buildForm(tutor) {
     return {
@@ -80,10 +84,6 @@ export default class TutorDetail extends Component {
         [key]: value,
       }
     });
-  }
-
-  removeApprentice = (e, apprentice) => {
-
   }
 
   render() {
@@ -171,7 +171,6 @@ export default class TutorDetail extends Component {
                     }
                   </List>
                 </Loader>
-                <RaisedButton primary label="Ajouter" />
               </div>
             </div>
           }
