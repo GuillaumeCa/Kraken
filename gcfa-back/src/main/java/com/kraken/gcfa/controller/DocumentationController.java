@@ -1,5 +1,6 @@
 package com.kraken.gcfa.controller;
 
+import com.kraken.gcfa.constants.RolesNames;
 import com.kraken.gcfa.entity.Documentation;
 import com.kraken.gcfa.entity.DocumentationType;
 import com.kraken.gcfa.exceptions.StorageException;
@@ -10,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.List;
@@ -43,6 +45,7 @@ public class DocumentationController {
 	 * @throws StorageException
 	 */
 	@PostMapping
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public void upload(@RequestParam("file") MultipartFile file, @RequestParam("type") DocumentationType type) throws StorageException {
 		documentationService.storeFile(file, type);
 	}
@@ -72,6 +75,7 @@ public class DocumentationController {
 	 * @throws StorageException
 	 */
 	@PutMapping("/{fileId}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public void editFile(@RequestParam("file") MultipartFile file, @PathVariable Long fileId) throws StorageException {
 		Documentation doc = documentationService.deleteFile(fileId);
 		documentationService.storeFile(file, doc.getType());
@@ -84,6 +88,7 @@ public class DocumentationController {
 	 * @throws StorageException
 	 */
 	@DeleteMapping("/{fileId}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public void deleteFile(@PathVariable Long fileId) throws StorageException {
 		documentationService.deleteFile(fileId);
 	}

@@ -12,7 +12,6 @@ import java.util.List;
  * gcfa-back
  */
 public interface CompanySiteRepository extends CrudRepository<CompanySite, Long> {
-	CompanySite findByName(String name);
-	void deleteByName(String name);
 	List<CompanySite> findCompanySitesByCompany(Company company);
+	CompanySite findByName(String s);
 }

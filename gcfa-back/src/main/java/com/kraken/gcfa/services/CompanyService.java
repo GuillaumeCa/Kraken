@@ -32,8 +32,8 @@ public class CompanyService {
 		return companyRepository.findOne(id);
 	}
 	
-	public void deleteCompany(String name) throws Exception {
-		companyRepository.deleteByName(name);
+	public void deleteCompany(Long id) throws Exception {
+		companyRepository.delete(id);
     }
 		
 	public CompanySite createCompanySite(FormCompanySiteDTO formCompanySiteDTO) throws Exception {
@@ -47,8 +47,8 @@ public class CompanyService {
 		return companySite;
 	}
 
-	public void deleteCompanySite(String name) throws Exception {
-		companySiteRepository.deleteByName(name);
+	public void deleteCompanySite(Long id) throws Exception {
+		companySiteRepository.delete(id);
     }
 
 

@@ -17,21 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
 
     @Autowired
-    private LDAPService ldapService;
-
-    @Autowired
     private AuthService authService;
 
     /**
-     * Test du LDAP
-     */
-    @RequestMapping(value = "/{user}/{pwd}")
-    public LDAPUserDTO getUser(@PathVariable String user, @PathVariable String pwd) throws LDAPServiceException {
-        return ldapService.getUser(user, pwd);
-    }
-
-    /**
-     * Test de la connexion
+     * Connexion et récupération d'un token
      *
      * @param form
      * @return
@@ -39,7 +28,6 @@ public class LoginController {
      */
     @PostMapping
     public String login(@RequestBody FormLoginDTO form) throws Exception {
-        // TODO: générer token si l'utilisateur n'est pas dans la bdd mais sur le LDAP
         return authService.generateToken(form);
     }
 }

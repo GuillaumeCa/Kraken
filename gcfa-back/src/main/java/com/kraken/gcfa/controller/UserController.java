@@ -167,6 +167,7 @@ public class UserController {
 	}
 
 	@GetMapping("/consultant/{id}")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public User getConsultant(@PathVariable Long id) throws NotFoundException {
 		return userService.getConsultant(id);
 	}
