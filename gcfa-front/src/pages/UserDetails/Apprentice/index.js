@@ -293,7 +293,8 @@ class ApprenticeDetail extends Component {
                           type="number"
   									      style={TD_STYLE}
   									      disabled
-  									      defaultValue={sentDocs.length}
+                          value = {sentDocs.length}
+  									      defaultValue={0}
   									    />
                       </td>
   									</tr>
