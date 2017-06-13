@@ -20,7 +20,7 @@ import ErrorComponent from './Error';
 
 import {
   SUPER_ADMIN,
-  APPRENTICE,
+  CONSULTANT,
   TUTOR,
 } from '../constants';
 
@@ -70,7 +70,7 @@ class Layout extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
-              <PrivateRoute path="/users" component={Users} roles={[SUPER_ADMIN, TUTOR]} />
+              <PrivateRoute path="/users" component={Users} roles={[SUPER_ADMIN, TUTOR, CONSULTANT]} />
               <PrivateRoute path="/infos" component={Informations} roles={[SUPER_ADMIN]} />
               <Route path="/error" component={ErrorComponent} />
               <Route component={ErrorComponent} />

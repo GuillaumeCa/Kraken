@@ -20,7 +20,7 @@ import Consultants from './Consultants';
 
 import {
   SUPER_ADMIN,
-  CONSULTANT
+  CONSULTANT,
 } from '../../constants';
 import Auth, { PrivateRoute } from '../../components/Auth';
 
@@ -95,11 +95,13 @@ class Users extends Component {
     	<div>
         <div style={HEAD_STYLE}>
           <h1 className="main-title">{allTabs[currentTab]}</h1>
-          <Auth roles={[SUPER_ADMIN, CONSULTANT]}>
-            <div style={{ marginLeft: 'auto' }}>
-              <FlatButton primary label="Autres utilisateurs" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleBar} style={{ marginRight: 10 }} />
-            </div>
-          </Auth>
+          
+          <div style={{ marginLeft: 'auto' }}>
+            <Auth roles={[SUPER_ADMIN, CONSULTANT]}>
+             <FlatButton primary label="Autres utilisateurs" backgroundColor="#fff" hoverColor="#eee" onTouchTap={this.toggleBar} style={{ marginRight: 10 }} />
+            </Auth>
+          </div>
+          
         </div>
 
 	    	<Drawer
@@ -125,11 +127,11 @@ class Users extends Component {
             <Redirect exact from="/users" to="/users/apprentices" />
             <Redirect exact from="/" to="/users/apprentices" />
             <Route exact path="/users/apprentices" component={Apprentices} />
-            <PrivateRoute exact path="/users/tutors" component={Tutors} roles={[SUPER_ADMIN]} />
-            <PrivateRoute exact path="/users/consultants" component={Consultants} roles={[SUPER_ADMIN]} />
+            <PrivateRoute exact path="/users/tutors" component={Tutors} roles={[SUPER_ADMIN, CONSULTANT]} />
+            <PrivateRoute exact path="/users/consultants" component={Consultants} roles={[SUPER_ADMIN,CONSULTANT]} />
             <Route path="/users/apprentices/:id/detail" component={ApprenticeDetail} />
-            <PrivateRoute path="/users/tutors/:id/detail" component={TutorDetail} roles={[SUPER_ADMIN]} />
-            <PrivateRoute path="/users/consultants/:id/detail" component={ConsultantDetail} roles={[SUPER_ADMIN]} />
+            <PrivateRoute path="/users/tutors/:id/detail" component={TutorDetail} roles={[SUPER_ADMIN, CONSULTANT]} />
+            <PrivateRoute path="/users/consultants/:id/detail" component={ConsultantDetail} roles={[SUPER_ADMIN, CONSULTANT]} />
             <Redirect to="/error" />
           </Switch>
         </div>
