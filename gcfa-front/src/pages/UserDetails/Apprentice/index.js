@@ -73,12 +73,14 @@ class ApprenticeDetail extends Component {
     this.requestApprentice().then(data => {
       this.requestTutorList();
       this.requestCompanyList();
-      this.requestCompanySiteList(data.companySite.company.id);
+      if (data.companySite) {
+        this.requestCompanySiteList(data.companySite.company.id);
+      }
   		this.requestSentDocsFromApprentice(data.user.id);
 
       this.setState({
         selectTutor: data.tutor,
-        selectCompany: data.companySite.company,
+        selectCompany: data.companySite ? data.companySite.company : null,
         selectCompanySite: data.companySite,
       });
 
@@ -98,7 +100,7 @@ class ApprenticeDetail extends Component {
             userId: res.data.user.id,
             tutorId: res.data.tutor.id,
             contractType: res.data.contractType,
-            companyId: res.data.companySite.id,
+            companyId: res.data.companySite ? res.data.companySite.id : null,
             promotion: res.data.promotion,
           }
         });
@@ -140,7 +142,7 @@ class ApprenticeDetail extends Component {
       })
   }
   requestCompanySiteList(id) {
-    companyService.getCompanySite(id)
+    companyService.getCompanySites(id)
       .then(res => res.data.map(co => {
         return {
           ...co,
@@ -213,7 +215,7 @@ class ApprenticeDetail extends Component {
         this.requestSentDocsFromApprentice();
       })
     }
-    
+
     this.handleCloseModal()
   }
 
