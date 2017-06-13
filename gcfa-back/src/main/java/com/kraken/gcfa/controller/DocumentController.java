@@ -38,6 +38,12 @@ public class DocumentController {
 		documentService.storeFile(file, typeId, auth);
 	}
 
+	@GetMapping("/types")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public List<DocumentType> allDocumentType() {
+		return documentService.getDocumentTypes();
+	}
+
 	/**
 	 * Récupérer un document avec son apprenticeId
 	 *
@@ -82,7 +88,6 @@ public class DocumentController {
 	@GetMapping("/apprentice/{userId}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<Document> documentsFromApprentice(@PathVariable Long userId) {
-		System.out.println("documents from apprentices");
 		return documentService.getDocumentsFromUser(userId);
 	}
 
@@ -90,5 +95,23 @@ public class DocumentController {
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public DocumentType createDocumentType(@RequestBody FormDocumentTypeDTO form) {
 		return documentService.createDocumentType(form);
+	}
+
+	@GetMapping("/type/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public DocumentType getDocumentType(@PathVariable Long id) {
+		return documentService.getDocumentType(id);
+	}
+
+	@DeleteMapping("/type/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public void deleteDocumentType(@PathVariable Long id) {
+		documentService.deleteDocumentType(id);
+	}
+
+	@PutMapping("/type/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public DocumentType updateDocumentType(@PathVariable Long id, @RequestBody FormDocumentTypeDTO form) {
+		return documentService.updateDocumentType(id, form);
 	}
 }
