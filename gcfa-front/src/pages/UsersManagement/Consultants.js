@@ -9,6 +9,7 @@ import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
+import Confirm from '../../components/Modal/Confirm';
 
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
@@ -25,6 +26,9 @@ export default class Consultants extends Component {
 
     openForm: false,
     formData: {},
+
+    openModal: false,
+    selectedId: null,
   }
 
   componentDidMount() {
@@ -60,12 +64,25 @@ export default class Consultants extends Component {
     this.setState({ openForm: false });
   }
 
-  deleteConsultant = (id) => {
-    userManagementService.deleteConsultant(id)
+  openModal = (id) => {
+    this.setState({selectedId: id, openModal: true});
+  }
+
+  handleCloseModal = () => {
+    this.setState({selectedId: null, openModal: false});
+  }
+
+  deleteConsultant = (confirm) => {
+    if(confirm) {
+      userManagementService.deleteConsultant(this.state.selectedId)
       .then(ok => {
         sendNotification("Consultant supprimé")
         this.requestConsultants();
       })
+    }
+
+    this.handleCloseModal();
+    
   }
 
   renderActions = (consultant) => {
@@ -75,7 +92,7 @@ export default class Consultants extends Component {
           <FlatButton primary label="Voir"/>
         </Link>
         <Auth roles={[Roles.SUPER_ADMIN]}>
-          <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteConsultant(consultant.id)}/>
+          <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(consultant.id)}/>
         </Auth>
       </div>
     )
@@ -90,7 +107,8 @@ export default class Consultants extends Component {
   }
 
   render() {
-    const {error, loading, consultants} = this.state;
+    const {error, loading, consultants, openModal} = this.state;
+
     const modalFormButtons = [
       <FlatButton
         label="Annuler"
@@ -121,6 +139,12 @@ export default class Consultants extends Component {
           openModal={this.state.openForm}
           update={this.onUpdateForm}
           userType={2}
+        />
+
+        <Confirm
+          title="Suppression d'un consultant"
+          open={openModal}
+          confirm={(confirm) => this.deleteConsultant(confirm)}
         />
       </div>
     )

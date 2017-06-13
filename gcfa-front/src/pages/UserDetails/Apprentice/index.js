@@ -220,7 +220,7 @@ class ApprenticeDetail extends Component {
       <div>
         <Link to="/users/apprentices">
 
-          <Auth roles={[Roles.SUPER_ADMIN]}>
+          <Auth roles={[Roles.SUPER_ADMIN, Roles.TUTOR, Roles.CONSULTANT]}>
             <RaisedButton
               primary
               label="Apprentis"
@@ -286,14 +286,14 @@ class ApprenticeDetail extends Component {
                       </td>
   									</tr>
   									<tr>
-  										<th style={LABEL_STYLE}>Document rendu</th>
+  										<th style={LABEL_STYLE}>Documents rendus</th>
   										<td>
                         <TextField
   									      id="dueDocNb"
+                          type="number"
   									      style={TD_STYLE}
-  									      disabled={true}
-  									      defaultValue="12/18"
-                          disabled={!this.state.isEnableToEdit}
+  									      disabled
+  									      defaultValue={sentDocs.length}
   									    />
                       </td>
   									</tr>

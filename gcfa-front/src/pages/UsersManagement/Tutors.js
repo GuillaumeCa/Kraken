@@ -10,6 +10,7 @@ import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
+import Confirm from '../../components/Modal/Confirm';
 
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
@@ -25,6 +26,9 @@ export default class Tutors extends Component {
 
     openForm: false,
     formData: {},
+
+    openModal: false,
+    selectedId: null,
   }
 
   componentDidMount() {
@@ -59,12 +63,24 @@ export default class Tutors extends Component {
     this.setState({ openForm: false });
   }
 
-  deleteTutor = (id) => {
-    userManagementService.deleteTutor(id)
+  openModal = (id) => {
+    this.setState({selectedId: id, openModal: true});
+  }
+
+  handleCloseModal = () => {
+    this.setState({selectedId: null, openModal: false});
+  }
+
+  deleteTutor = (confirm) => {
+    if(confirm) {
+      userManagementService.deleteTutor(this.state.selectedId)
       .then(ok => {
         sendNotification("Tuteur supprimé")
         this.requestAllTutor();
       })
+    }
+    
+    this.handleCloseModal()
   }
 
   renderTitle = (tutor) => {
@@ -82,14 +98,14 @@ export default class Tutors extends Component {
           <FlatButton primary label="Voir"/>
         </Link>
         <Auth roles={[Roles.SUPER_ADMIN]}>
-          <FlatButton secondary label="Supprimer" onTouchTap={() => this.deleteTutor(tutor.id)}/>
+          <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(tutor.id)}/>
         </Auth>
       </div>
     )
   }
 
   render() {
-    const { error, loading } = this.state;
+    const { error, loading, openModal } = this.state;
     const modalFormButtons = [
       <FlatButton
         label="Annuler"
@@ -121,6 +137,13 @@ export default class Tutors extends Component {
           update={this.onUpdateForm}
           userType={1}
         />
+
+        <Confirm
+          title="Suppression d'un tuteur"
+          open={openModal}
+          confirm={(confirm) => this.deleteTutor(confirm)}
+        />
+
       </div>
     )
   }

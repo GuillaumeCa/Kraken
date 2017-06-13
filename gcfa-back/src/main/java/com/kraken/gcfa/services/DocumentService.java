@@ -127,7 +127,21 @@ public class DocumentService {
 				listDocumentTypes.remove(document.getType());
 			}
 		}
-		listDocumentTypes.sort((a, b) -> {
+//		listDocumentTypes.sort((a, b) -> {
+//			Calendar c1 = Calendar.getInstance();
+//			c1.set(a.getYear(), a.getMonth(), a.getDay());
+//
+//			Calendar c2 = Calendar.getInstance();
+//			c2.set(b.getYear(), b.getMonth(), b.getDay());
+//			return c1.getTime().compareTo(c2.getTime());
+//		});
+		listDocumentTypes = orderDocumentTypes(listDocumentTypes);
+		return listDocumentTypes;
+	}
+
+
+	private List<DocumentType> orderDocumentTypes(List<DocumentType> docs) {
+		docs.sort((a, b) -> {
 			Calendar c1 = Calendar.getInstance();
 			c1.set(a.getYear(), a.getMonth(), a.getDay());
 
@@ -135,18 +149,7 @@ public class DocumentService {
 			c2.set(b.getYear(), b.getMonth(), b.getDay());
 			return c1.getTime().compareTo(c2.getTime());
 		});
-		return listDocumentTypes;
-	}
-
-
-	public DocumentType createDocumentType(FormDocumentTypeDTO form) {
-		DocumentType doc = new DocumentType();
-		doc.setName(form.getName());
-		doc.setContract(form.getContract());
-		doc.setDay(form.getDay());
-		doc.setMonth(form.getMonth());
-		doc.setYear(form.getYear());
-		return documentTypeRepository.save(doc);
+		return docs;
 	}
 
 	public List<Document> getDocuments(User auth) {
@@ -157,5 +160,37 @@ public class DocumentService {
 	public List<Document> getDocumentsFromUser(Long userId) {
 		User user = userService.getUserById(userId);
 	 	return getDocuments(user);
+	}
+
+    public List<DocumentType> getDocumentTypes() {
+        return orderDocumentTypes(documentTypeRepository.findAll());
+    }
+
+	public DocumentType getDocumentType(Long id) {
+		return documentTypeRepository.findOne(id);
+	}
+
+	public DocumentType createDocumentType(FormDocumentTypeDTO form) {
+		DocumentType doc = new DocumentType();
+		updateDocumentType(doc, form);
+		return documentTypeRepository.save(doc);
+	}
+
+	private void updateDocumentType(DocumentType doc, FormDocumentTypeDTO form) {
+		doc.setName(form.getName());
+		doc.setContract(form.getContract());
+		doc.setDay(form.getDay());
+		doc.setMonth(form.getMonth());
+		doc.setYear(form.getYear());
+	}
+
+	public void deleteDocumentType(Long id) {
+		documentTypeRepository.delete(id);
+	}
+
+	public DocumentType updateDocumentType(Long id, FormDocumentTypeDTO form) {
+		DocumentType doc = new DocumentType();
+		updateDocumentType(doc, form);
+		return documentTypeRepository.save(doc);
 	}
 }

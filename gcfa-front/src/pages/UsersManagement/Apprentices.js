@@ -148,7 +148,7 @@ export default class Apprentices extends Component {
       <Loader loading={loading} error={error} >
           <Auth roles={[Roles.SUPER_ADMIN]}>
             <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
-            <RaisedButton primary label="Template CSV" onTouchTap={this.getCSVTemplate} style={{ marginBottom: 20 }} />
+            <RaisedButton primary label="Template CSV" onTouchTap={this.getCSVTemplate} style={{ marginBottom: 20 }}/>
           </Auth>
         <div className="row">
           <div className="col-4">

@@ -46,7 +46,15 @@ class Users extends Component {
     showBar: false,
   }
 
+  componentDidMount() {
+    this.switchTabAuto();
+  }
+
   componentWillReceiveProps() {
+    this.switchTabAuto();
+  }
+
+  switchTabAuto() {
     switch (window.location.pathname.split('/')[2]) {
       case 'company':
         this.setState({ currentTab: 0, showBar: false });
