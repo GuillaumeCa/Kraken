@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +50,15 @@ public class UserService {
     
     public List<User> searchUser(Long roleId, String search) {
     	return userRepository.searchUser(roleId, search);
+    }
+    
+    public List<Apprentice> getApprenticesFromUsers(List<User> users) {
+    	
+    	return apprenticeRepository.findByUserIn(users);
+    }
+    
+    public List<Tutor> getTutorsFromUsers(List<User> users) {
+    	return tutorRepository.findByUserIn(users);
     }
 
     public Apprentice createApprentice(FormApprenticeDTO form) throws Exception {

@@ -20,4 +20,6 @@ public interface TutorRepository extends CrudRepository<Tutor, Long> {
 	Tutor findTutorByEmail(String email);
 
 	List<Tutor> findAll();
+
+	List<Tutor> findByUserIn(List<User> users);
 }

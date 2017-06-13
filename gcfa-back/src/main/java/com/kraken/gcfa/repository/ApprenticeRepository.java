@@ -15,4 +15,5 @@ public interface ApprenticeRepository extends CrudRepository<Apprentice, Long> {
     Apprentice findByUser(User user);
     List<Apprentice> findAll();
     List<Apprentice> findAllByTutor(Tutor tutor);
+    List<Apprentice> findByUserIn(List<User> user);
 }
