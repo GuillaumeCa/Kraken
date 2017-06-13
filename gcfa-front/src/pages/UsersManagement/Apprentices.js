@@ -51,7 +51,7 @@ export default class Apprentices extends Component {
           this.setState({users: users, loading: false});
       });
     }
-    
+
     else {
       let tutorId;
 
@@ -81,7 +81,6 @@ export default class Apprentices extends Component {
       userManagementService.searchApprentice(txt)
         .then(userManagementService.filterApprenticesByYear)
         .then(users => {
-          console.log(users)
           this.setState({users: users, loading: false});
       });
     }

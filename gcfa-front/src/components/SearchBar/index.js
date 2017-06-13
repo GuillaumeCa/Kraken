@@ -30,12 +30,13 @@ class SearchBar extends Component {
     }
     
     else {
-      this.fireKeyUp = setTimeout(this.fireSearch, 500);
+      this.fireKeyUp = setTimeout(this.fireSearch, 250);
     }
     
   }
   
   fireSearch = () => {
+    clearTimeout(this.fireKeyUp);
     this.fireKeyUp = null;
     this.props.search(this.state.searchContent);
   }
@@ -48,7 +49,7 @@ class SearchBar extends Component {
       <div>
         <TextField 
           id="searchText"
-          onKeyUp={(e) => this.handleKeyUp(e)}
+          onChange={(e) => this.handleKeyUp(e)}
           fullWidth={true}
           hintText="Rechercher"
           hintStyle={{textAlign: 'center', width: '100%'}}
