@@ -28,7 +28,7 @@ import colors from '../colors';
 
 const CONTAINER_STYLE = {
   marginTop: 60,
-  // padding: 20,
+  minHeight: '80vh',
 }
 
 const COPYRIGHT_STYLE = {
@@ -37,6 +37,7 @@ const COPYRIGHT_STYLE = {
   padding: 20,
   fontSize: 13,
   marginTop: 50,
+
   textAlign: 'center',
 }
 

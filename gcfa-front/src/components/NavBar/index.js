@@ -40,7 +40,7 @@ const AVATAR_STYLE = {
 const PROFILE_NAME_STYLE = {
   margin: 0,
   padding: 10,
-  textAlign: 'right',
+  textAlign: 'center',
   color: colors.GREY_DARK,
   borderBottom: '1px solid #eee',
 }
@@ -82,7 +82,7 @@ class NavBar extends Component {
             <Auth roles={[SUPER_ADMIN]}>
               <Link to="/infos">Informations</Link>
             </Auth>
-            
+
             <Link to="/documentation">Documentation</Link>
             {/*<Link to="/stats">Statistiques</Link>*/}
           </div>

@@ -15,7 +15,7 @@ const BACKGROUND_STYLE = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '100vh',
+  minHeight: '90vh',
 }
 
 const LOGIN_STYLE = {
