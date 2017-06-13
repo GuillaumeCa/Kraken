@@ -19,7 +19,7 @@ public class Company {
 
     private String name;
 
-    @OneToMany(mappedBy = "company")
+    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CompanySite> sites = new ArrayList<>();
 
     public Long getId() {

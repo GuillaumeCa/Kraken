@@ -24,7 +24,7 @@ public class Apprentice {
     private Tutor tutor;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "apprentice")
+    @OneToMany(mappedBy = "apprentice", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Document> documents;
 
     private Integer promotion;
