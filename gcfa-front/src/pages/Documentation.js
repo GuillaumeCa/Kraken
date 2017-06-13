@@ -26,6 +26,7 @@ import {
 
   SUPER_ADMIN,
   APPRENTICE,
+  CONSULTANT,
   CALENDAR,
   TOOL,
   EVALUATION,
@@ -234,7 +235,7 @@ class Documentation extends Component {
                 { calendars.map((doc) => {
                     return (
                       <div key={doc.id}>
-                        <Auth roles={[APPRENTICE]} >
+                        <Auth roles={[APPRENTICE, CONSULTANT]} >
                           <BarCard actions={<FlatButton primary label="Voir" labelStyle={BUTTON_STYLE} onTouchTap={() => this.openDoc(doc)} />}>
                             <DocumentationCard title={doc.name} type={doc.fileType} subtitle={renderDate(doc.creation)} />
                           </BarCard>
