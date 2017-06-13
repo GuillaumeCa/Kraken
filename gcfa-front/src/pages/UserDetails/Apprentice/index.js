@@ -70,6 +70,7 @@ class ApprenticeDetail extends Component {
       this.requestTutorList();
       this.requestCompanyList();
       this.requestCompanySiteList(data.companySite.company.id);
+  		this.requestSentDocsFromApprentice(data.user.id);
 
       this.setState({
         selectTutor: data.tutor,
@@ -78,7 +79,6 @@ class ApprenticeDetail extends Component {
       });
 
     });
-		this.requestSentDocsFromApprentice(this.apprenticeId);
 
     var isEnable = authService.hasRole(Roles.SUPER_ADMIN)
     this.setState({isEnableToEdit: isEnable});
