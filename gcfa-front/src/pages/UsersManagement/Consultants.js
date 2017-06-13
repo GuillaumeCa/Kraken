@@ -10,6 +10,7 @@ import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
 import Confirm from '../../components/Modal/Confirm';
+import SearchBar from '../../components/SearchBar';
 
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
@@ -41,6 +42,20 @@ export default class Consultants extends Component {
       .then(res => {
         this.setState({ consultants: res.data, loading: false });
       })
+  }
+
+  searchConsultant = (txt) => {
+    if(txt === "") {
+      this.requestConsultants();
+    }
+
+    else{
+      this.setState({ loading: true , searchText: txt });
+      userManagementService.searchConsultant(txt)
+        .then(res => {
+        this.setState({ consultants: res.data, loading: false });
+      })
+    }
   }
 
   showCreateForm = () => {
@@ -126,6 +141,10 @@ export default class Consultants extends Component {
         <Auth roles={[Roles.SUPER_ADMIN]}>
           <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
         </Auth>
+
+        <SearchBar search={(txt) => this.searchConsultant(txt)} />
+        <br />
+
         <Loader loading={loading} error={error}>
           <UsersList
             usersList={consultants}
