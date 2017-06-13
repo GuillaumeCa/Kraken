@@ -37,6 +37,10 @@ public class Company {
         this.name = name;
     }
 
+    public int getNumSites() {
+        return this.sites.size();
+    }
+
     @JsonIgnore
     public List<CompanySite> getSites() {
         return sites;

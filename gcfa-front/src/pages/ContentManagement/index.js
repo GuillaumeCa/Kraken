@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Route, Switch, Redirect, Link } from 'react-router-dom';
 
 
 import Drawer from 'material-ui/Drawer';
@@ -17,6 +16,9 @@ import Download from 'material-ui/svg-icons/file/cloud-download';
 
 import Company from './Company';
 import DocumentType from './DocumentType';
+
+import CompanyDetail from './Company/CompanyDetail';
+import DocumentTypeDetail from './DocumentType/DocumentTypeDetail';
 
 import * as userManagementService from '../../services/userManagementService';
 
@@ -39,7 +41,7 @@ class Users extends Component {
 
   state = {
   	currentTab: 0,
-    allTabs: ["Entreprise", "Types de document"],
+    allTabs: ["Entreprises", "Types de document"],
     error: false,
     showBar: false,
   }
@@ -100,8 +102,10 @@ class Users extends Component {
         <div style={CONTENT_STYLE}>
           <Switch>
             <Redirect exact from="/infos" to="/infos/company" />
-            <Route path="/infos/company" component={Company} />
-            <Route path="/infos/document-type" component={DocumentType} />
+            <Route exact path="/infos/company" component={Company} />
+            <Route path="/infos/company/:id" component={CompanyDetail} />
+            <Route exact path="/infos/document-type" component={DocumentType} />
+            <Route path="/infos/document-type/:id" component={DocumentTypeDetail} />
             <Redirect to="/error" />
           </Switch>
         </div>
