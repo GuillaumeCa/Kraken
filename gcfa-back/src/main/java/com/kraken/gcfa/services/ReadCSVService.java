@@ -70,6 +70,7 @@ public class ReadCSVService {
 			CompanySite companySite;
 			String[] param = line.split(DELIMITER);
 			if(param.length >= 0) {
+				user.setActive(true);
 				user.setFirstName(param[0]);
 				user.setLastName(param[1]);
 				user.setRole(role);

@@ -6,51 +6,33 @@ INSERT IGNORE INTO role (id, name) VALUES (4, "ROLE_SUPER_ADMIN");
 INSERT IGNORE INTO user(id, email, first_name, 
 	last_name, password, 
 	sexe, role_id, active) 
-	VALUES (1,"test@test.fr","testF",
-	"testL","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
-	"Male",2,1);
+	VALUES (1,"zakia.kazi@isep.fr","Zakia",
+	"Kazi","$2a$10$4M6IdprJuyeRjfuDs10j5u4nlviDQv7EyoI.Ow/TxLqr0ws8W0I/G",
+	"Female",2,1);
 INSERT IGNORE INTO tutor(id,job,user_id)
 	VALUES(1,"Chercheur",1);
 	
 INSERT IGNORE INTO user(id, email, first_name, 
 	last_name, password, 
 	sexe, role_id, active) 
-	VALUES (2,"nicolas.simoes@isep.fr","Nicolas",
-	"Simoes","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
-	"Male",1,1);
+	VALUES (2,"mohamed.sellami@isep.fr","Mohamed",
+	"Sellami","$2a$10$4M6IdprJuyeRjfuDs10j5u4nlviDQv7EyoI.Ow/TxLqr0ws8W0I/G",
+	"Male",2,1);
+INSERT IGNORE INTO tutor(id,job,user_id)
+	VALUES(2,"Professeur",2);
+	
 INSERT IGNORE INTO user(id, email, first_name, 
 	last_name, password, 
 	sexe, role_id, active) 
-	VALUES (3,"julien.voyat@isep.fr","Julien",
-	"Voyat","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
-	"Male",1,1);
-INSERT IGNORE INTO user(id, email, first_name, 
-	last_name, password, 
-	sexe, role_id, active) 
-	VALUES (4,"consultant@isep.fr","Michel",
-	"Jack","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
+	VALUES (3,"dieudonne.abboud@isep.fr","Dieudonné",
+	"Abboud","$2a$10$4M6IdprJuyeRjfuDs10j5u4nlviDQv7EyoI.Ow/TxLqr0ws8W0I/G",
 	"Male",3,1);
 INSERT IGNORE INTO user(id, email, first_name, 
 	last_name, password, 
 	sexe, role_id, active) 
-	VALUES (5,"admin@isep.fr","Paul",
-	"Savavabasy","$2a$10$ON5hlLrN8jo6duJ5ihKTyOPA35W3Fu2y48jCBBDhEsXDPZebDWgre",
-	"Male",4,1);
-	
-INSERT IGNORE INTO company(id, name)
-	VALUES (1,"company XXX");
-INSERT IGNORE INTO company(id, name)
-	VALUES (2,"company YYY");
-	
-INSERT IGNORE INTO company_site(id, address, city, code_postal, name, company_id)
-	VALUES (1, "Adress Company Site XXX", "City Company Site XXX",11111,"Company site of company XXX",1);
-INSERT IGNORE INTO company_site(id, address, city, code_postal, name, company_id)
-	VALUES (2, "Adress Company Site YYY", "City Company Site YYY",22222,"Company site of company YYY",2);
-	
-INSERT IGNORE INTO apprentice(id, contract_type, promotion, company_site_id, tutor_id, user_id)
-	VALUES(1, "THREE_YEARS", 2018, 1, 1, 2);
-INSERT IGNORE INTO apprentice(id, contract_type, promotion, company_site_id, tutor_id, user_id)
-	VALUES(2, "THREE_YEARS", 2018, 2, 1, 3);
+	VALUES (4,"emmanuelle.vivier@isep.fr ","Emmanuelle",
+	"Vivier","$2a$10$4M6IdprJuyeRjfuDs10j5u4nlviDQv7EyoI.Ow/TxLqr0ws8W0I/G",
+	"Female",4,1);
 	
 INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (1, "THREE_YEARS", 1, 1, "Journal 1", 1);
 INSERT IGNORE INTO document_type(id, contract, day, month, name, year) VALUES (2, "THREE_YEARS", 1, 5, "Journal 2", 1);
