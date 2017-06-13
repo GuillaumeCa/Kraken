@@ -19,7 +19,7 @@ const BACKGROUND_STYLE = {
 }
 
 const LOGIN_STYLE = {
-  maxWidth: 400,
+  width: 400,
   margin: 30,
 }
 
@@ -95,19 +95,20 @@ class Login extends Component {
                           urlState && urlState.expired &&
                           <ErrorMessage message="La session a expiré, veuillez vous reconnectez." />
                         }
+                        <CardActions style={{ textAlign: 'center' }}>
+                          <FlatButton
+                            type="submit"
+                            secondary
+                            label="Connexion"
+                            labelPosition="after"
+                            icon={<ActionLockOpen />}
+                          />
+                          <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
+                        </CardActions>
                       </Loader>
 
                     </CardText>
-                    <CardActions style={{ textAlign: 'center' }}>
-                      <FlatButton
-                        type="submit"
-                        secondary
-                        label="Connexion"
-                        labelPosition="after"
-                        icon={<ActionLockOpen />}
-                      />
-                      <FlatButton href="http://moncompte.isep.fr" label="Mot de passe oublié" />
-                    </CardActions>
+
                   </form>
               </Card>
             </div>
