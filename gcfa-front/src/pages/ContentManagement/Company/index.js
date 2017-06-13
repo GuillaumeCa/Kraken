@@ -3,16 +3,20 @@ import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 
+import Confirm from '../../../components/Modal/Confirm';
 
 import Loader from '../../../components/Loader';
 import BarCard, { List, UserCard } from '../../../components/BarCard';
+import { sendNotification } from '../../../components/Notification';
 
 import * as companyService from '../../../services/companyService';
 
 export default class Company extends Component {
 
   state = {
-    companyList: []
+    companyList: [],
+    openModal: false,
+    selectedCompanyId: null,
   }
 
   componentDidMount() {
@@ -26,8 +30,29 @@ export default class Company extends Component {
       })
   }
 
+  openModal = (id) => {
+    this.setState({selectedCompanyId: id, openModal: true});
+  }
+
+  handleCloseModal = () => {
+    this.setState({selectedCompanyId: null, openModal: false});
+  }
+
+  deleteCompany = (isConfirmed) => {
+    if(isConfirmed) {
+      companyService.deleteCompany(this.state.selectedCompanyId)
+      .then(res => {
+        sendNotification("Entreprise supprimée")
+        this.requestCompanies();
+      })
+    }
+
+    this.handleCloseModal();
+  }
+
   render() {
-    const { companyList } = this.state;
+
+    const { companyList, openModal } = this.state;
 
     return (
       <div>
@@ -37,9 +62,12 @@ export default class Company extends Component {
               companyList.map(comp => {
                 return (
                   <BarCard key={comp.id} actions={
-                    <Link to={`/infos/company/${comp.id}`}>
-                      <FlatButton primary label="Voir" />
-                    </Link>
+                    <div>
+                      <Link to={`/infos/company/${comp.id}`}>
+                        <FlatButton primary label="Voir" />
+                      </Link>
+                      <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(comp.id)}/>
+                    </div>
                   } extended>
                     <UserCard
                       title={comp.name}
@@ -51,6 +79,13 @@ export default class Company extends Component {
             }
           </List>
         </Loader>
+
+        <Confirm
+          title="Suppression d'une entreprise"
+          open={openModal}
+          confirm={(confirm) => this.deleteCompany(confirm)}
+        />
+
       </div>
     )
   }
