@@ -97,7 +97,7 @@ export default class Consultants extends Component {
     }
 
     this.handleCloseModal();
-    
+
   }
 
   renderActions = (consultant) => {
@@ -163,7 +163,7 @@ export default class Consultants extends Component {
         <Confirm
           title="Suppression d'un consultant"
           open={openModal}
-          confirm={(confirm) => this.deleteConsultant(confirm)}
+          confirm={this.deleteConsultant}
         />
       </div>
     )

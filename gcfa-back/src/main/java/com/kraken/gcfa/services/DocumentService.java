@@ -189,7 +189,7 @@ public class DocumentService {
 	}
 
 	public DocumentType updateDocumentType(Long id, FormDocumentTypeDTO form) {
-		DocumentType doc = new DocumentType();
+		DocumentType doc = documentTypeRepository.findOne(id);
 		updateDocumentType(doc, form);
 		return documentTypeRepository.save(doc);
 	}

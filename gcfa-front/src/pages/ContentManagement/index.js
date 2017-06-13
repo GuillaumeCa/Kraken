@@ -18,7 +18,6 @@ import Company from './Company';
 import DocumentType from './DocumentType';
 
 import CompanyDetail from './Company/CompanyDetail';
-import DocumentTypeDetail from './DocumentType/DocumentTypeDetail';
 
 import * as userManagementService from '../../services/userManagementService';
 
@@ -113,7 +112,6 @@ class Users extends Component {
             <Route exact path="/infos/company" component={Company} />
             <Route path="/infos/company/:id" component={CompanyDetail} />
             <Route exact path="/infos/document-type" component={DocumentType} />
-            <Route path="/infos/document-type/:id" component={DocumentTypeDetail} />
             <Redirect to="/error" />
           </Switch>
         </div>

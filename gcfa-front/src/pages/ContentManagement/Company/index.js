@@ -45,6 +45,9 @@ export default class Company extends Component {
         sendNotification("Entreprise supprimée")
         this.requestCompanies();
       })
+      .catch(err => {
+        sendNotification("Erreur lors de la suppression")
+      })
     }
 
     this.handleCloseModal();
