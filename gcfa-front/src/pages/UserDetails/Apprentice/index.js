@@ -13,6 +13,7 @@ import Loader from '../../../components/Loader';
 import FormField, { SelectForm } from '../../../components/UserForm/FormField';
 import Time, { DueTime } from '../../../components/Time';
 import { sendNotification } from '../../../components/Notification';
+import Confirm from '../../../components/Modal/Confirm';
 
 import * as userManagementService from '../../../services/userManagementService';
 import * as userService from '../../../services/userService';
@@ -62,6 +63,9 @@ class ApprenticeDetail extends Component {
     formData: {},
 
     isEnableToEdit: false,
+
+    selectedId: null,
+    openModal: false,
 	}
 
 	componentDidMount() {
@@ -193,6 +197,26 @@ class ApprenticeDetail extends Component {
     documentService.getDocument(docId);
   }
 
+  openModal = (id) => {
+    this.setState({selectedId: id, openModal: true});
+  }
+
+  handleCloseModal = () => {
+    this.setState({selectedId: null, openModal: false});
+  }
+
+  deleteDocument = (confirm) => {
+    if(confirm) {
+      documentService.deleteDocument(this.state.selectedId)
+      .then(ok => {
+        sendNotification("Document supprimé")
+        this.requestSentDocsFromApprentice();
+      })
+    }
+    
+    this.handleCloseModal()
+  }
+
 	render() {
 
 		const {
@@ -212,6 +236,8 @@ class ApprenticeDetail extends Component {
 
       updateProfile,
       formData,
+
+      openModal
 
 		} = this.state;
 
@@ -293,8 +319,7 @@ class ApprenticeDetail extends Component {
                           type="number"
   									      style={TD_STYLE}
   									      disabled
-                          value = {sentDocs.length}
-  									      defaultValue={0}
+  									      value={sentDocs.length}
   									    />
                       </td>
   									</tr>
@@ -398,9 +423,14 @@ class ApprenticeDetail extends Component {
   				                 sentDocs.map(data => {
   				                    return (
   				                      <BarCard key={data.id} actions={
+                                  <div>
   				                        <FlatButton primary label="Voir" labelStyle={BUTTON_STYLE}
   				                          onTouchTap={() => this.openDoc(data.id)}
   				                        />
+                                  <Auth roles={[Roles.SUPER_ADMIN]}>
+                                    <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(data.id)}/>
+                                  </Auth>
+                                  </div>
   				                      }>
   				                        <DocumentCard title={data.type.name} subtitle={
   				                          <span>rendu le <Time format="DD MMMM YYYY" date={data.creation} /></span>
@@ -415,6 +445,13 @@ class ApprenticeDetail extends Component {
   				    </div>
   				</div>
   			</div>
+
+        <Confirm
+          title="Suppression d'un document"
+          open={openModal}
+          confirm={(confirm) => this.deleteDocument(confirm)}
+        />
+
       </div>
 		)
 	}
