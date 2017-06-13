@@ -65,6 +65,10 @@ export default class Apprentices extends Component {
     this.setState({ openDocModal: true });
   }
 
+  getCSVTemplate = () => {
+    
+  }
+
   onUploadDoc = (type) => {
     this.setState({ uploadProgress: 0, uploadStarted: true });
 
@@ -146,10 +150,11 @@ export default class Apprentices extends Component {
       <Loader loading={loading} error={error} >
           <Auth roles={[Roles.SUPER_ADMIN]}>
             <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
+            <RaisedButton primary label="Template CSV" onTouchTap={this.getCSVTemplate} style={{ marginBottom: 20 }} />
           </Auth>
         <div className="row">
           <div className="col-4">
-            <p className="sub-title">A1</p>
+            <p className="sub-title">A1 ({users[0].length})</p>
               <UsersList
                 usersList={users[0]}
                 renderActions={this.renderActions}
@@ -159,7 +164,7 @@ export default class Apprentices extends Component {
               />
           </div>
           <div className="col-4">
-            <p className="sub-title">A2</p>
+            <p className="sub-title">A2 ({users[1].length})</p>
             <UsersList
               usersList={users[1]}
               renderActions={this.renderActions}
@@ -169,7 +174,7 @@ export default class Apprentices extends Component {
             />
           </div>
           <div className="col-4">
-            <p className="sub-title">A3</p>
+            <p className="sub-title">A3 ({users[2].length})</p>
             <UsersList
               usersList={users[2]}
               renderActions={this.renderActions}
