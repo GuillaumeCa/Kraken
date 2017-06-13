@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './NavBar.css';
+
 import TextField from 'material-ui/TextField';
 
 import colors from '../../colors';
@@ -21,7 +21,9 @@ class SearchBar extends Component {
     searchContent: null,
   }
 
-  handleKeyUp = () => {
+  handleKeyUp = (e) => {
+
+    this.setState({searchContent: e.target.value})
     if(this.fireKeyUp != null) {
       clearTimeout(this.fireKeyUp);
       this.fireKeyUp = null;
@@ -35,9 +37,9 @@ class SearchBar extends Component {
   
   fireSearch = () => {
     this.fireKeyUp = null;
+    this.props.search(this.state.searchContent);
   }
 
-  launchSearch()
 
   render() {
     const { searchContent } = this.state;
@@ -46,8 +48,11 @@ class SearchBar extends Component {
       <div>
         <TextField 
           id="searchText"
-          value={searchContent}
-          onKeyUp={() => this.handleKeyUp}
+          onKeyUp={(e) => this.handleKeyUp(e)}
+          fullWidth={true}
+          hintText="Rechercher"
+          hintStyle={{textAlign: 'center', width: '100%'}}
+          inputStyle={{textAlign: 'center'}}
         />
       </div>
     );

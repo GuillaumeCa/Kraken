@@ -9,6 +9,7 @@ export function filterApprenticesByYear(res) {
   	currentYear: new Date().getFullYear(),
   	currentMonth: new Date().getMonth()
   }
+
   var list = [];
   list[0] = res.data.filter(function(element) {
     return (element.promotion == DATE.currentYear + 3 && DATE.currentMonth >= 9) || (element.promotion == DATE.currentYear + 2 && DATE.currentMonth < 9)
@@ -41,6 +42,18 @@ export function getApprentice(id) {
 
 export function getAllApprenticesFromTutor(idTutor) {
   return axios.get(`/user/tutor/apprentices/${idTutor}`);
+}
+
+export function searchApprentice(text) {
+  return axios.get(`/user/apprentice/search/${text}`);
+}
+
+export function searchTutor(text) {
+  return axios.get(`/user/tutor/search/${text}`);
+}
+
+export function searchConsultant(text) {
+  return axios.get(`/user/consultant/search/${text}`);
 }
 
 export function getAllTutor() {

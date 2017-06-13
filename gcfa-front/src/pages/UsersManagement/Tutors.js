@@ -11,6 +11,7 @@ import UsersList from '../../components/UserList';
 import FormModal from '../../components/UserForm';
 import { sendNotification } from '../../components/Notification';
 import Confirm from '../../components/Modal/Confirm';
+import SearchBar from '../../components/SearchBar';
 
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
@@ -40,6 +41,20 @@ export default class Tutors extends Component {
       .then(res => {
         this.setState({ usersList: res.data });
       });
+  }
+
+  searchTutor = (txt) => {
+    if(txt === "") {
+      this.requestAllTutor();
+    }
+
+    else{
+      this.setState({ loading: true , searchText: txt });
+      userManagementService.searchTutor(txt)
+        .then(res => {
+        this.setState({ usersList: res.data, loading: false });
+      })
+    }
   }
 
   showCreateForm = () => {
@@ -123,6 +138,10 @@ export default class Tutors extends Component {
         <Auth roles={[Roles.SUPER_ADMIN]}>
           <RaisedButton primary label="+ Ajouter" style={{ marginBottom: 20 }} onTouchTap={this.showCreateForm} />
         </Auth>
+
+        <SearchBar search={(txt) => this.searchTutor(txt)} />
+        <br />
+
         <Loader error={error} loading={loading}>
           <UsersList
             usersList={this.state.usersList}

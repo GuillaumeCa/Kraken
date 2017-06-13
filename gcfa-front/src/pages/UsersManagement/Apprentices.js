@@ -5,11 +5,13 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Loader from '../../components/Loader';
-import BarCard, { List, UserCard } from '../../components/BarCard';
 import UsersList from '../../components/UserList';
 import UploadModal from '../../components/Modal/Upload';
+import SearchBar from '../../components/SearchBar';
 
 import * as userManagementService from '../../services/userManagementService';
+import * as authService from '../../services/authService';
+import * as userService from '../../services/userService';
 
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
@@ -32,6 +34,7 @@ export default class Apprentices extends Component {
     uploadProgress: 0,
     docSelected: null,
     isValidFile: false,
+    searchText: "",
   }
 
   componentDidMount() {
@@ -40,7 +43,7 @@ export default class Apprentices extends Component {
 
   requestApprentices() {
 
-    if (this.props.tutorId==null) {
+    if (!authService.hasRole(Roles.TUTOR)) {
       this.setState({ loading: true });
       userManagementService.getAllApprentices()
         .then(userManagementService.filterApprenticesByYear)
@@ -48,11 +51,37 @@ export default class Apprentices extends Component {
           this.setState({users: users, loading: false});
       });
     }
+    
     else {
-      this.setState({ loading: true });
-      userManagementService.getAllApprenticesFromTutor(this.props.tutorId)
+      let tutorId;
+
+      userService.getProfile()
+        .then(data => {
+
+          tutorId = data.id;
+
+          this.setState({ loading: true });
+
+          userManagementService.getAllApprenticesFromTutor(tutorId)
+            .then(userManagementService.filterApprenticesByYear)
+            .then(users => {
+              this.setState({users: users, loading: false});
+          });
+      });
+    }
+  }
+
+  searchApprentice = (txt) => {
+    if(txt === "") {
+      this.requestApprentices();
+    }
+
+    else{
+      this.setState({ loading: true , searchText: txt });
+      userManagementService.searchApprentice(txt)
         .then(userManagementService.filterApprenticesByYear)
         .then(users => {
+          console.log(users)
           this.setState({users: users, loading: false});
       });
     }
@@ -145,54 +174,62 @@ export default class Apprentices extends Component {
     ];
 
     return (
-      <Loader loading={loading} error={error} >
-          <Auth roles={[Roles.SUPER_ADMIN]}>
-            <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
-            <RaisedButton primary label="Template CSV" onTouchTap={this.getCSVTemplate} style={{ marginBottom: 20 }}/>
-          </Auth>
-        <div className="row">
-          <div className="col-4">
-            <p className="sub-title">A1 ({users[0].length})</p>
+      <div>
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
+          <RaisedButton primary label="Template CSV" onTouchTap={this.getCSVTemplate} style={{ marginBottom: 20 }}/>
+        </Auth>
+
+
+        <SearchBar search={(txt) => this.searchApprentice(txt)} />
+        <br />
+
+        <Loader loading={loading} error={error} >
+          
+          <div className="row">
+            <div className="col-4">
+              <p className="sub-title">A1 ({users[0].length})</p>
+                <UsersList
+                  usersList={users[0]}
+                  renderActions={this.renderActions}
+                  title={this.renderTitle}
+                  subtitle={this.renderSubtitle}
+                  noUserLabel="Pas d'apprenti en A1"
+                />
+            </div>
+            <div className="col-4">
+              <p className="sub-title">A2 ({users[1].length})</p>
               <UsersList
-                usersList={users[0]}
+                usersList={users[1]}
                 renderActions={this.renderActions}
                 title={this.renderTitle}
                 subtitle={this.renderSubtitle}
-                noUserLabel="Pas d'apprenti en A1"
+                noUserLabel="Pas d'apprenti en A2"
               />
+            </div>
+            <div className="col-4">
+              <p className="sub-title">A3 ({users[2].length})</p>
+              <UsersList
+                usersList={users[2]}
+                renderActions={this.renderActions}
+                title={this.renderTitle}
+                subtitle={this.renderSubtitle}
+                noUserLabel="Pas d'apprenti en A3"
+              />
+            </div>
           </div>
-          <div className="col-4">
-            <p className="sub-title">A2 ({users[1].length})</p>
-            <UsersList
-              usersList={users[1]}
-              renderActions={this.renderActions}
-              title={this.renderTitle}
-              subtitle={this.renderSubtitle}
-              noUserLabel="Pas d'apprenti en A2"
-            />
-          </div>
-          <div className="col-4">
-            <p className="sub-title">A3 ({users[2].length})</p>
-            <UsersList
-              usersList={users[2]}
-              renderActions={this.renderActions}
-              title={this.renderTitle}
-              subtitle={this.renderSubtitle}
-              noUserLabel="Pas d'apprenti en A3"
-            />
-          </div>
-        </div>
-        <UploadModal
-          title="Import CSV"
-          open={openDocModal}
-          actions={modalDocButtons}
-          uploadProgress={uploadProgress}
-          uploading={uploadStarted}
-          onSelectFile={file => this.checkSelectedFile(file)}
-          file={docSelected}
-          acceptedType='.csv'
-        />
-      </Loader>
+          <UploadModal
+            title="Import CSV"
+            open={openDocModal}
+            actions={modalDocButtons}
+            uploadProgress={uploadProgress}
+            uploading={uploadStarted}
+            onSelectFile={file => this.checkSelectedFile(file)}
+            file={docSelected}
+            acceptedType='.csv'
+          />
+        </Loader>
+      </div>
     )
   }
 }
