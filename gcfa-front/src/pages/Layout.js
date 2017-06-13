@@ -8,12 +8,13 @@ import NotificationCenter from '../components/Notification';
 
 import * as authService from '../services/authService';
 
-import Auth from '../components/Auth';
+import Auth, { PrivateRoute } from '../components/Auth';
 
 import Home from './Home';
 import Documentation from './Documentation';
 import Profil from './Profil';
 import Users from './UsersManagement';
+import Informations from './ContentManagement';
 import ErrorComponent from './Error';
 
 
@@ -69,7 +70,8 @@ class Layout extends Component {
               <Route exact path="/" component={Home} />
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
-              <Route path="/users" component={Users} />
+              <PrivateRoute path="/users" component={Users} roles={[SUPER_ADMIN, TUTOR]} />
+              <PrivateRoute path="/infos" component={Informations} roles={[SUPER_ADMIN]} />
               <Route path="/error" component={ErrorComponent} />
               <Route component={ErrorComponent} />
             </Switch>

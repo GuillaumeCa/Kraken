@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Link, Redirect, Route } from 'react-router-dom';
+
 import * as authService from '../../services/authService';
 
 class Auth extends Component {
@@ -13,3 +15,15 @@ class Auth extends Component {
 }
 
 export default Auth;
+
+const PrivateRoute = ({ component: Component, roles, ...rest }) => (
+  <Route {...rest} render={props => (
+    authService.hasRole(roles) ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to="/"/>
+    )
+  )}/>
+)
+
+export { PrivateRoute };
