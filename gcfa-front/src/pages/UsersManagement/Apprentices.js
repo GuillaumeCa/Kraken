@@ -35,30 +35,27 @@ export default class Apprentices extends Component {
   }
 
   componentDidMount() {
-    if (this.props.tutorId==null) {
-      this.requestApprentices();
-    }
-    else {
-      this.requestApprenticesFromTutor();
-    }
+    this.requestApprentices();
   }
 
   requestApprentices() {
-    this.setState({ loading: true });
-    userManagementService.getAllApprentices()
-      .then(userManagementService.filterApprenticesByYear)
-      .then(users => {
-        this.setState({users: users, loading: false});
-      });
-  }
 
-  requestApprenticesFromTutor() {
-    this.setState({ loading: true });
-    userManagementService.getAllApprenticesFromTutor(this.props.tutorId)
-      .then(userManagementService.filterApprenticesByYear)
-      .then(users => {
-        this.setState({users: users, loading: false});
+    if (this.props.tutorId==null) {
+      this.setState({ loading: true });
+      userManagementService.getAllApprentices()
+        .then(userManagementService.filterApprenticesByYear)
+        .then(users => {
+          this.setState({users: users, loading: false});
       });
+    }
+    else {
+      this.setState({ loading: true });
+      userManagementService.getAllApprenticesFromTutor(this.props.tutorId)
+        .then(userManagementService.filterApprenticesByYear)
+        .then(users => {
+          this.setState({users: users, loading: false});
+      });
+    }
   }
 
   importApprentice = () => {
@@ -77,6 +74,7 @@ export default class Apprentices extends Component {
     userManagementService.createApprenticeFromCSV(file, this.onUploadProgress)
       .then(res => {
         this.closeDocModal();
+        this.requestApprentices();
       });
   }
 
