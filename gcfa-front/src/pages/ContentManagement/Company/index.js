@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
 
 import Confirm from '../../../components/Modal/Confirm';
 
@@ -17,6 +20,8 @@ export default class Company extends Component {
     companyList: [],
     openModal: false,
     selectedCompanyId: null,
+
+    newCompName: '',
   }
 
   componentDidMount() {
@@ -53,12 +58,44 @@ export default class Company extends Component {
     this.handleCloseModal();
   }
 
+  create = () => {
+    companyService.createCompany(this.state.newCompName)
+      .then(res => {
+        this.requestCompanies();
+      })
+    this.setState({ showCreate: false, newCompName: '' });
+  }
+
   render() {
 
-    const { companyList, openModal } = this.state;
+    const actions = [
+      <FlatButton
+        primary
+        label="Annuler"
+        onTouchTap={() => this.setState({ showCreate: false })} />,
+      <FlatButton
+        primary
+        label="Ajouter"
+        onTouchTap={this.create}
+      />
+    ]
+
+    const {
+      companyList,
+      openModal,
+
+      showCreate,
+      newCompName,
+    } = this.state;
 
     return (
       <div>
+        <RaisedButton
+          primary
+          label="+ Ajouter"
+          style={{marginBottom: 20}}
+          onTouchTap={() => this.setState({ showCreate: true })}
+        />
         <Loader error={false} loading={false}>
           <List data={companyList} emptyLabel="Aucune entreprise">
             {
@@ -88,6 +125,18 @@ export default class Company extends Component {
           open={openModal}
           confirm={(confirm) => this.deleteCompany(confirm)}
         />
+
+        <Dialog
+          title="Ajouter une entreprise"
+          actions={actions}
+          modal
+          open={showCreate}
+        >
+          <TextField
+            fullWidth
+            floatingLabelText="Nom de l'entreprise"
+            onChange={(e) => this.setState({ newCompName: e.target.value })} />
+        </Dialog>
 
       </div>
     )

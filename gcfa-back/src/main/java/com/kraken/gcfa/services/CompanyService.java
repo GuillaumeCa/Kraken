@@ -1,5 +1,6 @@
 package com.kraken.gcfa.services;
 
+import com.kraken.gcfa.entity.DocumentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +37,25 @@ public class CompanyService {
 		companyRepository.delete(id);
     }
 		
-	public CompanySite createCompanySite(FormCompanySiteDTO formCompanySiteDTO) throws Exception {
+	public CompanySite createCompanySite(Long id, FormCompanySiteDTO formCompanySiteDTO) throws Exception {
 		CompanySite companySite = new CompanySite();
-		companySite.setId(formCompanySiteDTO.getIdCompany());
-		companySite.setAddress(formCompanySiteDTO.getAddress());
-		companySite.setCity(formCompanySiteDTO.getCity());
-		companySite.setCodePostal(formCompanySiteDTO.getCodePostal());
-		companySite.setName(formCompanySiteDTO.getName());
-		companySiteRepository.save(companySite);
-		return companySite;
+		Company company = companyRepository.findOne(id);
+		companySite.setCompany(company);
+		buildCompanySite(companySite, formCompanySiteDTO);
+		return companySiteRepository.save(companySite);
+	}
+
+	private void buildCompanySite(CompanySite companySite, FormCompanySiteDTO form) {
+		companySite.setAddress(form.getAddress());
+		companySite.setCity(form.getCity());
+		companySite.setCodePostal(form.getCodePostal());
+		companySite.setName(form.getName());
+	}
+
+	public CompanySite updateCompanySite(Long id, FormCompanySiteDTO form) {
+		CompanySite companySite = companySiteRepository.findOne(id);
+		buildCompanySite(companySite, form);
+		return companySiteRepository.save(companySite);
 	}
 
 	public void deleteCompanySite(Long id) throws Exception {
@@ -59,5 +70,11 @@ public class CompanyService {
 
 	public List<Company> getCompanies() {
 		return companyRepository.findAll();
+	}
+
+	public Company updateCompany(Long id, String name) {
+		Company company = companyRepository.findOne(id);
+		company.setName(name);
+		return companyRepository.save(company);
 	}
 }

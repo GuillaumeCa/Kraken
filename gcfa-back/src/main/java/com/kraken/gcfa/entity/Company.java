@@ -3,6 +3,7 @@ package com.kraken.gcfa.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Company {
     private String name;
 
     @OneToMany(mappedBy = "company")
-    private List<CompanySite> sites;
+    private List<CompanySite> sites = new ArrayList<>();
 
     public Long getId() {
         return id;

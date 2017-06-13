@@ -18,10 +18,16 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 
-	@PostMapping
+	@PostMapping("/{name}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public Company createCompany(@RequestBody String name) throws Exception {
+	public Company createCompany(@PathVariable String name) throws Exception {
 		return companyService.createCompany(name);
+	}
+
+	@PutMapping("/{id}/{name}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public Company updateCompany(@PathVariable Long id, @PathVariable String name) throws Exception {
+		return companyService.updateCompany(id, name);
 	}
 	
 	@GetMapping("/{id}")
@@ -35,17 +41,23 @@ public class CompanyController {
 	public List<Company> getCompanies() throws Exception {
 		return companyService.getCompanies();
 	}
-	
+
+	@DeleteMapping("/site/{id}")
+	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	public void deleteCompanySite(@PathVariable Long id) throws Exception {
+		companyService.deleteCompanySite(id);
+	}
+
 	@DeleteMapping("/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public void deleteCompany(@PathVariable Long id) throws Exception {
 		companyService.deleteCompany(id);
 	}
 
-	@PostMapping("/site")
+	@PostMapping("/{id}/site")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public CompanySite createCompanySite(FormCompanySiteDTO form) throws Exception {
-		return companyService.createCompanySite(form);
+	public CompanySite createCompanySite(@PathVariable Long id, @RequestBody FormCompanySiteDTO form) throws Exception {
+		return companyService.createCompanySite(id, form);
 	}
 	
 	@GetMapping("/{id}/sites")
@@ -53,10 +65,10 @@ public class CompanyController {
 	public List<CompanySite> getCompanySites(@PathVariable Long id) throws Exception {
 		return companyService.getCompanySites(id);
 	}
-	
-	@DeleteMapping("/{id}/site")
+
+	@PutMapping("/site/{id}")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
-	public void deleteCompanySite(@PathVariable Long id) throws Exception {
-		companyService.deleteCompanySite(id);
+	public CompanySite updateCompanySite(@PathVariable Long id, @RequestBody FormCompanySiteDTO form) throws Exception {
+		return companyService.updateCompanySite(id, form);
 	}
 }
