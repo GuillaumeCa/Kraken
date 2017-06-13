@@ -49,7 +49,7 @@ class SearchBar extends Component {
       <div>
         <TextField 
           id="searchText"
-          onChange={(e) => this.handleKeyUp(e)}
+          onKeyUp={(e) => this.handleKeyUp(e)}
           fullWidth={true}
           hintText="Rechercher"
           hintStyle={{textAlign: 'center', width: '100%'}}
