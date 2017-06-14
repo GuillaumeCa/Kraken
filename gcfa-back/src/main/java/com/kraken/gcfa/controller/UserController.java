@@ -135,10 +135,10 @@ public class UserController {
 		return apprentices;
 	}
 
-	@GetMapping("/tutor/apprentices/{tutorId}")
+	@GetMapping("/tutor/apprentices/{userId}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
-	public List<Apprentice> getApprenticesFromTutor(@PathVariable Long tutorId) throws NotFoundException {
-		Tutor tutor = userService.getTutor(tutorId);
+	public List<Apprentice> getApprenticesFromTutor(@PathVariable Long userId) throws NotFoundException {
+		Tutor tutor = userService.getTutor(userId);
 		List<Apprentice> apprentices = userService.getApprentices();
 		if (tutor != null) {
 			apprentices = userService.getApprenticesFromTutor(tutor);
@@ -146,7 +146,7 @@ public class UserController {
 				apprentices = new ArrayList<Apprentice>();
 			}
 			return apprentices;
-		} 
+		}
 		throw new NotFoundException("Tutor not found");
 	}
 	

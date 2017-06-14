@@ -118,7 +118,8 @@ public class UserService {
     }
 
 	public Tutor getTutor(Long userId) {
-		return tutorRepository.findOne(userId);
+		User user = userRepository.findOne(userId);
+		return getTutor(user);
 	}
     
     public Tutor createTutor(FormTutorDTO form) throws Exception {
