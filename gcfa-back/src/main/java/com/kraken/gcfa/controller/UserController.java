@@ -16,6 +16,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -116,22 +118,35 @@ public class UserController {
 	@GetMapping("/tutors")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT,RolesNames.TUTOR})
 	public List<Tutor> getAllTutor() {
-		return userService.getTutors();
+		List<Tutor> tutors = userService.getTutors();
+		if (tutors.equals(null)) {
+			tutors = new ArrayList<Tutor>();
+		}
+		return tutors;
 	}
 
 	@GetMapping("/apprentices")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<Apprentice> getListApprentice() {
-		return userService.getApprentices();
+		List<Apprentice> apprentices = userService.getApprentices();
+		if (apprentices.equals(null)) {
+			apprentices = new ArrayList<Apprentice>();
+		}
+		return apprentices;
 	}
 
 	@GetMapping("/tutor/apprentices/{tutorId}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<Apprentice> getApprenticesFromTutor(@PathVariable Long tutorId) throws NotFoundException {
 		Tutor tutor = userService.getTutor(tutorId);
+		List<Apprentice> apprentices = userService.getApprentices();
 		if (tutor != null) {
-			return userService.getApprenticesFromTutor(tutor);
-		}
+			apprentices = userService.getApprenticesFromTutor(tutor);
+			if (apprentices.equals(null)) {
+				apprentices = new ArrayList<Apprentice>();
+			}
+			return apprentices;
+		} 
 		throw new NotFoundException("Tutor not found");
 	}
 	
@@ -139,6 +154,10 @@ public class UserController {
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
 	public List<Apprentice> searchApprentice(@PathVariable String search) throws NotFoundException {
 		List<User> users =  userService.searchUser(1L, search);
+		List <Apprentice> apprentices = userService.getApprenticesFromUsers(users);
+		if (apprentices.equals(null)) {
+			apprentices = new ArrayList<Apprentice>();
+		}
 		return userService.getApprenticesFromUsers(users);
 	}
 
@@ -152,19 +171,37 @@ public class UserController {
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<Tutor> searchTutor(@PathVariable String search) throws NotFoundException {
 		List<User> users = userService.searchUser(2L, search);
-		return userService.getTutorsFromUsers(users);
+		List<Tutor> tutors;
+		if (users.equals(null) || users.size()==0) {
+			tutors = new ArrayList<Tutor>();
+		}
+		else {
+			tutors = userService.getTutorsFromUsers(users);
+			if (tutors.equals(null)) {
+				tutors = new ArrayList<Tutor>();
+			}
+		}
+		return tutors;
 	}
 	
 	@GetMapping("/consultant/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<User> searchConsultant(@PathVariable String search) throws NotFoundException {
-		return userService.searchUser(3L, search);
+		List<User> users = userService.searchUser(3L, search);
+		if (users.equals(null)) {
+			users = new ArrayList<User>();
+		}
+		return users;
 	}
 
 	@GetMapping("/consultants")
 	@RolesAllowed({RolesNames.SUPER_ADMIN,RolesNames.CONSULTANT})
 	public List<User> getConsultants() {
-		return userService.getConsultants();
+		List<User> users = userService.getConsultants();
+		if (users.equals(null)) {
+			users = new ArrayList<User>();
+		}
+		return users;
 	}
 
 	@GetMapping("/consultant/{id}")
