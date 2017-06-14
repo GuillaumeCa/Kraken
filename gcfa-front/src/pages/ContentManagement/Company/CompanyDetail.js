@@ -13,10 +13,16 @@ import Confirm from '../../../components/Modal/Confirm';
 import Loader from '../../../components/Loader';
 import BarCard, { List, UserCard } from '../../../components/BarCard';
 import { sendNotification } from '../../../components/Notification';
+import Auth from '../../../components/Auth';
+
+import {
+  SUPER_ADMIN,
+} from '../../../constants';
 
 import CompanySiteForm from './companySiteForm';
 
 import * as companyService from '../../../services/companyService';
+import * as authService from '../../../services/authService';
 
 export default class CompanyDetail extends Component {
 
@@ -31,12 +37,17 @@ export default class CompanyDetail extends Component {
 
     openConfirm: false,
     selectedCompanySite: null,
+
+    isEnableToEdit: false,
   }
 
   componentDidMount() {
     this.companyId = this.props.match.params.id;
     this.requestCompany();
     this.requestCompanySiteList();
+
+    var isEnable = authService.hasRole(SUPER_ADMIN)
+    this.setState({isEnableToEdit: isEnable});
   }
 
   requestCompany() {
@@ -122,6 +133,8 @@ export default class CompanyDetail extends Component {
 
       openConfirm,
       selectedCompanySite,
+
+      isEnableToEdit,
     } = this.state;
 
     const actions = [
@@ -154,15 +167,19 @@ export default class CompanyDetail extends Component {
               updateCompInfos: true
             })} />
           </div>
-          <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateCompInfos} disabled={!updateCompInfos}/>
+          <Auth roles={[SUPER_ADMIN]}>
+            <RaisedButton primary label="Enregistrer les modifications" style={{ marginTop: 20 }} onTouchTap={this.updateCompInfos} disabled={!updateCompInfos}/>
+          </Auth>
         </div>
         <h2 className="sub-title">Sites</h2>
-        <RaisedButton
-          primary
-          label="+ Ajouter un site"
-          style={{marginBottom: 20}}
-          onTouchTap={() => this.setState({ showModal: true })}
-        />
+        <Auth roles={[SUPER_ADMIN]}>
+          <RaisedButton
+            primary
+            label="+ Ajouter un site"
+            style={{marginBottom: 20}}
+            onTouchTap={() => this.setState({ showModal: true })}
+          />
+        </Auth>
         <Loader error={false} loading={false}>
           <List data={companySiteList} emptyLabel="Aucun site pour cette entreprise">
             {
@@ -170,8 +187,10 @@ export default class CompanyDetail extends Component {
                 return (
                   <BarCard key={site.id} actions={
                     <div>
-                      <FlatButton primary label="Modifier" onTouchTap={() => this.openModify(site)} />
-                      <FlatButton secondary label="Supprimer" onTouchTap={() => this.confirmDelete(site.id)}/>
+                      <Auth roles={[SUPER_ADMIN]}>
+                        <FlatButton primary label="Modifier" onTouchTap={() => this.openModify(site)} />
+                        <FlatButton secondary label="Supprimer" onTouchTap={() => this.confirmDelete(site.id)}/>
+                      </Auth>
                     </div>
                   } extended>
                     <UserCard

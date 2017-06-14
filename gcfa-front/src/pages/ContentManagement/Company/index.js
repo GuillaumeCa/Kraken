@@ -13,6 +13,12 @@ import BarCard, { List, UserCard } from '../../../components/BarCard';
 import { sendNotification } from '../../../components/Notification';
 
 import * as companyService from '../../../services/companyService';
+import Auth from '../../../components/Auth';
+
+import {
+  SUPER_ADMIN,
+  CONSULTANT,
+} from '../../../constants';
 
 export default class Company extends Component {
 
@@ -90,12 +96,14 @@ export default class Company extends Component {
 
     return (
       <div>
-        <RaisedButton
-          primary
-          label="+ Ajouter"
-          style={{marginBottom: 20}}
-          onTouchTap={() => this.setState({ showCreate: true })}
-        />
+        <Auth roles={[SUPER_ADMIN]}>
+          <RaisedButton
+            primary
+            label="+ Ajouter"
+            style={{marginBottom: 20}}
+            onTouchTap={() => this.setState({ showCreate: true })}
+          />
+        </Auth>
         <Loader error={false} loading={false}>
           <List data={companyList} emptyLabel="Aucune entreprise">
             {
@@ -106,7 +114,9 @@ export default class Company extends Component {
                       <Link to={`/infos/company/${comp.id}`}>
                         <FlatButton primary label="Voir" />
                       </Link>
-                      <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(comp.id)}/>
+                      <Auth roles={[SUPER_ADMIN]}>
+                        <FlatButton secondary label="Supprimer" onTouchTap={() => this.openModal(comp.id)}/>
+                      </Auth>
                     </div>
                   } extended>
                     <UserCard

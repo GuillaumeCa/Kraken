@@ -72,7 +72,7 @@ class Layout extends Component {
               <Route path="/documentation" component={Documentation} />
               <Route path="/profil" component={Profil} />
               <PrivateRoute path="/users" component={Users} roles={[SUPER_ADMIN, TUTOR, CONSULTANT]} />
-              <PrivateRoute path="/infos" component={Informations} roles={[SUPER_ADMIN]} />
+              <PrivateRoute path="/infos" component={Informations} roles={[SUPER_ADMIN, CONSULTANT]} />
               <Route path="/error" component={ErrorComponent} />
               <Route component={ErrorComponent} />
             </Switch>

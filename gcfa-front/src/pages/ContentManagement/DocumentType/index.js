@@ -10,6 +10,11 @@ import Loader from '../../../components/Loader';
 import { SelectForm } from '../../../components/UserForm/FormField';
 import BarCard, { List, UserCard } from '../../../components/BarCard';
 import DocTypeForm from './documentTypeForm';
+import Auth from '../../../components/Auth';
+
+import {
+  SUPER_ADMIN,
+} from '../../../constants';
 
 import * as documentTypeService from '../../../services/documentTypeService';
 
@@ -113,9 +118,11 @@ export default class DocumentType extends Component {
       <div>
         <div>
           <div style={{marginBottom: 20}}>
-            <RaisedButton primary label="+ Ajouter" style={{ marginRight: 20 }} onTouchTap={
-              () => this.setState({ showModal: true })
-            } />
+            <Auth roles={[SUPER_ADMIN]}>
+              <RaisedButton primary label="+ Ajouter" style={{ marginRight: 20 }} onTouchTap={
+                () => this.setState({ showModal: true })
+              } />
+            </Auth>
             <span>
               <span>Contrat : </span>
               <RaisedButton primary={contractSelected === TWO_YEARS} label="2 ans" style={{ marginRight: 10 }} onTouchTap={() =>this.selectContract(TWO_YEARS)} />
@@ -129,8 +136,10 @@ export default class DocumentType extends Component {
                   return (
                     <BarCard key={doc.id} actions={
                       <div>
+                      <Auth roles={[SUPER_ADMIN]}>
                         <FlatButton primary label="Modifier" onTouchTap={()=>this.openModify(doc)} />
                         <FlatButton secondary label="Supprimer" onTouchTap={()=>this.delete(doc.id)} />
+                      </Auth>
                       </div>
                     } extended>
                       <UserCard

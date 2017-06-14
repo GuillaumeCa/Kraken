@@ -79,7 +79,7 @@ class NavBar extends Component {
         </div>
         <nav className="navigation">
           <div className="link">
-            <Auth roles={[SUPER_ADMIN]}>
+            <Auth roles={[SUPER_ADMIN, CONSULTANT]}>
               <Link to="/infos">Informations</Link>
             </Auth>
 

@@ -39,7 +39,7 @@ public class DocumentController {
 	}
 
 	@GetMapping("/types")
-	@RolesAllowed(RolesNames.SUPER_ADMIN)
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT})
 	public List<DocumentType> allDocumentType() {
 		return documentService.getDocumentTypes();
 	}
