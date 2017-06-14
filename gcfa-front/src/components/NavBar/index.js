@@ -83,7 +83,9 @@ class NavBar extends Component {
               <Link to="/infos">Informations</Link>
             </Auth>
 
-            <Link to="/documentation">Documentation</Link>
+            <Auth roles={[SUPER_ADMIN, CONSULTANT, APPRENTICE]}>
+              <Link to="/documentation">Documentation</Link>
+            </Auth>
             {/*<Link to="/stats">Statistiques</Link>*/}
           </div>
         </nav>

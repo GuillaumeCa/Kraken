@@ -22,6 +22,7 @@ import {
   SUPER_ADMIN,
   CONSULTANT,
   TUTOR,
+  APPRENTICE,
 } from '../constants';
 
 import colors from '../colors';
@@ -69,7 +70,7 @@ class Layout extends Component {
           <Banner>
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/documentation" component={Documentation} />
+              <PrivateRoute path="/documentation" component={Documentation} roles={[SUPER_ADMIN,  CONSULTANT, APPRENTICE]} />
               <Route path="/profil" component={Profil} />
               <PrivateRoute path="/users" component={Users} roles={[SUPER_ADMIN, TUTOR, CONSULTANT]} />
               <PrivateRoute path="/infos" component={Informations} roles={[SUPER_ADMIN, CONSULTANT]} />
