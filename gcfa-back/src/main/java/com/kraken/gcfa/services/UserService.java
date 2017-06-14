@@ -113,6 +113,7 @@ public class UserService {
     public Tutor createTutor(FormTutorDTO form) throws Exception {
         Tutor tutor = new Tutor();
         User user = new User();
+        user.setPassword("$2a$10$4M6IdprJuyeRjfuDs10j5u4nlviDQv7EyoI.Ow/TxLqr0ws8W0I/G");
         return updateTutorInformations(tutor, user, form);
     }
     
