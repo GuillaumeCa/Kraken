@@ -50,7 +50,18 @@ public class UserService {
     }
     
     public List<User> searchUser(Long roleId, String search) {
-    	return userRepository.searchUser(roleId, search);
+    	String[] strings;
+    	List<User> users = new ArrayList<>();
+    	if (search.contains(" ")) {
+    		strings = search.split(" ");
+    		if (strings.length>=2) {
+        		users = userRepository.searchUserByNames(roleId, strings[0], strings[1]);
+    		}
+    	}
+    	else {
+    		users = userRepository.searchUser(roleId, search);
+    	}
+    	return users;
     }
     
     public List<Apprentice> getApprenticesFromUsers(List<User> users) {
