@@ -1,34 +1,18 @@
 package com.kraken.gcfa.services;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.kraken.gcfa.constants.RolesNames;
+import com.kraken.gcfa.entity.*;
+import com.kraken.gcfa.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javassist.NotFoundException;
-
-import com.kraken.gcfa.constants.RolesNames;
-import com.kraken.gcfa.entity.Apprentice;
-import com.kraken.gcfa.entity.Company;
-import com.kraken.gcfa.entity.CompanySite;
-import com.kraken.gcfa.entity.ContractType;
-import com.kraken.gcfa.entity.Role;
-import com.kraken.gcfa.entity.Tutor;
-import com.kraken.gcfa.entity.User;
-import com.kraken.gcfa.repository.ApprenticeRepository;
-import com.kraken.gcfa.repository.CompanyRepository;
-import com.kraken.gcfa.repository.CompanySiteRepository;
-import com.kraken.gcfa.repository.RoleRepository;
-import com.kraken.gcfa.repository.TutorRepository;
-import com.kraken.gcfa.repository.UserRepository;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReadCSVService {
@@ -107,13 +91,13 @@ public class ReadCSVService {
 				}
 				tutor = tutorRepository.findTutorByEmail(param[12]);
 				if(tutor == null) {
-					throw new NotFoundException(String.format("The Tutor with email %s doesn't exist", param[12]));
+					throw new Exception(String.format("The Tutor with email %s doesn't exist", param[12]));
 				} 
 				apprentice.setTutor(tutor);
 					
 			}
 			else {
-				throw new NotFoundException(String.format("The CSV doesn't have apprentice"));
+				throw new Exception(String.format("The CSV doesn't have apprentice"));
 			}
 			apprentices.add(apprentice);
 		}

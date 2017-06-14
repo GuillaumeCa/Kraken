@@ -13,6 +13,9 @@ import * as userManagementService from '../../services/userManagementService';
 import * as authService from '../../services/authService';
 import * as userService from '../../services/userService';
 
+
+import { sendNotification } from '../../components/Notification';
+
 import Auth from '../../components/Auth';
 import * as Roles from '../../constants';
 
@@ -91,7 +94,7 @@ export default class Apprentices extends Component {
   }
 
   getCSVTemplate = () => {
-    
+
   }
 
   onUploadDoc = (type) => {
@@ -103,7 +106,7 @@ export default class Apprentices extends Component {
       .then(res => {
         this.closeDocModal();
         this.requestApprentices();
-      });
+      })
   }
 
   closeDocModal = () => {
@@ -183,7 +186,7 @@ export default class Apprentices extends Component {
         <br />
 
         <Loader loading={loading} error={error} >
-          
+
           <div className="row">
             <div className="col-4">
               <p className="sub-title">A1 ({users[0].length})</p>

@@ -44,6 +44,10 @@ export function getAllApprenticesFromTutor(idTutor) {
   return axios.get(`/user/tutor/apprentices/${idTutor}`);
 }
 
+export function deleteApprentice(id) {
+  return axios.delete(`/user/apprentice/${id}`);
+}
+
 export function searchApprentice(text) {
   return axios.get(`/user/apprentice/search/${text}`);
 }

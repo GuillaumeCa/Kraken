@@ -66,6 +66,7 @@ class ApprenticeDetail extends Component {
 
     selectedId: null,
     openModal: false,
+    modalDeleteApprentice: false,
 	}
 
 	componentDidMount() {
@@ -219,6 +220,18 @@ class ApprenticeDetail extends Component {
     this.handleCloseModal()
   }
 
+  deleteApprentice = (confirm) => {
+    if(confirm) {
+      userManagementService.deleteApprentice(this.apprenticeId)
+      .then(ok => {
+        sendNotification("Apprenti supprimé")
+        this.props.history.push("/users/apprentices");
+      })
+    }
+
+    this.setState({ modalDeleteApprentice: false });
+  }
+
 	render() {
 
 		const {
@@ -239,8 +252,8 @@ class ApprenticeDetail extends Component {
       updateProfile,
       formData,
 
-      openModal
-
+      openModal,
+      modalDeleteApprentice,
 		} = this.state;
 
 
@@ -257,6 +270,14 @@ class ApprenticeDetail extends Component {
             />
           </Auth>
         </Link>
+        <Auth roles={[Roles.SUPER_ADMIN]}>
+          <RaisedButton
+            secondary
+            label="Supprimer"
+            style={{marginLeft: 20}}
+            onTouchTap={() => this.setState({ modalDeleteApprentice: true })}
+          />
+        </Auth>
         <div className="row">
   				<div className="col-5">
   					{
@@ -452,6 +473,11 @@ class ApprenticeDetail extends Component {
           title="Suppression d'un document"
           open={openModal}
           confirm={(confirm) => this.deleteDocument(confirm)}
+        />
+        <Confirm
+          title="Suppression de cet apprenti"
+          open={modalDeleteApprentice}
+          confirm={this.deleteApprentice}
         />
 
       </div>

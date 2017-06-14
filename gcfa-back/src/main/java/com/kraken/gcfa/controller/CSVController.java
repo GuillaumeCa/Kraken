@@ -25,11 +25,6 @@ public class CSVController {
 	@PostMapping("/createApprentice")
 	@RolesAllowed(RolesNames.SUPER_ADMIN)
 	public List<Apprentice> createApprenticeFromCSV(@RequestParam("file") MultipartFile file) throws Exception {
-		try{
-			return readCSVService.createApprenticeFromCSV(file);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		return readCSVService.createApprenticeFromCSV(file);
 	}
 }
