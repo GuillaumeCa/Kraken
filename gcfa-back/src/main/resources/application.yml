@@ -1,18 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/kraken_gcfa?createDatabaseIfNotExist=true
-    username: root
-    password:
+    url: jdbc:mysql://${DB_HOST:localhost}/${DB_NAME:kraken_gcfa}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
 
 security:
   basic:
     enabled: false
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
-spring.http.multipart.max-file-size: 10MB
-spring.http.multipart.max-request-size: 10MB
+spring.http.multipart.max-file-size: ${UPLOAD_MAX_SIZE:10MB}
+spring.http.multipart.max-request-size: ${UPLOAD_MAX_SIZE:10MB}

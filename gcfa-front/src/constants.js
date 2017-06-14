@@ -14,5 +14,5 @@ export const TWO_YEARS = "TWO_YEARS";
 export const THREE_YEARS = "THREE_YEARS";
 
 // Config
-export const BASE_URL = "http://localhost:8081";
+export const BASE_URL = process.env.API_URL || "http://localhost:8081";
 export const REQUEST_TIMEOUT = 30 * 1000;
