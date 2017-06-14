@@ -137,7 +137,7 @@ public class UserController {
 	
 	@GetMapping("/apprentice/search/{search}")
 	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
-	public List<Apprentice> searchApprentince(@PathVariable String search) throws NotFoundException {
+	public List<Apprentice> searchApprentice(@PathVariable String search) throws NotFoundException {
 		List<User> users =  userService.searchUser(1L, search);
 		return userService.getApprenticesFromUsers(users);
 	}
