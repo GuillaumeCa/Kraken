@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import * as userService from '../../services/userService';
 
 import BarCard, { DocumentCard, DocumentationCard, List } from '../../components/BarCard';
+import ChangePasswd from './ChangePasswd';
 
 const CONTENT_STYLE = {
 	margin: '0 auto',
@@ -49,6 +50,7 @@ class TutorProfil extends Component {
 								</tr>
 							</tbody>
 						</table>
+						<ChangePasswd />
 					</div>
 				}
 	  </div>

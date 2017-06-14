@@ -41,6 +41,9 @@ export function handle403Errors(on403) {
       if (error.response.status === 403) {
         on403();
       }
-      // return Promise.reject(error);
     });
+}
+
+export function modifyPassword(password) {
+  return axios.put('/user/modifPassword/'+password);
 }

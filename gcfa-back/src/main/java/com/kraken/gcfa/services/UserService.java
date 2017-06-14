@@ -8,6 +8,7 @@ import com.kraken.gcfa.entity.*;
 import com.kraken.gcfa.repository.*;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -205,5 +206,12 @@ public class UserService {
         user.setRole(role);
         user.setActive(false);
         return userRepository.save(user);
+    }
+
+    public void modifPassword(String password, User auth) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashed = passwordEncoder.encode(password);
+        auth.setPassword(hashed);
+        userRepository.save(auth);
     }
 }

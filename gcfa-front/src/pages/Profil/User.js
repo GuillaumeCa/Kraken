@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Avatar from 'material-ui/Avatar';
 
-
+import ChangePasswd from './ChangePasswd';
 import * as userService from '../../services/userService';
 
 const CONTENT_STYLE = {
@@ -59,6 +59,7 @@ class UserProfil extends Component {
 								}
 							</tbody>
 						</table>
+						<ChangePasswd />
 					</div>
 				}
 	  </div>

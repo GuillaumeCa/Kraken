@@ -190,4 +190,10 @@ public class UserController {
 	public User createConsultant(@RequestBody FormConsultantDTO form) throws Exception {
 		return userService.createConsultant(form);
 	}
+
+	@PutMapping("/modifPassword/{password}")
+	@RolesAllowed({RolesNames.SUPER_ADMIN, RolesNames.CONSULTANT, RolesNames.TUTOR})
+	public void modifyPassword(@PathVariable String password, @AuthenticationPrincipal User auth) {
+		userService.modifPassword(password, auth);
+	}
 }
