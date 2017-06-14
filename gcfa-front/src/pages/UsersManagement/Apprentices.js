@@ -181,9 +181,11 @@ export default class Apprentices extends Component {
           <RaisedButton primary label="Importer CSV" onTouchTap={this.importApprentice} style={{ marginBottom: 20 }} />
         </Auth>
 
+        <Auth roles={[Roles.SUPER_ADMIN, Roles.CONSULTANT]}>
+          <SearchBar search={(txt) => this.searchApprentice(txt)} />
 
-        <SearchBar search={(txt) => this.searchApprentice(txt)} />
-        <br />
+          <br />
+        </Auth>
 
         <Loader loading={loading} error={error} >
 
